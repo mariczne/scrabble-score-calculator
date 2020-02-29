@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css?family=Nunito+Sans:700&display=swap&subset=latin-ext');
+
+.tile {
+  display: inline-block;
+  background-color: antiquewhite;
+  padding: 1rem;
+  font-size: 2.5rem;
+  border-radius: 5%;
+  margin: 0.1rem;
+  position: relative;
+  height: 1.5rem;
+  width: 1.5rem;
+  font-family: 'Nunito Sans';
+}
+
+.tile-letter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-60%, -55%);
+}
+
+.tile-score {
+  font-size: 50%;
+  position: relative;
+  left: 1.3rem;
+  top: -0.2rem;
+}
