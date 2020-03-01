@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Nunito+Sans:700&display=swap&subset=latin-ext');
+@import url("https://fonts.googleapis.com/css?family=Nunito+Sans:700&display=swap&subset=latin-ext");
 
 .tile {
   display: inline-block;
@@ -10,7 +10,9 @@
   position: relative;
   height: 1.5rem;
   width: 1.5rem;
-  font-family: 'Nunito Sans';
+  font-family: "Nunito Sans";
+  cursor: pointer;
+  user-select: none;
 }
 
 .tile-letter {
@@ -23,6 +25,22 @@
 .tile-score {
   font-size: 50%;
   position: relative;
-  left: 1.3rem;
+  left: 1rem;
+  top: -0.2rem;
+}
+
+.tile-bonus-name {
+  display: inline-block;
+  font-size: 0.55rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.tile-bonus-score {
+  font-size: 33%;
+  position: relative;
+  left: 1.2rem;
   top: -0.2rem;
 }

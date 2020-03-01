@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import "./App.css";
 import Tile from "./components/Tile/Tile";
+import BonusTile from "./components/Tile/BonusTile";
+import { SCORE_TABLE } from "./scoretables";
 
 class App extends Component {
   constructor() {
@@ -8,7 +10,10 @@ class App extends Component {
     this.state = {
       word: "",
       lang: "PL",
-      letterMap: ""
+      letterMap: [],
+      wordDoubleScore: 0,
+      wordTripleScore: 0,
+      wordBonusTotal: 1
     };
   }
 
@@ -24,35 +29,91 @@ class App extends Component {
     const { word, lang } = this.state;
     const letters = Array.from(word);
     const letterMap = [];
-    for (let letter of letters) {
-      letterMap.push([letter[0], getScoreOfLetter(letter, SCORE_TABLE[lang])]);
+
+    for (let i = 0; i < letters.length; i++) {
+      const letter = {};
+      letter.id = i;
+      letter.letter = letters[i];
+      letter.score = getScoreOfLetter(letters[i], SCORE_TABLE[lang]);
+      letter.doubleScore = false;
+      letter.tripleScore = false;
+      letterMap.push(letter);
     }
+    this.setState({
+      letterMap: letterMap,
+      wordDoubleScore: 0,
+      wordTripleScore: 0,
+      wordBonusTotal: 1
+    });
+  };
+
+  toggleLetterBonus = id => {
+    const { letterMap } = this.state;
+    const letter = letterMap[id];
+    if (!letter.doubleScore && !letter.tripleScore) {
+      letter.doubleScore = true;
+      letter.score *= 2;
+    } else if (letter.doubleScore) {
+      letter.doubleScore = false;
+      letter.tripleScore = true;
+      letter.score = (letter.score / 2) * 3;
+    } else if (letter.tripleScore) {
+      letter.tripleScore = false;
+      letter.score = letter.score / 3;
+    }
+    letterMap[id] = letter;
     this.setState({ letterMap: letterMap });
+  };
+
+  toggleWordBonus = type => {
+    let { wordDoubleScore, wordTripleScore, wordBonusTotal } = this.state;
+    if (type === "double")
+      this.setState({
+        wordDoubleScore: ++wordDoubleScore,
+        wordBonusTotal: wordBonusTotal * 2
+      });
+    if (type === "triple")
+      this.setState({
+        wordTripleScore: ++wordTripleScore,
+        wordBonusTotal: wordBonusTotal * 3
+      });
   };
 
   renderTiles = () => {
     const { letterMap } = this.state;
-    if (!letterMap || letterMap.length === 0) return null;
+    if (letterMap.length === 0) return null;
     return letterMap.map(letter => (
-      <Tile letter={letter[0]} score={letter[1]} />
+      <Tile
+        id={letter.id}
+        letter={letter.letter}
+        score={letter.score}
+        doubleScore={letter.doubleScore}
+        tripleScore={letter.tripleScore}
+        toggleLetterBonus={this.toggleLetterBonus}
+      />
     ));
   };
 
   renderScore = () => {
-    const { letterMap } = this.state;
-    if (!letterMap || letterMap.length === 0) return 0;
-    if (letterMap.some(el => !Number.isInteger(el[1])))
+    const { letterMap, wordBonusTotal } = this.state;
+    if (letterMap.length === 0) return 0;
+    if (letterMap.some(element => !Number.isInteger(element.score)))
       return "At least one incorrect letter";
-    return letterMap
-      .map(element => element[1])
-      .reduce((prev, curr) => (prev += curr));
+    return (
+      letterMap
+        .map(element => element.score)
+        .reduce((prev, curr) => (prev += curr)) * wordBonusTotal
+    );
   };
 
   render() {
-    const { word, lang } = this.state;
+    const { word, lang, wordDoubleScore, wordTripleScore } = this.state;
 
     return (
       <div className="App">
+        <p>Click on a tile to toggle its letter bonus</p>
+        <p>All bonuses get reset when the word changes</p>
+        <p>A blank tile can be entered by using the spacebar</p>
         <input
           type="text"
           value={word}
@@ -63,8 +124,25 @@ class App extends Component {
           <option value="PL">Polish</option>
           <option value="EN">English</option>
         </select>
+        <div>
+          <BonusTile
+            type="double"
+            times={wordDoubleScore}
+            toggleWordBonus={this.toggleWordBonus}
+          />
+          <BonusTile
+            type="triple"
+            times={wordTripleScore}
+            toggleWordBonus={this.toggleWordBonus}
+          />
+        </div>
         <div>{this.renderTiles()}</div>
         Score: {this.renderScore()}
+        <p>
+          <a href="https://en.wikipedia.org/wiki/Scrabble#Scoring">
+            Scrabble scoring rules
+          </a>
+        </p>
       </div>
     );
   }
@@ -81,32 +159,3 @@ function getScoreOfLetter(letter, scoreTable) {
   if (Number.isInteger(score)) return score;
   return "?";
 }
-
-const SCORE_TABLE = {
-  PL: {
-    0: [" "],
-    1: ["A", "I", "E", "O", "N", "Z", "R", "S", "W"],
-    2: ["Y", "C", "D", "K", "L", "M", "P", "T"],
-    3: ["B", "G", "H", "J", "Ł", "U"],
-    4: [],
-    5: ["Ą", "Ę", "F", "Ó", "Ś", "Ż"],
-    6: ["Ć"],
-    7: ["Ń"],
-    8: [],
-    9: ["Ź"],
-    10: []
-  },
-  EN: {
-    0: [" "],
-    1: ["E", "A", "I", "O", "N", "R", "T", "L", "S", "U"],
-    2: ["D", "G"],
-    3: ["B", "C", "M", "P"],
-    4: ["F", "H", "V", "W", "Y"],
-    5: ["K"],
-    6: [],
-    7: [],
-    8: ["J", "X"],
-    9: [],
-    10: ["Q", "Z"]
-  }
-};
