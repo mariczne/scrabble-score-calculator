@@ -2,24 +2,20 @@ import React, { Component } from "react";
 import "./App.css";
 import Tile from "./components/Tile/Tile";
 import BonusTile from "./components/Tile/BonusTile";
-import { SCORE_TABLE } from "./scoretables";
+import Word from "./Word";
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      word: "",
+      input: "",
       lang: "PL",
-      letterMap: [],
-      wordDoubleScore: 0,
-      wordTripleScore: 0,
-      wordBonusTotal: 1,
-      bingoUsed: false
+      word: new Word("", "PL")
     };
   }
 
   handleWordChange = e => {
-    this.setState({ word: e.target.value }, () => this.updateLetterMap());
+    this.setState({ input: e.target.value }, () => this.updateLetterMap());
   };
 
   handleLangChange = e => {
@@ -27,95 +23,48 @@ class App extends Component {
   };
 
   updateLetterMap = () => {
-    const { word, lang } = this.state;
-    const letters = Array.from(word);
-    const letterMap = [];
-
-    for (let i = 0; i < letters.length; i++) {
-      const letter = {};
-      letter.id = i;
-      letter.letter = letters[i];
-      letter.score = getScoreOfLetter(letters[i], SCORE_TABLE[lang]);
-      letter.doubleScore = false;
-      letter.tripleScore = false;
-      letterMap.push(letter);
-    }
-    this.setState({
-      letterMap: letterMap,
-      wordDoubleScore: 0,
-      wordTripleScore: 0,
-      wordBonusTotal: 1,
-      bingoUsed: false
-    });
+    const { input, lang } = this.state;
+    this.setState({ word: new Word(input, lang) });
   };
 
   toggleLetterBonus = id => {
-    const { letterMap } = this.state;
-    const letter = letterMap[id];
-    if (!letter.doubleScore && !letter.tripleScore) {
-      letter.doubleScore = true;
-      letter.score *= 2;
-    } else if (letter.doubleScore) {
-      letter.doubleScore = false;
-      letter.tripleScore = true;
-      letter.score = (letter.score / 2) * 3;
-    } else if (letter.tripleScore) {
-      letter.tripleScore = false;
-      letter.score = letter.score / 3;
-    }
-    letterMap[id] = letter;
-    this.setState({ letterMap: letterMap });
+    const { word } = this.state;
+    word.letters[id].toggleBonus();
+    this.setState({ word: word });
   };
 
   toggleWordBonus = type => {
-    let { wordDoubleScore, wordTripleScore, wordBonusTotal, bingoUsed, letterMap } = this.state;
-    const bingoAllowed = letterMap.length > 6
-    if (type === "double")
-      this.setState({
-        wordDoubleScore: ++wordDoubleScore,
-        wordBonusTotal: wordBonusTotal * 2
-      });
-    if (type === "triple")
-      this.setState({
-        wordTripleScore: ++wordTripleScore,
-        wordBonusTotal: wordBonusTotal * 3
-      });
-    if (type === "bingo" && bingoAllowed) {
-      this.setState({
-        bingoUsed: !bingoUsed
-      })
-    }
+    const { word } = this.state;
+    if (type === "bingo") word.toggleBingo();
+    else word.addBonus(type);
+    this.setState({ word: word });
   };
 
   renderTiles = () => {
-    const { letterMap } = this.state;
-    if (letterMap.length === 0) return null;
-    return letterMap.map(letter => (
+    const { word } = this.state;
+    if (word.letters.length === 0) return null;
+    return word.letters.map(letter => (
       <Tile
         id={letter.id}
         letter={letter.letter}
         score={letter.score}
-        doubleScore={letter.doubleScore}
-        tripleScore={letter.tripleScore}
+        isScoreDoubled={letter.isScoreDoubled}
+        isScoreTripled={letter.isScoreTripled}
         toggleLetterBonus={this.toggleLetterBonus}
       />
     ));
   };
 
   renderScore = () => {
-    const { letterMap, wordBonusTotal, bingoUsed } = this.state;
-    if (letterMap.length === 0) return 0;
-    if (letterMap.some(element => !Number.isInteger(element.score)))
-      return "At least one incorrect letter";
-    return (
-      letterMap
-        .map(element => element.score)
-        .reduce((prev, curr) => (prev += curr)) * wordBonusTotal + (bingoUsed ? 50 : 0)
-    );
+    const { word } = this.state;
+    if (word.letters.length === 0) return 0;
+    if (word.letters.some(element => !Number.isInteger(element.score)))
+      return "At least one invalid letter";
+    return word.score;
   };
 
   render() {
-    const { word, lang, wordDoubleScore, wordTripleScore, bingoUsed, letterMap } = this.state;
+    const { input, word, lang } = this.state;
 
     return (
       <div className="App">
@@ -124,8 +73,8 @@ class App extends Component {
         <p>A blank tile can be entered by using the spacebar</p>
         <p>Bingo can be activated when there are at least 7 tiles used</p>
         <input
-          type="text"
-          value={word}
+          type="search"
+          value={input}
           onChange={this.handleWordChange}
           className="word-input"
         />
@@ -136,20 +85,19 @@ class App extends Component {
         <div>
           <BonusTile
             type="double"
-            times={wordDoubleScore}
+            times={word.timesDoubled}
             toggleWordBonus={this.toggleWordBonus}
           />
           <BonusTile
             type="triple"
-            times={wordTripleScore}
+            times={word.timesTripled}
             toggleWordBonus={this.toggleWordBonus}
           />
           <BonusTile
             type="bingo"
-            times={wordTripleScore}
             toggleWordBonus={this.toggleWordBonus}
-            bingoAllowed={letterMap.length > 6}
-            bingoUsed={bingoUsed}
+            isBingoAllowed={word.letters.length > 6}
+            isBingoUsed={word.isBingoUsed}
           />
         </div>
         <div>{this.renderTiles()}</div>
@@ -165,13 +113,4 @@ class App extends Component {
 }
 
 export default App;
-
-function getScoreOfLetter(letter, scoreTable) {
-  const score = Number(
-    Object.keys(scoreTable).find(key =>
-      scoreTable[key].includes(letter.toUpperCase())
-    )
-  );
-  if (Number.isInteger(score)) return score;
-  return "?";
-}
+ 

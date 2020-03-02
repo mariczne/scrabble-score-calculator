@@ -13,6 +13,7 @@
   font-family: "Nunito Sans";
   cursor: pointer;
   user-select: none;
+  animation: fadeIn 0.5s;
 }
 
 .tile-letter {
@@ -43,4 +44,13 @@
   position: relative;
   left: 1.2rem;
   top: -0.2rem;
+}
+
+@keyframes fadeIn {
+  0% {
+      opacity: 0;
+  }
+  100% {
+      opacity: 1;
+  }
 }

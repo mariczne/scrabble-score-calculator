@@ -5,8 +5,8 @@ function Tile({
   id,
   letter,
   score,
-  doubleScore,
-  tripleScore,
+  isScoreDoubled,
+  isScoreTripled,
   toggleLetterBonus
 }) {
   return (
@@ -15,9 +15,9 @@ function Tile({
       style={
         score === "?"
           ? { backgroundColor: "lightgray" }
-          : doubleScore
+          : isScoreDoubled
           ? { backgroundColor: "#6cf" }
-          : tripleScore
+          : isScoreTripled
           ? { backgroundColor: "#06f" }
           : {}
       }
