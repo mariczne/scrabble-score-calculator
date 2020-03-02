@@ -13,7 +13,8 @@ class App extends Component {
       letterMap: [],
       wordDoubleScore: 0,
       wordTripleScore: 0,
-      wordBonusTotal: 1
+      wordBonusTotal: 1,
+      bingoUsed: false
     };
   }
 
@@ -43,7 +44,8 @@ class App extends Component {
       letterMap: letterMap,
       wordDoubleScore: 0,
       wordTripleScore: 0,
-      wordBonusTotal: 1
+      wordBonusTotal: 1,
+      bingoUsed: false
     });
   };
 
@@ -66,7 +68,8 @@ class App extends Component {
   };
 
   toggleWordBonus = type => {
-    let { wordDoubleScore, wordTripleScore, wordBonusTotal } = this.state;
+    let { wordDoubleScore, wordTripleScore, wordBonusTotal, bingoUsed, letterMap } = this.state;
+    const bingoAllowed = letterMap.length > 6
     if (type === "double")
       this.setState({
         wordDoubleScore: ++wordDoubleScore,
@@ -77,6 +80,11 @@ class App extends Component {
         wordTripleScore: ++wordTripleScore,
         wordBonusTotal: wordBonusTotal * 3
       });
+    if (type === "bingo" && bingoAllowed) {
+      this.setState({
+        bingoUsed: !bingoUsed
+      })
+    }
   };
 
   renderTiles = () => {
@@ -95,25 +103,26 @@ class App extends Component {
   };
 
   renderScore = () => {
-    const { letterMap, wordBonusTotal } = this.state;
+    const { letterMap, wordBonusTotal, bingoUsed } = this.state;
     if (letterMap.length === 0) return 0;
     if (letterMap.some(element => !Number.isInteger(element.score)))
       return "At least one incorrect letter";
     return (
       letterMap
         .map(element => element.score)
-        .reduce((prev, curr) => (prev += curr)) * wordBonusTotal
+        .reduce((prev, curr) => (prev += curr)) * wordBonusTotal + (bingoUsed ? 50 : 0)
     );
   };
 
   render() {
-    const { word, lang, wordDoubleScore, wordTripleScore } = this.state;
+    const { word, lang, wordDoubleScore, wordTripleScore, bingoUsed, letterMap } = this.state;
 
     return (
       <div className="App">
         <p>Click on a tile to toggle its letter bonus</p>
         <p>All bonuses get reset when the word changes</p>
         <p>A blank tile can be entered by using the spacebar</p>
+        <p>Bingo can be activated when there are at least 7 tiles used</p>
         <input
           type="text"
           value={word}
@@ -134,6 +143,13 @@ class App extends Component {
             type="triple"
             times={wordTripleScore}
             toggleWordBonus={this.toggleWordBonus}
+          />
+          <BonusTile
+            type="bingo"
+            times={wordTripleScore}
+            toggleWordBonus={this.toggleWordBonus}
+            bingoAllowed={letterMap.length > 6}
+            bingoUsed={bingoUsed}
           />
         </div>
         <div>{this.renderTiles()}</div>
