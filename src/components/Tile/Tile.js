@@ -2,8 +2,8 @@ import React from "react";
 import "./Tile.css";
 
 function Tile({
-  id,
-  letter,
+  index,
+  character,
   score,
   isScoreDoubled,
   isScoreTripled,
@@ -21,10 +21,10 @@ function Tile({
           ? { backgroundColor: "#06f" }
           : {}
       }
-      onClick={() => toggleLetterBonus(id)}
+      onClick={() => toggleLetterBonus(index)}
     >
-      <span className="tile-letter">{letter.toUpperCase()}</span>
-      <span className="tile-score">{letter !== " " ? score : null}</span>
+      <span className="tile-letter">{character.toUpperCase()}</span>
+      <span className="tile-score">{character !== " " ? score : null}</span>
     </div>
   );
 }

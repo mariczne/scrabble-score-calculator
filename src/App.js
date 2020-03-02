@@ -9,34 +9,34 @@ class App extends Component {
     super();
     this.state = {
       input: "",
-      lang: "PL",
+      languageCode: "PL",
       word: new Word("", "PL")
     };
   }
 
-  handleWordChange = e => {
-    this.setState({ input: e.target.value }, () => this.updateLetterMap());
+  handleInputChange = e => {
+    this.setState({ input: e.target.value }, () => this.updateWord());
   };
 
-  handleLangChange = e => {
-    this.setState({ lang: e.target.value }, () => this.updateLetterMap());
+  handleLanguageChange = e => {
+    this.setState({ languageCode: e.target.value }, () => this.updateWord());
   };
 
-  updateLetterMap = () => {
-    const { input, lang } = this.state;
-    this.setState({ word: new Word(input, lang) });
+  updateWord = () => {
+    const { input, languageCode } = this.state;
+    this.setState({ word: new Word(input, languageCode) });
   };
 
-  toggleLetterBonus = id => {
+  toggleLetterBonus = index => {
     const { word } = this.state;
-    word.letters[id].toggleBonus();
+    word.letters[index].toggleBonus();
     this.setState({ word: word });
   };
 
-  toggleWordBonus = type => {
+  toggleWordBonus = bonusType => {
     const { word } = this.state;
-    if (type === "bingo") word.toggleBingo();
-    else word.addBonus(type);
+    if (bonusType === "bingo") word.toggleBingo();
+    else word.addBonus(bonusType);
     this.setState({ word: word });
   };
 
@@ -45,8 +45,8 @@ class App extends Component {
     if (word.letters.length === 0) return null;
     return word.letters.map(letter => (
       <Tile
-        id={letter.id}
-        letter={letter.letter}
+        index={letter.index}
+        character={letter.character}
         score={letter.score}
         isScoreDoubled={letter.isScoreDoubled}
         isScoreTripled={letter.isScoreTripled}
@@ -57,46 +57,45 @@ class App extends Component {
 
   renderScore = () => {
     const { word } = this.state;
-    if (word.letters.length === 0) return 0;
-    if (word.letters.some(element => !Number.isInteger(element.score)))
-      return "At least one invalid letter";
+
+    if (Number.isNaN(word.score)) return "At least one invalid letter";
     return word.score;
   };
 
   render() {
-    const { input, word, lang } = this.state;
+    const { input, word, languageCode } = this.state;
 
     return (
       <div className="App">
         <p>Click on a tile to toggle its letter bonus</p>
-        <p>All bonuses get reset when the word changes</p>
+        <p>All bonuses get reset when user input changes</p>
         <p>A blank tile can be entered by using the spacebar</p>
         <p>Bingo can be activated when there are at least 7 tiles used</p>
         <input
           type="search"
           value={input}
-          onChange={this.handleWordChange}
+          onChange={this.handleInputChange}
           className="word-input"
         />
-        <select value={lang} onChange={this.handleLangChange}>
+        <select value={languageCode} onChange={this.handleLanguageChange}>
           <option value="PL">Polish</option>
           <option value="EN">English</option>
         </select>
         <div>
           <BonusTile
-            type="double"
+            bonusType="double"
             times={word.timesDoubled}
             toggleWordBonus={this.toggleWordBonus}
           />
           <BonusTile
-            type="triple"
+            bonusType="triple"
             times={word.timesTripled}
             toggleWordBonus={this.toggleWordBonus}
           />
           <BonusTile
-            type="bingo"
+            bonusType="bingo"
             toggleWordBonus={this.toggleWordBonus}
-            isBingoAllowed={word.letters.length > 6}
+            isBingoAllowed={word.isBingoAllowed()}
             isBingoUsed={word.isBingoUsed}
           />
         </div>

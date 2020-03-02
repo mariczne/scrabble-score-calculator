@@ -2,7 +2,7 @@ import React from "react";
 import "./Tile.css";
 
 function BonusTile({
-  type,
+  bonusType,
   times,
   toggleWordBonus,
   isBingoAllowed,
@@ -12,26 +12,26 @@ function BonusTile({
     <div
       className="tile"
       style={
-        type === "double"
+        bonusType === "double"
           ? { backgroundColor: "#f9f" }
-          : type === "triple"
+          : bonusType === "triple"
           ? { backgroundColor: "#f00" }
-          : type === "bingo" && isBingoAllowed
+          : bonusType === "bingo" && isBingoAllowed
           ? { backgroundColor: "orange" }
           : { backgroundColor: "lightgray", cursor: "default" }
       }
-      onClick={() => toggleWordBonus(type)}
+      onClick={() => toggleWordBonus(bonusType)}
     >
       <span className="tile-bonus-name">
-        {type === "double"
+        {bonusType === "double"
           ? "DOUBLE WORD SCORE"
-          : type === "triple"
+          : bonusType === "triple"
           ? "TRIPLE WORD SCORE"
-          : type === "bingo"
+          : bonusType === "bingo"
           ? "BINGO"
           : null}
       </span>
-      {type === "bingo" ? (
+      {bonusType === "bingo" ? (
         isBingoUsed ? (
           <span className="tile-bonus-score" style={{ left: "-0.75rem" }}>
             ACTIVE
