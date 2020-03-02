@@ -1,18 +1,18 @@
 import { SCORE_TABLE } from "./scoretables";
 
 export default class Letter {
-  constructor(id, letter, lang) {
-    this.id = id;
-    this.letter = letter;
-    this.lang = lang;
+  constructor(index, character, languageCode) {
+    this.index = index;
+    this.character = character;
+    this.languageCode = languageCode;
     this.isScoreDoubled = false;
     this.isScoreTripled = false;
   }
 
   get score() {
     let score = Number(
-      Object.keys(SCORE_TABLE[this.lang]).find(key =>
-        SCORE_TABLE[this.lang][key].includes(this.letter.toUpperCase())
+      Object.keys(SCORE_TABLE[this.languageCode]).find(key =>
+        SCORE_TABLE[this.languageCode][key].includes(this.character.toUpperCase())
       )
     );
     if (this.isScoreDoubled) score *= 2;
