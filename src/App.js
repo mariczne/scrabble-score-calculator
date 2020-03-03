@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Word from "./Word";
 import Tile from "./components/Tile/Tile";
 import BonusTile from "./components/Tile/BonusTile";
+import { SCORE_TABLE } from "./scoretable"
 import "./App.css";
 
 class App extends Component {
@@ -9,8 +10,8 @@ class App extends Component {
     super();
     this.state = {
       input: "",
-      languageCode: "PL",
-      word: new Word("", "PL")
+      languageCode: "EN",
+      word: new Word("", "EN")
     };
   }
 
@@ -62,6 +63,14 @@ class App extends Component {
     return word.score;
   };
 
+  renderLanguageOptions = () => {
+    const options = [];
+    for (const language in SCORE_TABLE) {
+      options.push(<option value={language}>{SCORE_TABLE[language].displayName}</option>)
+    }
+    return options;
+  }
+
   render() {
     const { input, word, languageCode } = this.state;
 
@@ -73,8 +82,7 @@ class App extends Component {
           onChange={this.handleLanguageChange}
           className="lang-select"
         >
-          <option value="PL">Polish</option>
-          <option value="EN">English</option>
+          {this.renderLanguageOptions()}
         </select>
         <input
           type="search"
@@ -112,6 +120,11 @@ class App extends Component {
             Scrabble scoring rules
           </a>
         </p>
+        <footer style={{fontSize: "x-small"}}>
+          SCRABBLE® is a registered trademark and all intellectual property
+          rights are owned their respective owners: Hasbro, Zynga, J.W. Spear &
+          Mattel, etc.
+        </footer>
       </div>
     );
   }

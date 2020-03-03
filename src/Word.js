@@ -1,3 +1,4 @@
+import { SCORE_TABLE } from "./scoretable";
 import Letter from "./Letter";
 
 export default class Word {
@@ -12,9 +13,25 @@ export default class Word {
   }
 
   getLetters() {
-    const letters = Array.from(this.input);
+    const letters = Array.from(this.input.toUpperCase());
 
-    return letters.map((letter, index) => new Letter(index, letter, this.languageCode))
+    if (SCORE_TABLE[this.languageCode].digraphs) this.checkForDigraphs(letters);
+
+    return letters.map(
+      (letter, index) => new Letter(index, letter, this.languageCode)
+    );
+  }
+
+  checkForDigraphs(letters) {
+    // special case for double letters (i.e. in Spanish)
+    for (let i = 0; i < letters.length; i++) {
+      for (let digraph of SCORE_TABLE[this.languageCode].digraphs) {
+        if (letters[i] === digraph[0] && letters[i + 1] === digraph[1]) {
+          letters[i] = letters[i] + letters[i + 1];
+          letters.splice(i + 1, 1);
+        }
+      }
+    }
   }
 
   get score() {
@@ -24,9 +41,9 @@ export default class Word {
     return (
       this.letters
         .map(element => element.score)
-        .reduce((prev, curr) => (prev += curr))
-        * this.multiplierTotal
-        + (this.isBingoUsed ? 50 : 0)
+        .reduce((prev, curr) => (prev += curr)) *
+        this.multiplierTotal +
+      (this.isBingoUsed ? 50 : 0)
     );
   }
 
