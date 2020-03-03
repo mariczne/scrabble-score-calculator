@@ -36,12 +36,12 @@ export default class Word {
     return this.letters.length > this.timesDoubled + this.timesTripled;
   }
 
-  addBonus(type) {
-    if (type === "double" && this.isNextWordBonusAllowed()) {
+  addBonus(bonusType) {
+    if (bonusType === "double" && this.isNextWordBonusAllowed()) {
       this.timesDoubled++;
       this.multiplierTotal *= 2;
     }
-    if (type === "triple" && this.isNextWordBonusAllowed()) {
+    if (bonusType === "triple" && this.isNextWordBonusAllowed()) {
       this.timesTripled++;
       this.multiplierTotal *= 3;
     }

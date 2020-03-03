@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import "./App.css";
+import Word from "./Word";
 import Tile from "./components/Tile/Tile";
 import BonusTile from "./components/Tile/BonusTile";
-import Word from "./Word";
+import "./App.css";
 
 class App extends Component {
   constructor() {
@@ -67,20 +67,22 @@ class App extends Component {
 
     return (
       <div className="App">
-        <p>Click on a tile to toggle its letter bonus</p>
-        <p>All bonuses get reset when user input changes</p>
-        <p>A blank tile can be entered by using the spacebar</p>
-        <p>Bingo can be activated when there are at least 7 tiles used</p>
+        Language:{" "}
+        <select
+          value={languageCode}
+          onChange={this.handleLanguageChange}
+          className="lang-select"
+        >
+          <option value="PL">Polish</option>
+          <option value="EN">English</option>
+        </select>
         <input
           type="search"
           value={input}
           onChange={this.handleInputChange}
           className="word-input"
+          placeholder="Type a word to start"
         />
-        <select value={languageCode} onChange={this.handleLanguageChange}>
-          <option value="PL">Polish</option>
-          <option value="EN">English</option>
-        </select>
         <div>
           <BonusTile
             bonusType="double"
@@ -101,6 +103,10 @@ class App extends Component {
         </div>
         <div>{this.renderTiles()}</div>
         Score: {this.renderScore()}
+        <p>Click on a tile to toggle its letter bonus</p>
+        <p>All bonuses get reset when user input changes</p>
+        <p>A blank tile can be entered by using the spacebar</p>
+        <p>Bingo can be activated when there are at least 7 tiles used</p>
         <p>
           <a href="https://en.wikipedia.org/wiki/Scrabble#Scoring">
             Scrabble scoring rules
@@ -112,4 +118,3 @@ class App extends Component {
 }
 
 export default App;
- 
