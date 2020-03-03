@@ -1,4 +1,28 @@
 .App {
   text-align: center;
-  margin: 2rem 1rem;
+  margin: 2rem auto;
+  background-color: #3CB371;
+  padding: 2rem;
+  border: 4px solid white;
+  max-width: 800px;
+
+}
+
+@media (max-width: 415px) {
+  .App {
+    margin: 0 auto;
+  }
+}
+
+.word-input {
+  font-size: 1rem;
+  padding: 0.2rem;
+  display: block;
+  margin: 1rem auto;
+}
+
+.lang-select {
+  font-size: 1rem;
+  padding: 0.2rem;
+  background-color: white;
 }

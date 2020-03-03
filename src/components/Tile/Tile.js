@@ -18,7 +18,7 @@ function Tile({
           : isScoreDoubled
           ? { backgroundColor: "#6cf" }
           : isScoreTripled
-          ? { backgroundColor: "#06f" }
+          ? { backgroundColor: "#06f", color: "white" }
           : {}
       }
       onClick={() => toggleLetterBonus(index)}
