@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Word from "./Word";
 import Tile from "./components/Tile/Tile";
 import BonusTile from "./components/Tile/BonusTile";
-import { SCORE_TABLE } from "./scoretable"
+import { SCORE_TABLE } from "./scoretable";
 import "./App.css";
 
 class App extends Component {
@@ -10,7 +10,7 @@ class App extends Component {
     super();
     this.state = {
       input: "",
-      languageCode: "EN",
+      languageCode: localStorage.getItem("languageCode") || "EN",
       word: new Word("", "EN")
     };
   }
@@ -21,6 +21,7 @@ class App extends Component {
 
   handleLanguageChange = e => {
     this.setState({ languageCode: e.target.value }, () => this.updateWord());
+    localStorage.setItem("languageCode", e.target.value);
   };
 
   updateWord = () => {
@@ -34,7 +35,7 @@ class App extends Component {
     this.setState({ word: word });
   };
 
-  toggleWordBonus = bonusType => {
+  handleWordBonus = bonusType => {
     const { word } = this.state;
     if (bonusType === "bingo") word.toggleBingo();
     else word.addBonus(bonusType);
@@ -43,10 +44,10 @@ class App extends Component {
 
   renderTiles = () => {
     const { word } = this.state;
-    if (word.letters.length === 0) return null;
-    return word.letters.map(letter => (
+    return word.letters.map((letter, index) => (
       <Tile
-        index={letter.index}
+        key={index}
+        index={index}
         character={letter.character}
         score={letter.score}
         isScoreDoubled={letter.isScoreDoubled}
@@ -66,17 +67,21 @@ class App extends Component {
   renderLanguageOptions = () => {
     const options = [];
     for (const language in SCORE_TABLE) {
-      options.push(<option value={language}>{SCORE_TABLE[language].displayName}</option>)
+      options.push(
+        <option key={language} value={language}>
+          {SCORE_TABLE[language].displayName}
+        </option>
+      );
     }
     return options;
-  }
+  };
 
   render() {
     const { input, word, languageCode } = this.state;
 
     return (
       <div className="App">
-        Language:{" "}
+        Language:
         <select
           value={languageCode}
           onChange={this.handleLanguageChange}
@@ -95,16 +100,16 @@ class App extends Component {
           <BonusTile
             bonusType="double"
             times={word.timesDoubled}
-            toggleWordBonus={this.toggleWordBonus}
+            handleWordBonus={this.handleWordBonus}
           />
           <BonusTile
             bonusType="triple"
             times={word.timesTripled}
-            toggleWordBonus={this.toggleWordBonus}
+            handleWordBonus={this.handleWordBonus}
           />
           <BonusTile
             bonusType="bingo"
-            toggleWordBonus={this.toggleWordBonus}
+            handleWordBonus={this.handleWordBonus}
             isBingoAllowed={word.isBingoAllowed()}
             isBingoUsed={word.isBingoUsed}
           />
@@ -120,10 +125,10 @@ class App extends Component {
             Scrabble scoring rules
           </a>
         </p>
-        <footer style={{fontSize: "x-small"}}>
+        <footer style={{ fontSize: "x-small" }}>
           SCRABBLE® is a registered trademark and all intellectual property
-          rights are owned their respective owners: Hasbro, Zynga, J.W. Spear &
-          Mattel, etc.
+          rights are owned by their respective owners: Hasbro, Zynga, J.W. Spear
+          & Mattel, etc.
         </footer>
       </div>
     );
