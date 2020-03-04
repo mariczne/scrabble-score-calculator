@@ -1,8 +1,7 @@
 import { SCORE_TABLE } from "./scoretable";
 
 export default class Letter {
-  constructor(index, character, languageCode) {
-    this.index = index;
+  constructor(character, languageCode) {
     this.character = character;
     this.languageCode = languageCode;
     this.isScoreDoubled = false;

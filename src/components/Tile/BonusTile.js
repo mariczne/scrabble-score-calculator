@@ -4,7 +4,7 @@ import "./Tile.css";
 function BonusTile({
   bonusType,
   times,
-  toggleWordBonus,
+  handleWordBonus,
   isBingoAllowed,
   isBingoUsed
 }) {
@@ -20,7 +20,7 @@ function BonusTile({
           ? { backgroundColor: "orange" }
           : { backgroundColor: "lightgray", cursor: "default" }
       }
-      onClick={() => toggleWordBonus(bonusType)}
+      onClick={() => handleWordBonus(bonusType)}
     >
       <span className="tile-bonus-name">
         {bonusType === "double"

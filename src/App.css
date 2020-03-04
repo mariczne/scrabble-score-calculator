@@ -8,21 +8,26 @@
 
 }
 
-@media (max-width: 415px) {
+@media (max-width: 480px) {
   .App {
     margin: 0 auto;
   }
 }
 
 .word-input {
-  font-size: 1rem;
+  font-size: 1.2rem;
   padding: 0.2rem;
   display: block;
   margin: 1rem auto;
+  border: 1px solid black;
+  border-radius: 0.2em;
 }
 
 .lang-select {
   font-size: 1rem;
   padding: 0.2rem;
   background-color: white;
+  margin-left: 0.5rem;
+  border: 1px solid black;
+  border-radius: 0.2em;
 }

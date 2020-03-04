@@ -23,7 +23,13 @@ function Tile({
       }
       onClick={() => toggleLetterBonus(index)}
     >
-      <span className={`tile-letter ${(character.length > 1) ? "tile-letter--double" : ""}`}>{character.toUpperCase()}</span>
+      <span
+        className={`tile-letter ${
+          character.length > 1 ? "tile-letter--double" : null
+        }`}
+      >
+        {character.toUpperCase()}
+      </span>
       <span className="tile-score">{character !== " " ? score : null}</span>
     </div>
   );

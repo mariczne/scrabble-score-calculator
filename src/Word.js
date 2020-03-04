@@ -5,11 +5,11 @@ export default class Word {
   constructor(input, languageCode) {
     this.input = input;
     this.languageCode = languageCode;
+    this.letters = this.getLetters();
     this.timesDoubled = 0;
     this.timesTripled = 0;
     this.multiplierTotal = 1;
     this.isBingoUsed = false;
-    this.letters = this.getLetters();
   }
 
   getLetters() {
@@ -17,9 +17,7 @@ export default class Word {
 
     if (SCORE_TABLE[this.languageCode].digraphs) this.checkForDigraphs(letters);
 
-    return letters.map(
-      (letter, index) => new Letter(index, letter, this.languageCode)
-    );
+    return letters.map(letter => new Letter(letter, this.languageCode));
   }
 
   checkForDigraphs(letters) {
@@ -41,9 +39,9 @@ export default class Word {
     return (
       this.letters
         .map(element => element.score)
-        .reduce((prev, curr) => (prev += curr)) *
-        this.multiplierTotal +
-      (this.isBingoUsed ? 50 : 0)
+        .reduce((prev, curr) => (prev += curr)) 
+        * this.multiplierTotal 
+        + (this.isBingoUsed ? 50 : 0)
     );
   }
 
