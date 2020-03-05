@@ -13,46 +13,10 @@
   font-family: "Nunito Sans";
   cursor: pointer;
   user-select: none;
-  animation: fadeIn 0.5s;
   font-weight: 700;
   border: 1px solid black;
   color: green;
-}
-
-.tile-letter {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-60%, -55%);
-}
-
-.tile-letter--double {
-  transform: translate(-60%, -55%) scaleX(0.65);
-}
-
-.tile-score {
-  font-size: 1.2rem;
-  position: relative;
-  left: 1rem;
-  top: -0.3rem;
-}
-
-.tile-bonus-name {
-  display: inline-block;
-  font-size: 0.55rem;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: black;
-}
-
-.tile-bonus-score {
-  font-size: 33%;
-  position: relative;
-  left: 1.2rem;
-  top: -0.2rem;
-  color: black;
+  animation: fadeIn 0.5s;
 }
 
 @keyframes fadeIn {
@@ -62,4 +26,43 @@
   100% {
     opacity: 1;
   }
+}
+
+.tile:hover {
+  transform: scale(1.1);
+}
+
+.tile__letter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-60%, -55%);
+}
+
+.tile__letter--double {
+  transform: translate(-60%, -55%) scaleX(0.65);
+}
+
+.tile__score {
+  font-size: 1.2rem;
+  position: relative;
+  left: 1rem;
+  top: -0.3rem;
+}
+
+.tile__bonus-name {
+  font-size: 0.55rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: black; 
+}
+
+.tile__bonus-score {
+  font-size: 33%;
+  position: absolute;
+  right: 0.2rem;
+  top: 2.4rem;
+  color: black;
 }
