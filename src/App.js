@@ -11,7 +11,7 @@ class App extends Component {
     this.state = {
       input: "",
       languageCode: localStorage.getItem("languageCode") || "EN",
-      word: new Word("", "EN")
+      word: new Word("", localStorage.getItem("languageCode") || "EN")
     };
   }
 
@@ -61,7 +61,7 @@ class App extends Component {
     const { word } = this.state;
 
     if (Number.isNaN(word.score)) return "At least one invalid letter";
-    return word.score;
+    return <span className="word-score">{word.score}</span>;
   };
 
   renderLanguageOptions = () => {
@@ -99,12 +99,12 @@ class App extends Component {
         <div>
           <BonusTile
             bonusType="double"
-            times={word.timesDoubled}
+            timesUsed={word.timesDoubled}
             handleWordBonus={this.handleWordBonus}
           />
           <BonusTile
             bonusType="triple"
-            times={word.timesTripled}
+            timesUsed={word.timesTripled}
             handleWordBonus={this.handleWordBonus}
           />
           <BonusTile

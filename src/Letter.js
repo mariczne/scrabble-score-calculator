@@ -2,6 +2,9 @@ import { SCORE_TABLE } from "./scoretable";
 
 export default class Letter {
   constructor(character, languageCode) {
+    if (typeof character !== "string" || typeof languageCode !== "string") throw new TypeError("Both arguments have to be of type string");
+    if (!SCORE_TABLE.hasOwnProperty(languageCode)) throw new RangeError("Unsupported language");
+
     this.character = character;
     this.languageCode = languageCode;
     this.isScoreDoubled = false;

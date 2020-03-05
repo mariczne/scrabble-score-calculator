@@ -1,7 +1,10 @@
 # scrabble-score-calculator
 ## What is this?
-It's a React web application that allows the user to calculate the Scrabble score of a word they choose, complete with all possible bonuses.
+It's a React web application that allows the user to calculate the Scrabble score of a word they choose, complete with all possible bonuses, with multiple languages' scoring tables available.
+
+## How can I use it?
+The app is live at <https://mariczne.github.io/scrabble-score-calculator/>
 
 ## Why was it made?
-1. Because I found similar existing websites unsatisfactory - while some of them were almost perfect, they always had an area they were lacking in, i.e. usually they only had English letter scoring tables available
-2. Because I needed a quick project to refresh my React skills
+- Because similar apps usually have some kind of limitation, i.e. only a single language (English) letter scoring tables is available
+- Because I needed a quick project to refresh my React skills

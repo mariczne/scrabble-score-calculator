@@ -3,7 +3,7 @@ import "./Tile.css";
 
 function BonusTile({
   bonusType,
-  times,
+  timesUsed,
   handleWordBonus,
   isBingoAllowed,
   isBingoUsed
@@ -22,7 +22,7 @@ function BonusTile({
       }
       onClick={() => handleWordBonus(bonusType)}
     >
-      <span className="tile-bonus-name">
+      <span className="tile__bonus-name">
         {bonusType === "double"
           ? "DOUBLE WORD SCORE"
           : bonusType === "triple"
@@ -33,12 +33,12 @@ function BonusTile({
       </span>
       {bonusType === "bingo" ? (
         isBingoUsed ? (
-          <span className="tile-bonus-score" style={{ left: "-0.75rem" }}>
+          <span className="tile__bonus-score">
             ACTIVE
           </span>
         ) : null
-      ) : times > 0 ? (
-        <span className="tile-bonus-score">x{times}</span>
+      ) : timesUsed > 0 ? (
+        <span className="tile__bonus-score">x{timesUsed}</span>
       ) : null}
     </div>
   );

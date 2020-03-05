@@ -3,17 +3,19 @@ import Letter from "./Letter";
 
 export default class Word {
   constructor(input, languageCode) {
-    this.input = input;
+    if (typeof input !== "string" || typeof languageCode !== "string") throw new TypeError("Both arguments have to be of type string");
+    if (!SCORE_TABLE.hasOwnProperty(languageCode)) throw new RangeError("Unsupported language");
+
     this.languageCode = languageCode;
-    this.letters = this.getLetters();
+    this.letters = this.createLettersFromInput(input);
     this.timesDoubled = 0;
     this.timesTripled = 0;
     this.multiplierTotal = 1;
     this.isBingoUsed = false;
   }
 
-  getLetters() {
-    const letters = Array.from(this.input.toUpperCase());
+  createLettersFromInput(input) {
+    const letters = Array.from(input.toUpperCase());
 
     if (SCORE_TABLE[this.languageCode].digraphs) this.checkForDigraphs(letters);
 
@@ -23,7 +25,7 @@ export default class Word {
   checkForDigraphs(letters) {
     // special case for double letters (i.e. in Spanish)
     for (let i = 0; i < letters.length; i++) {
-      for (let digraph of SCORE_TABLE[this.languageCode].digraphs) {
+      for (const digraph of SCORE_TABLE[this.languageCode].digraphs) {
         if (letters[i] === digraph[0] && letters[i + 1] === digraph[1]) {
           letters[i] = letters[i] + letters[i + 1];
           letters.splice(i + 1, 1);
@@ -34,8 +36,7 @@ export default class Word {
 
   get score() {
     if (this.letters.length === 0) return 0;
-    if (this.letters.some(element => !Number.isInteger(element.score)))
-      return NaN;
+    if (this.isAnyLetterInvalid()) return NaN;
     return (
       this.letters
         .map(element => element.score)
@@ -43,6 +44,10 @@ export default class Word {
         * this.multiplierTotal 
         + (this.isBingoUsed ? 50 : 0)
     );
+  }
+
+  isAnyLetterInvalid() {
+    return this.letters.some(element => !Number.isInteger(element.score));
   }
 
   isNextWordBonusAllowed() {
