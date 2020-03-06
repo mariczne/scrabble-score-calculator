@@ -1,4 +1,4 @@
-import { SCORE_TABLE } from "./scoretable";
+import { SCORE_TABLE } from "../scoretable";
 import Letter from "./Letter";
 
 export default class Word {

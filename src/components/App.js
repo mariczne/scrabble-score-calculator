@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import Word from "./Word";
-import Tile from "./components/Tile/Tile";
-import BonusTile from "./components/Tile/BonusTile";
-import { SCORE_TABLE } from "./scoretable";
+import Word from "../modules/Word";
+import Tile from "./Tile/Tile";
+import BonusTile from "./Tile/BonusTile";
+import { SCORE_TABLE } from "../scoretable";
 import "./App.css";
 
 class App extends Component {
@@ -61,7 +61,7 @@ class App extends Component {
     const { word } = this.state;
 
     if (Number.isNaN(word.score)) return "At least one invalid letter";
-    return <span className="word-score">{word.score}</span>;
+    return <span data-testid="word-score">{word.score}</span>;
   };
 
   renderLanguageOptions = () => {

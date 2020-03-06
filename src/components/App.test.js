@@ -5,7 +5,7 @@ import App from "./App";
 test("correctly renders score of a word", () => {
   const app = render(<App />);
   const wordInput = app.getByRole("searchbox");
-  const wordScore = app.container.querySelector(".word-score"); // Yes, I know
+  const wordScore = app.getByTestId("word-score");
   expect(wordInput.value).toBe("");
   expect(wordScore.textContent).toEqual("0");
   fireEvent.change(wordInput, { target: { value: "scrabble" } });

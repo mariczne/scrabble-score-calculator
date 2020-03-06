@@ -1,4 +1,4 @@
-import { SCORE_TABLE } from "./scoretable";
+import { SCORE_TABLE } from "../scoretable";
 
 export default class Letter {
   constructor(character, languageCode) {
