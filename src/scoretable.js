@@ -1,3 +1,8 @@
+export const MIN_LETTER_SCORE_MULTIPLIER = 1;
+export const MAX_LETTER_SCORE_MULTIPLIER = 3;
+export const POINTS_FOR_BINGO = 50;
+export const MINIMUM_LETTERS_FOR_BINGO = 7;
+
 export const SCORE_TABLE = {
   DE: {
     displayName: "Deutsch",

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Word from "../modules/Word";
-import Tile from "./Tile/Tile";
+import LetterTile from "./Tile/LetterTile";
 import BonusTile from "./Tile/BonusTile";
 import { SCORE_TABLE } from "../scoretable";
 import "./App.css";
@@ -20,8 +20,8 @@ class App extends Component {
   };
 
   handleLanguageChange = e => {
-    this.setState({ languageCode: e.target.value }, () => this.updateWord());
     localStorage.setItem("languageCode", e.target.value);
+    this.setState({ languageCode: e.target.value }, () => this.updateWord());
   };
 
   updateWord = () => {
@@ -29,9 +29,9 @@ class App extends Component {
     this.setState({ word: new Word(input, languageCode) });
   };
 
-  toggleLetterBonus = index => {
+  cycleLetterBonus = index => {
     const { word } = this.state;
-    word.letters[index].toggleBonus();
+    word.letters[index].cycleBonus();
     this.setState({ word: word });
   };
 
@@ -42,22 +42,21 @@ class App extends Component {
     this.setState({ word: word });
   };
 
-  renderTiles = () => {
+  renderLetterTiles = () => {
     const { word } = this.state;
     return word.letters.map((letter, index) => (
-      <Tile
+      <LetterTile
         key={index}
         index={index}
         character={letter.character}
         score={letter.score}
-        isScoreDoubled={letter.isScoreDoubled}
-        isScoreTripled={letter.isScoreTripled}
-        toggleLetterBonus={this.toggleLetterBonus}
+        scoreMultiplier={letter.scoreMultiplier}
+        cycleLetterBonus={this.cycleLetterBonus}
       />
     ));
   };
 
-  renderScore = () => {
+  renderWordScore = () => {
     const { word } = this.state;
 
     if (Number.isNaN(word.score)) return "At least one invalid letter";
@@ -66,10 +65,10 @@ class App extends Component {
 
   renderLanguageOptions = () => {
     const options = [];
-    for (const language in SCORE_TABLE) {
+    for (const languageCode in SCORE_TABLE) {
       options.push(
-        <option key={language} value={language}>
-          {SCORE_TABLE[language].displayName}
+        <option key={languageCode} value={languageCode}>
+          {SCORE_TABLE[languageCode].displayName}
         </option>
       );
     }
@@ -86,6 +85,7 @@ class App extends Component {
           value={languageCode}
           onChange={this.handleLanguageChange}
           className="lang-select"
+          data-testid="lang-select"
         >
           {this.renderLanguageOptions()}
         </select>
@@ -94,6 +94,7 @@ class App extends Component {
           value={input}
           onChange={this.handleInputChange}
           className="word-input"
+          data-testid="word-input"
           placeholder="Type a word to start"
         />
         <div>
@@ -114,8 +115,8 @@ class App extends Component {
             isBingoUsed={word.isBingoUsed}
           />
         </div>
-        <div>{this.renderTiles()}</div>
-        Score: {this.renderScore()}
+        <div>{this.renderLetterTiles()}</div>
+        Score: {this.renderWordScore()}
         <p>Click on a tile to toggle its letter bonus</p>
         <p>All bonuses get reset when user input changes</p>
         <p>A blank tile can be entered by using the spacebar</p>

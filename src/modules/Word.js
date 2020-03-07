@@ -1,16 +1,15 @@
-import { SCORE_TABLE } from "../scoretable";
+import { SCORE_TABLE, POINTS_FOR_BINGO, MINIMUM_LETTERS_FOR_BINGO } from "../scoretable";
 import Letter from "./Letter";
 
 export default class Word {
   constructor(input, languageCode) {
-    if (typeof input !== "string" || typeof languageCode !== "string") throw new TypeError("Both arguments have to be of type string");
+    if (typeof input !== "string" || typeof languageCode !== "string") throw new TypeError("Both arguments have to be of type 'string'");
     if (!SCORE_TABLE.hasOwnProperty(languageCode)) throw new RangeError("Unsupported language");
 
     this.languageCode = languageCode;
     this.letters = this.createLettersFromInput(input);
     this.timesDoubled = 0;
     this.timesTripled = 0;
-    this.multiplierTotal = 1;
     this.isBingoUsed = false;
   }
 
@@ -42,8 +41,12 @@ export default class Word {
         .map(element => element.score)
         .reduce((prev, curr) => (prev += curr)) 
         * this.multiplierTotal 
-        + (this.isBingoUsed ? 50 : 0)
+        + (this.isBingoUsed ? POINTS_FOR_BINGO : 0)
     );
+  }
+
+  get multiplierTotal() {
+    return 1 * (this.timesDoubled * 2 || 1) * (this.timesTripled * 3 || 1)
   }
 
   isAnyLetterInvalid() {
@@ -59,16 +62,14 @@ export default class Word {
   addBonus(bonusType) {
     if (bonusType === "double" && this.isNextWordBonusAllowed()) {
       this.timesDoubled++;
-      this.multiplierTotal *= 2;
     }
     if (bonusType === "triple" && this.isNextWordBonusAllowed()) {
       this.timesTripled++;
-      this.multiplierTotal *= 3;
     }
   }
 
   isBingoAllowed() {
-    return this.letters.length > 6;
+    return this.letters.length >= MINIMUM_LETTERS_FOR_BINGO;
   }
 
   toggleBingo() {
