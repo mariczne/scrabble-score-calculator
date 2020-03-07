@@ -8,38 +8,62 @@ function BonusTile({
   isBingoAllowed,
   isBingoUsed
 }) {
+  function styleDiv() {
+    const style = {};
+    switch (bonusType) {
+      case "double":
+        style.backgroundColor = "#f9f";
+        break;
+      case "triple":
+        style.backgroundColor = "#f00";
+        break;
+      case "bingo":
+        if (isBingoAllowed) {
+          style.backgroundColor = "orange";
+        } else {
+          style.backgroundColor = "lightgray";
+          style.cursor = "default";
+        }
+        break;
+      default:
+    }
+    return style;
+  }
+
+  function renderBonusName() {
+    switch (bonusType) {
+      case "double":
+        return "DOUBLE WORD SCORE";
+      case "triple":
+        return "TRIPLE WORD SCORE";
+      case "bingo":
+        return "BINGO";
+      default:
+        return null;
+    }
+  }
+
+  function renderBonusState() {
+    if (bonusType === "bingo") {
+      if (isBingoUsed) {
+        return <span className="tile__bonus-state">ACTIVE</span>;
+      }
+    } else {
+      if (timesUsed > 0) {
+        return <span className="tile__bonus-state">x{timesUsed}</span>;
+      }
+    }
+    return null;
+  }
+
   return (
     <div
       className="tile"
-      style={
-        bonusType === "double"
-          ? { backgroundColor: "#f9f" }
-          : bonusType === "triple"
-          ? { backgroundColor: "#f00" }
-          : bonusType === "bingo" && isBingoAllowed
-          ? { backgroundColor: "orange" }
-          : { backgroundColor: "lightgray", cursor: "default" }
-      }
+      style={styleDiv()}
       onClick={() => handleWordBonus(bonusType)}
     >
-      <span className="tile__bonus-name">
-        {bonusType === "double"
-          ? "DOUBLE WORD SCORE"
-          : bonusType === "triple"
-          ? "TRIPLE WORD SCORE"
-          : bonusType === "bingo"
-          ? "BINGO"
-          : null}
-      </span>
-      {bonusType === "bingo" ? (
-        isBingoUsed ? (
-          <span className="tile__bonus-score">
-            ACTIVE
-          </span>
-        ) : null
-      ) : timesUsed > 0 ? (
-        <span className="tile__bonus-score">x{timesUsed}</span>
-      ) : null}
+      <span className="tile__bonus-name">{renderBonusName()}</span>
+      {renderBonusState()}
     </div>
   );
 }

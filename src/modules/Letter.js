@@ -1,37 +1,54 @@
-import { SCORE_TABLE } from "../scoretable";
+import {
+  SCORE_TABLE,
+  MIN_LETTER_SCORE_MULTIPLIER as MIN_SCORE_MULTIPLIER,
+  MAX_LETTER_SCORE_MULTIPLIER as MAX_SCORE_MULTIPLIER
+} from "../scoretable";
 
 export default class Letter {
   constructor(character, languageCode) {
-    if (typeof character !== "string" || typeof languageCode !== "string") throw new TypeError("Both arguments have to be of type string");
-    if (!SCORE_TABLE.hasOwnProperty(languageCode)) throw new RangeError("Unsupported language");
+    if (typeof character !== "string" || typeof languageCode !== "string")
+      throw new TypeError("Both arguments have to be of type 'string'");
+    if (!SCORE_TABLE.hasOwnProperty(languageCode))
+      throw new RangeError("Unsupported language");
 
     this.character = character;
     this.languageCode = languageCode;
-    this.isScoreDoubled = false;
-    this.isScoreTripled = false;
+    this._scoreMultiplier = MIN_SCORE_MULTIPLIER;
   }
 
   get score() {
-    let score = Number(
+    const score = Number(
       Object.keys(SCORE_TABLE[this.languageCode]).find(key =>
-        SCORE_TABLE[this.languageCode][key].includes(this.character.toUpperCase())
+        SCORE_TABLE[this.languageCode][key].includes(
+          this.character.toUpperCase()
+        )
       )
     );
-    if (this.isScoreDoubled) score *= 2;
-    if (this.isScoreTripled) score *= 3;
-    if (Number.isInteger(score)) return score;
-    return "?";
+    return score * this._scoreMultiplier;
   }
 
-  toggleBonus() {
-    if (!this.isScoreDoubled && !this.isScoreTripled) {
-      this.isScoreDoubled = true;
-    } else if (this.isScoreDoubled) {
-      this.isScoreDoubled = false;
-      this.isScoreTripled = true;
-    } else if (this.isScoreTripled) {
-      this.isScoreTripled = false;
+  set scoreMultiplier(n) {
+    if (!Number.isInteger(n)) {
+      throw new TypeError("Argument has to be an integer");
     }
-    return this.score;
+    if (n < MIN_SCORE_MULTIPLIER || n > MAX_SCORE_MULTIPLIER) {
+      throw new RangeError(
+        `Argument has to be between ${MIN_SCORE_MULTIPLIER} and ${MAX_SCORE_MULTIPLIER}`
+      );
+    }
+
+    this._scoreMultiplier = n;
+  }
+
+  get scoreMultiplier() {
+    return this._scoreMultiplier;
+  }
+
+  cycleBonus() {
+    if (this._scoreMultiplier === MAX_SCORE_MULTIPLIER) {
+      this._scoreMultiplier = MIN_SCORE_MULTIPLIER;
+    } else {
+      this._scoreMultiplier++;
+    }
   }
 }
