@@ -1,11 +1,11 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "287e87e34a5591fc796fbdbf3f1656bd",
+    "revision": "5875aba2a237be3918e98b11d618fd7d",
     "url": "/scrabble-score-calculator/index.html"
   },
   {
-    "revision": "f66a4e8cf6721a3e4ab1",
-    "url": "/scrabble-score-calculator/static/css/main.b85df5a1.chunk.css"
+    "revision": "d37bad8f6fe7736de0aa",
+    "url": "/scrabble-score-calculator/static/css/main.f0700573.chunk.css"
   },
   {
     "revision": "c934f0244b7370981497",
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/scrabble-score-calculator/static/js/2.58b8f84c.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "f66a4e8cf6721a3e4ab1",
-    "url": "/scrabble-score-calculator/static/js/main.6bfead25.chunk.js"
+    "revision": "d37bad8f6fe7736de0aa",
+    "url": "/scrabble-score-calculator/static/js/main.9d7ba45a.chunk.js"
   },
   {
     "revision": "875f7153dbf96193fbfd",

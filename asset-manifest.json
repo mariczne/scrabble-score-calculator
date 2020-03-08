@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/scrabble-score-calculator/static/css/main.b85df5a1.chunk.css",
-    "main.js": "/scrabble-score-calculator/static/js/main.6bfead25.chunk.js",
-    "main.js.map": "/scrabble-score-calculator/static/js/main.6bfead25.chunk.js.map",
+    "main.css": "/scrabble-score-calculator/static/css/main.f0700573.chunk.css",
+    "main.js": "/scrabble-score-calculator/static/js/main.9d7ba45a.chunk.js",
+    "main.js.map": "/scrabble-score-calculator/static/js/main.9d7ba45a.chunk.js.map",
     "runtime-main.js": "/scrabble-score-calculator/static/js/runtime-main.ad2c6d58.js",
     "runtime-main.js.map": "/scrabble-score-calculator/static/js/runtime-main.ad2c6d58.js.map",
     "static/js/2.58b8f84c.chunk.js": "/scrabble-score-calculator/static/js/2.58b8f84c.chunk.js",
     "static/js/2.58b8f84c.chunk.js.map": "/scrabble-score-calculator/static/js/2.58b8f84c.chunk.js.map",
     "index.html": "/scrabble-score-calculator/index.html",
-    "precache-manifest.f4b0674e3f00db72dca3cf8fd2f0d539.js": "/scrabble-score-calculator/precache-manifest.f4b0674e3f00db72dca3cf8fd2f0d539.js",
+    "precache-manifest.b7753c62bd831f333292b84576a4205b.js": "/scrabble-score-calculator/precache-manifest.b7753c62bd831f333292b84576a4205b.js",
     "service-worker.js": "/scrabble-score-calculator/service-worker.js",
-    "static/css/main.b85df5a1.chunk.css.map": "/scrabble-score-calculator/static/css/main.b85df5a1.chunk.css.map",
+    "static/css/main.f0700573.chunk.css.map": "/scrabble-score-calculator/static/css/main.f0700573.chunk.css.map",
     "static/js/2.58b8f84c.chunk.js.LICENSE.txt": "/scrabble-score-calculator/static/js/2.58b8f84c.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.ad2c6d58.js",
     "static/js/2.58b8f84c.chunk.js",
-    "static/css/main.b85df5a1.chunk.css",
-    "static/js/main.6bfead25.chunk.js"
+    "static/css/main.f0700573.chunk.css",
+    "static/js/main.9d7ba45a.chunk.js"
   ]
 }
