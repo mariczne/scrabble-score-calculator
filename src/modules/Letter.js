@@ -2,14 +2,16 @@ import {
   SCORE_TABLE,
   MIN_LETTER_SCORE_MULTIPLIER as MIN_SCORE_MULTIPLIER,
   MAX_LETTER_SCORE_MULTIPLIER as MAX_SCORE_MULTIPLIER
-} from "../scoretable";
+} from "./scoretable";
 
 export default class Letter {
   constructor(character, languageCode) {
-    if (typeof character !== "string" || typeof languageCode !== "string")
+    if (typeof character !== "string" || typeof languageCode !== "string") {
       throw new TypeError("Both arguments have to be of type 'string'");
-    if (!SCORE_TABLE.hasOwnProperty(languageCode))
+    }
+    if (!SCORE_TABLE.hasOwnProperty(languageCode)) {
       throw new RangeError("Unsupported language");
+    }
 
     this.character = character;
     this.languageCode = languageCode;
@@ -42,13 +44,5 @@ export default class Letter {
 
   get scoreMultiplier() {
     return this._scoreMultiplier;
-  }
-
-  cycleBonus() {
-    if (this._scoreMultiplier === MAX_SCORE_MULTIPLIER) {
-      this._scoreMultiplier = MIN_SCORE_MULTIPLIER;
-    } else {
-      this._scoreMultiplier++;
-    }
   }
 }

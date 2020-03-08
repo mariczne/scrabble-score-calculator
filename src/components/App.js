@@ -1,19 +1,16 @@
 import React, { Component } from "react";
 import Word from "../modules/Word";
+import { SCORE_TABLE, MIN_LETTER_SCORE_MULTIPLIER, MAX_LETTER_SCORE_MULTIPLIER } from "../modules/scoretable";
 import LetterTile from "./Tile/LetterTile";
 import BonusTile from "./Tile/BonusTile";
-import { SCORE_TABLE } from "../scoretable";
 import "./App.css";
 
 class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      input: "",
-      languageCode: localStorage.getItem("languageCode") || "EN",
-      word: new Word("", localStorage.getItem("languageCode") || "EN")
-    };
-  }
+  state = {
+    input: "",
+    languageCode: localStorage.getItem("languageCode") || "EN",
+    word: new Word("", localStorage.getItem("languageCode") || "EN")
+  };
 
   handleInputChange = e => {
     this.setState({ input: e.target.value }, () => this.updateWord());
@@ -31,14 +28,22 @@ class App extends Component {
 
   cycleLetterBonus = index => {
     const { word } = this.state;
-    word.letters[index].cycleBonus();
+    const letter = word.letters[index];
+    if (letter.scoreMultiplier === MAX_LETTER_SCORE_MULTIPLIER) {
+      letter.scoreMultiplier = MIN_LETTER_SCORE_MULTIPLIER;
+    } else {
+      letter.scoreMultiplier++;
+    }
     this.setState({ word: word });
   };
 
   handleWordBonus = bonusType => {
     const { word } = this.state;
-    if (bonusType === "bingo") word.toggleBingo();
-    else word.addBonus(bonusType);
+    if (bonusType === "bingo") {
+      word.toggleBingo();
+    } else {
+      word.addBonus(bonusType); 
+    }
     this.setState({ word: word });
   };
 
@@ -58,8 +63,9 @@ class App extends Component {
 
   renderWordScore = () => {
     const { word } = this.state;
-
-    if (Number.isNaN(word.score)) return "At least one invalid letter";
+    if (Number.isNaN(word.score)) {
+      return "At least one invalid letter";
+    }
     return <span data-testid="word-score">{word.score}</span>;
   };
 
@@ -100,13 +106,15 @@ class App extends Component {
         <div>
           <BonusTile
             bonusType="double"
-            timesUsed={word.timesDoubled}
+            timesUsed={word.bonusesUsed["double"]}
             handleWordBonus={this.handleWordBonus}
+            isNextWordBonusAllowed={word.isNextWordBonusAllowed()}
           />
           <BonusTile
             bonusType="triple"
-            timesUsed={word.timesTripled}
+            timesUsed={word.bonusesUsed["triple"]}
             handleWordBonus={this.handleWordBonus}
+            isNextWordBonusAllowed={word.isNextWordBonusAllowed()}
           />
           <BonusTile
             bonusType="bingo"

@@ -1,23 +1,31 @@
-import { SCORE_TABLE, POINTS_FOR_BINGO, MINIMUM_LETTERS_FOR_BINGO } from "../scoretable";
+import {
+  SCORE_TABLE,
+  POINTS_FOR_BINGO,
+  MINIMUM_LETTERS_FOR_BINGO,
+  WORD_SCORE_MULTIPLIERS as SCORE_MULTIPLIERS
+} from "./scoretable";
 import Letter from "./Letter";
 
 export default class Word {
   constructor(input, languageCode) {
-    if (typeof input !== "string" || typeof languageCode !== "string") throw new TypeError("Both arguments have to be of type 'string'");
-    if (!SCORE_TABLE.hasOwnProperty(languageCode)) throw new RangeError("Unsupported language");
+    if (typeof input !== "string" || typeof languageCode !== "string") {
+      throw new TypeError("Both arguments have to be of type 'string'");
+    }
+    if (!SCORE_TABLE.hasOwnProperty(languageCode)) {
+      throw new RangeError("Unsupported language");
+    }
 
     this.languageCode = languageCode;
     this.letters = this.createLettersFromInput(input);
-    this.timesDoubled = 0;
-    this.timesTripled = 0;
+    this.bonusesUsed = {};
     this.isBingoUsed = false;
   }
 
   createLettersFromInput(input) {
     const letters = Array.from(input.toUpperCase());
-
-    if (SCORE_TABLE[this.languageCode].digraphs) this.checkForDigraphs(letters);
-
+    if (SCORE_TABLE[this.languageCode].digraphs) {
+      this.checkForDigraphs(letters);
+    }
     return letters.map(letter => new Letter(letter, this.languageCode));
   }
 
@@ -34,19 +42,27 @@ export default class Word {
   }
 
   get score() {
-    if (this.letters.length === 0) return 0;
-    if (this.isAnyLetterInvalid()) return NaN;
+    if (this.letters.length === 0) {
+      return 0;
+    }
+    if (this.isAnyLetterInvalid()) {
+      return NaN;
+    }
     return (
       this.letters
         .map(element => element.score)
-        .reduce((prev, curr) => (prev += curr)) 
-        * this.multiplierTotal 
+        .reduce((prev, curr) => (prev += curr))
+        * this.multiplierTotal
         + (this.isBingoUsed ? POINTS_FOR_BINGO : 0)
     );
   }
 
   get multiplierTotal() {
-    return 1 * (this.timesDoubled * 2 || 1) * (this.timesTripled * 3 || 1)
+    let multiplierTotal = 1;
+    for (const timesUsed in this.bonusesUsed) {
+      multiplierTotal *= this.bonusesUsed[timesUsed] * SCORE_MULTIPLIERS[timesUsed];
+    }
+    return multiplierTotal;
   }
 
   isAnyLetterInvalid() {
@@ -55,16 +71,25 @@ export default class Word {
 
   isNextWordBonusAllowed() {
     // there cannot ever be more word bonuses than total number of letters
-    // in practice the limit is even lower
-    return this.letters.length > this.timesDoubled + this.timesTripled;
+    let totalTimesBonusesUsed = 0;
+    for (const timesUsed in this.bonusesUsed) {
+      totalTimesBonusesUsed += this.bonusesUsed[timesUsed];
+    }
+    for (const letter of this.letters) {
+      if (letter.scoreMultiplier > 1) {
+        totalTimesBonusesUsed++;
+      }
+    }
+    return this.letters.length > totalTimesBonusesUsed;
   }
 
   addBonus(bonusType) {
-    if (bonusType === "double" && this.isNextWordBonusAllowed()) {
-      this.timesDoubled++;
-    }
-    if (bonusType === "triple" && this.isNextWordBonusAllowed()) {
-      this.timesTripled++;
+    if (this.isNextWordBonusAllowed()) {
+      if (this.bonusesUsed.hasOwnProperty(bonusType)) {
+        this.bonusesUsed[bonusType]++;
+      } else {
+        this.bonusesUsed[bonusType] = 1;
+      }
     }
   }
 

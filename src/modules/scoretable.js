@@ -2,6 +2,10 @@ export const MIN_LETTER_SCORE_MULTIPLIER = 1;
 export const MAX_LETTER_SCORE_MULTIPLIER = 3;
 export const POINTS_FOR_BINGO = 50;
 export const MINIMUM_LETTERS_FOR_BINGO = 7;
+export const WORD_SCORE_MULTIPLIERS = {
+  double: 2,
+  triple: 3
+}
 
 export const SCORE_TABLE = {
   DE: {
@@ -11,11 +15,8 @@ export const SCORE_TABLE = {
     2: ["H", "G", "L", "O"],
     3: ["M", "B", "W", "Z"],
     4: ["C", "F", "K", "P"],
-    5: [],
     6: ["Ä", "J", "Ü", "V"],
-    7: [],
     8: ["Ö", "X"],
-    9: [],
     10: ["Q", "Y"]
   },
   EN: {
@@ -26,10 +27,7 @@ export const SCORE_TABLE = {
     3: ["B", "C", "M", "P"],
     4: ["F", "H", "V", "W", "Y"],
     5: ["K"],
-    6: [],
-    7: [],
     8: ["J", "X"],
-    9: [],
     10: ["Q", "Z"]
   },
   ES: {
@@ -45,10 +43,7 @@ export const SCORE_TABLE = {
     3: ["C", "B", "M", "P"],
     4: ["H", "F", "V", "Y"],
     5: ["CH", "Q"],
-    6: [],
-    7: [],
     8: ["J", "LL", "Ñ", "RR", "X"],
-    9: [],
     10: ["Z"]
   },
   FR: {
@@ -58,11 +53,7 @@ export const SCORE_TABLE = {
     2: ["D", "M", "G"],
     3: ["B", "C", "P"],
     4: ["F", "H", "V"],
-    5: [],
-    6: [],
-    7: [],
     8: ["J", "Q"],
-    9: [],
     10: ["K", "W", "X", "Y", "Z"]
   },
   IT: {
@@ -71,12 +62,8 @@ export const SCORE_TABLE = {
     1: ["O", "A", "I", "E"],
     2: ["C", "R", "S", "T"],
     3: ["L", "M", "N", "U"],
-    4: [],
     5: ["B", "D", "F", "P", "V"],
-    6: [],
-    7: [],
     8: ["G", "H", "Z"],
-    9: [],
     10: ["Q"]
   },
   HU: {
@@ -96,10 +83,8 @@ export const SCORE_TABLE = {
     3: ["É", "H", "SZ", "V"],
     4: ["F", "GY", "J", "Ö", "P", "U", "Ü", "Z"],
     5: ["C", "Í", "NY"],
-    6: [],
     7: ["CS", "Ő", "Ú", "Ű"],
     8: ["LY", "ZS"],
-    9: [],
     10: ["TY"]
   },
   PL: {
@@ -108,13 +93,10 @@ export const SCORE_TABLE = {
     1: ["A", "I", "E", "O", "N", "Z", "R", "S", "W"],
     2: ["Y", "C", "D", "K", "L", "M", "P", "T"],
     3: ["B", "G", "H", "J", "Ł", "U"],
-    4: [],
     5: ["Ą", "Ę", "F", "Ó", "Ś", "Ż"],
     6: ["Ć"],
     7: ["Ń"],
-    8: [],
     9: ["Ź"],
-    10: []
   },
   PT: {
     displayName: "português",
@@ -125,10 +107,7 @@ export const SCORE_TABLE = {
     4: ["F", "G", "H", "V"],
     5: ["J"],
     6: ["Q"],
-    7: [],
     8: ["X", "Z"],
-    9: [],
-    10: []
   },
   RU: {
     displayName: "русский",
@@ -138,10 +117,7 @@ export const SCORE_TABLE = {
     3: ["Б", "Г", "Ь", "Я", "Ё"],
     4: ["Ы", "Й"],
     5: ["З", "Ж", "Х", "Ц", "Ч"],
-    6: [],
-    7: [],
     8: ["Ш", "Э", "Ю"],
-    9: [],
     10: ["Ф", "Щ", "Ъ"]
   },
   UA: {
@@ -155,7 +131,6 @@ export const SCORE_TABLE = {
     6: ["Ж", "Ї", "Ц", "Ш"],
     7: ["Ю"],
     8: ["Є", "Ф", "Щ"],
-    9: [],
     10: ["Ґ", "'"]
   }
 };
