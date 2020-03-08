@@ -5,27 +5,33 @@ function BonusTile({
   bonusType,
   timesUsed,
   handleWordBonus,
+  isNextWordBonusAllowed,
   isBingoAllowed,
   isBingoUsed
 }) {
   function styleDiv() {
     const style = {};
-    switch (bonusType) {
-      case "double":
-        style.backgroundColor = "#f9f";
-        break;
-      case "triple":
-        style.backgroundColor = "#f00";
-        break;
-      case "bingo":
-        if (isBingoAllowed) {
-          style.backgroundColor = "orange";
-        } else {
-          style.backgroundColor = "lightgray";
-          style.cursor = "default";
-        }
-        break;
-      default:
+    if (!isNextWordBonusAllowed && bonusType !== "bingo") {
+      style.backgroundColor = "lightgray";
+      style.cursor = "default";
+    } else {
+      switch (bonusType) {
+        case "double":
+          style.backgroundColor = "#f9f";
+          break;
+        case "triple":
+          style.backgroundColor = "#f00";
+          break;
+        case "bingo":
+          if (isBingoAllowed) {
+            style.backgroundColor = "orange";
+          } else {
+            style.backgroundColor = "lightgray";
+            style.cursor = "default";
+          }
+          break;
+        default:
+      }
     }
     return style;
   }
@@ -44,14 +50,11 @@ function BonusTile({
   }
 
   function renderBonusState() {
-    if (bonusType === "bingo") {
-      if (isBingoUsed) {
-        return <span className="tile__bonus-state">ACTIVE</span>;
-      }
-    } else {
-      if (timesUsed > 0) {
-        return <span className="tile__bonus-state">x{timesUsed}</span>;
-      }
+    if (bonusType === "bingo" && isBingoUsed) {
+      return <span className="tile__bonus-state">ACTIVE</span>;
+    }
+    if (timesUsed > 0) {
+      return <span className="tile__bonus-state">x{timesUsed}</span>;
     }
     return null;
   }

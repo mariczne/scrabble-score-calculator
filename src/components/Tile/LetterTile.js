@@ -10,9 +10,11 @@ function LetterTile({
 }) {
   function styleDiv() {
     const style = {};
-    if (isInvalidLetter()) style.backgroundColor = "lightgray";
-    else if (scoreMultiplier === 2) style.backgroundColor = "#6cf";
-    else if (scoreMultiplier === 3) {
+    if (isInvalidLetter()) {
+      style.backgroundColor = "lightgray";
+    } else if (scoreMultiplier === 2) {
+      style.backgroundColor = "#6cf";
+    } else if (scoreMultiplier === 3) {
       style.backgroundColor = "#06f";
       style.color = "white";
     }
@@ -24,8 +26,12 @@ function LetterTile({
   }
 
   function renderScore() {
-    if (isBlankTile()) return null;
-    if (isInvalidLetter()) return "?";
+    if (isBlankTile()) {
+      return null;
+    }
+    if (isInvalidLetter()) {
+      return "?";
+    } 
     return score;
   }
 
