@@ -3,7 +3,7 @@ import Word from "./Word";
 describe("throws errors when incorrect arguments are supplied", () => {
   it("throws a TypeError when trying to create a word with something else than string as either argument", () => {
     expect(() => new Word(123, "PL")).toThrowError(TypeError);
-    expect(() => new Word("123", { "PL": "PL" })).toThrowError(TypeError);
+    expect(() => new Word("123", { PL: "PL" })).toThrowError(TypeError);
   });
 
   it("throws a RangeError when trying to create a word in unsupported language", () => {
@@ -12,8 +12,8 @@ describe("throws errors when incorrect arguments are supplied", () => {
 });
 
 it("calculates word score without any bonuses", () => {
-    const word = new Word("późność", "PL");
-    expect(word.score).toEqual(29);
+  const word = new Word("późność", "PL");
+  expect(word.score).toEqual(29);
 });
 
 describe("calculates word score with bonuses", () => {
@@ -53,21 +53,21 @@ describe("calculates word score with bonuses", () => {
 });
 
 it("returns NaN for word score when at least one letter is not in the scoretable", () => {
-    const word = new Word("xero", "PL");
-    expect(word.score).toEqual(NaN);
+  const word = new Word("xero", "PL");
+  expect(word.score).toEqual(NaN);
 });
 
 it("can't add more word bonuses than total amount of letters", () => {
-    const word = new Word("bo", "PL");
-    word.addBonus("double");
-    word.addBonus("triple");
-    word.addBonus("triple");
-    expect(word.score).toEqual(24);
+  const word = new Word("bo", "PL");
+  word.addBonus("double");
+  word.addBonus("triple");
+  word.addBonus("triple");
+  expect(word.score).toEqual(24);
 });
 
 it("calculates score for words with digraphs in languages that support them", () => {
-    const lama = new Word("lama", "ES");
-    expect(lama.score).toEqual(6);
-    const llama = new Word("llama", "ES");
-    expect(llama.score).toEqual(13);
+  const lama = new Word("lama", "ES");
+  expect(lama.score).toEqual(6);
+  const llama = new Word("llama", "ES");
+  expect(llama.score).toEqual(13);
 });

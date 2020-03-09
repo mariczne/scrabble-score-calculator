@@ -1,7 +1,14 @@
 import React from "react";
 import "./Tile.css";
 
-function LetterTile({
+const LETTER_STYLE = {
+  invalid: { backgroundColor: "lightgray" },
+  1: { backgroundColor: "antiquewhite" },
+  2: { backgroundColor: "#6cf" },
+  3: { backgroundColor: "#06f", color: "white" }
+};
+
+export default function LetterTile({
   index,
   character,
   score,
@@ -9,16 +16,10 @@ function LetterTile({
   cycleLetterBonus
 }) {
   function styleDiv() {
-    const style = {};
     if (isInvalidLetter()) {
-      style.backgroundColor = "lightgray";
-    } else if (scoreMultiplier === 2) {
-      style.backgroundColor = "#6cf";
-    } else if (scoreMultiplier === 3) {
-      style.backgroundColor = "#06f";
-      style.color = "white";
+      return LETTER_STYLE.invalid;
     }
-    return style;
+    return LETTER_STYLE[scoreMultiplier];
   }
 
   function isInvalidLetter() {
@@ -31,7 +32,7 @@ function LetterTile({
     }
     if (isInvalidLetter()) {
       return "?";
-    } 
+    }
     return score;
   }
 
@@ -66,5 +67,3 @@ LetterTile.defaultProps = {
   score: "?",
   scoreMultiplier: 1
 };
-
-export default LetterTile;

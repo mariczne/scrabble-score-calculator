@@ -1,58 +1,37 @@
 import React from "react";
 import "./Tile.css";
 
-function BonusTile({
+const BONUS_STYLE = {
+  notAllowed: {
+    backgroundColor: "lightgray",
+    cursor: "default"
+  },
+  double: {
+    backgroundColor: "#f9f"
+  },
+  triple: {
+    backgroundColor: "#f00"
+  }
+};
+
+export default function BonusTile({
   bonusType,
   timesUsed,
-  handleWordBonus,
-  isNextWordBonusAllowed,
-  isBingoAllowed,
-  isBingoUsed
+  handleBonus,
+  isNextBonusAllowed
 }) {
   function styleDiv() {
-    const style = {};
-    if (!isNextWordBonusAllowed && bonusType !== "bingo") {
-      style.backgroundColor = "lightgray";
-      style.cursor = "default";
-    } else {
-      switch (bonusType) {
-        case "double":
-          style.backgroundColor = "#f9f";
-          break;
-        case "triple":
-          style.backgroundColor = "#f00";
-          break;
-        case "bingo":
-          if (isBingoAllowed) {
-            style.backgroundColor = "orange";
-          } else {
-            style.backgroundColor = "lightgray";
-            style.cursor = "default";
-          }
-          break;
-        default:
-      }
+    if (!isNextBonusAllowed) {
+      return BONUS_STYLE.notAllowed;
     }
-    return style;
+    return BONUS_STYLE[bonusType];
   }
 
   function renderBonusName() {
-    switch (bonusType) {
-      case "double":
-        return "DOUBLE WORD SCORE";
-      case "triple":
-        return "TRIPLE WORD SCORE";
-      case "bingo":
-        return "BINGO";
-      default:
-        return null;
-    }
+    return `${bonusType.toUpperCase()} WORD SCORE`;
   }
 
   function renderBonusState() {
-    if (bonusType === "bingo" && isBingoUsed) {
-      return <span className="tile__bonus-state">ACTIVE</span>;
-    }
     if (timesUsed > 0) {
       return <span className="tile__bonus-state">x{timesUsed}</span>;
     }
@@ -63,12 +42,10 @@ function BonusTile({
     <div
       className="tile"
       style={styleDiv()}
-      onClick={() => handleWordBonus(bonusType)}
+      onClick={() => handleBonus(bonusType)}
     >
       <span className="tile__bonus-name">{renderBonusName()}</span>
       {renderBonusState()}
     </div>
   );
 }
-
-export default BonusTile;

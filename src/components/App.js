@@ -1,15 +1,25 @@
 import React, { Component } from "react";
 import Word from "../modules/Word";
-import { SCORE_TABLE, MIN_LETTER_SCORE_MULTIPLIER, MAX_LETTER_SCORE_MULTIPLIER } from "../modules/scoretable";
+import {
+  SCORE_TABLE,
+  MAX_LETTER_SCORE_MULTIPLIER,
+  POINTS_FOR_BINGO,
+  WORD_SCORE_MULTIPLIERS
+} from "../modules/scoretable";
 import LetterTile from "./Tile/LetterTile";
 import BonusTile from "./Tile/BonusTile";
+import BingoTile from "./Tile/BingoTile";
 import "./App.css";
 
-class App extends Component {
+const DEFAULT_LANGUAGE = "EN";
+const BINGO_NAME = "bingo"; // American term, rest of the world uses "BONUS"
+const INVALID_SCORE_TEXT = "At least one invalid letter";
+
+export default class App extends Component {
   state = {
     input: "",
-    languageCode: localStorage.getItem("languageCode") || "EN",
-    word: new Word("", localStorage.getItem("languageCode") || "EN")
+    languageCode: localStorage.getItem("languageCode") || DEFAULT_LANGUAGE,
+    word: new Word("", localStorage.getItem("languageCode") || DEFAULT_LANGUAGE)
   };
 
   handleInputChange = e => {
@@ -29,44 +39,84 @@ class App extends Component {
   cycleLetterBonus = index => {
     const { word } = this.state;
     const letter = word.letters[index];
-    if (letter.scoreMultiplier === MAX_LETTER_SCORE_MULTIPLIER) {
-      letter.scoreMultiplier = MIN_LETTER_SCORE_MULTIPLIER;
-    } else {
-      letter.scoreMultiplier++;
+    if (letter.isMultiplied() || word.isNextBonusAllowed()) {
+      if (letter.scoreMultiplier === MAX_LETTER_SCORE_MULTIPLIER) {
+        letter.scoreMultiplier = 1;
+      } else {
+        letter.scoreMultiplier++;
+      }
     }
     this.setState({ word: word });
   };
 
-  handleWordBonus = bonusType => {
+  handleBonus = bonusType => {
     const { word } = this.state;
-    if (bonusType === "bingo") {
+    word.addBonus(bonusType);
+    this.setState({ word: word });
+  };
+
+  handleBingo = () => {
+    const { word } = this.state;
+    if (POINTS_FOR_BINGO) {
       word.toggleBingo();
-    } else {
-      word.addBonus(bonusType); 
     }
     this.setState({ word: word });
   };
 
   renderLetterTiles = () => {
-    const { word } = this.state;
-    return word.letters.map((letter, index) => (
+    const {
+      word: { letters }
+    } = this.state;
+    return letters.map(({ character, score, scoreMultiplier }, index) => (
       <LetterTile
         key={index}
         index={index}
-        character={letter.character}
-        score={letter.score}
-        scoreMultiplier={letter.scoreMultiplier}
+        character={character}
+        score={score}
+        scoreMultiplier={scoreMultiplier}
         cycleLetterBonus={this.cycleLetterBonus}
       />
     ));
   };
 
+  renderBonusTiles = () => {
+    const { word } = this.state;
+    const tiles = [];
+    for (const bonusType in WORD_SCORE_MULTIPLIERS) {
+      tiles.push(
+        <BonusTile
+          key={bonusType}
+          bonusType={bonusType}
+          timesUsed={word.bonusesUsed[bonusType]}
+          handleBonus={this.handleBonus}
+          isNextBonusAllowed={word.isNextBonusAllowed()}
+        />
+      );
+    }
+    return tiles;
+  };
+
+  renderBingoTile = () => {
+    const { word } = this.state;
+    if (POINTS_FOR_BINGO) {
+      return (
+        <BingoTile
+          key={BINGO_NAME}
+          bingoName={BINGO_NAME}
+          handleBingo={this.handleBingo}
+          isBingoAllowed={word.isBingoAllowed()}
+          isBingoUsed={word.isBingoUsed}
+        />
+      );
+    }
+  };
+
   renderWordScore = () => {
     const { word } = this.state;
     if (Number.isNaN(word.score)) {
-      return "At least one invalid letter";
+      return INVALID_SCORE_TEXT;
     }
-    return <span data-testid="word-score">{word.score}</span>;
+    return <span data-testid="word-score-value">{word.score}</span>;
   };
 
   renderLanguageOptions = () => {
@@ -82,7 +132,7 @@ class App extends Component {
   };
 
   render() {
-    const { input, word, languageCode } = this.state;
+    const { input, languageCode } = this.state;
 
     return (
       <div className="App">
@@ -104,27 +154,11 @@ class App extends Component {
           placeholder="Type a word to start"
         />
         <div>
-          <BonusTile
-            bonusType="double"
-            timesUsed={word.bonusesUsed["double"]}
-            handleWordBonus={this.handleWordBonus}
-            isNextWordBonusAllowed={word.isNextWordBonusAllowed()}
-          />
-          <BonusTile
-            bonusType="triple"
-            timesUsed={word.bonusesUsed["triple"]}
-            handleWordBonus={this.handleWordBonus}
-            isNextWordBonusAllowed={word.isNextWordBonusAllowed()}
-          />
-          <BonusTile
-            bonusType="bingo"
-            handleWordBonus={this.handleWordBonus}
-            isBingoAllowed={word.isBingoAllowed()}
-            isBingoUsed={word.isBingoUsed}
-          />
+          {this.renderBonusTiles()}
+          {this.renderBingoTile()}
         </div>
         <div>{this.renderLetterTiles()}</div>
-        Score: {this.renderWordScore()}
+        <span className="word-score">Score: {this.renderWordScore()}</span>
         <p>Click on a tile to toggle its letter bonus</p>
         <p>All bonuses get reset when user input changes</p>
         <p>A blank tile can be entered by using the spacebar</p>
@@ -143,5 +177,3 @@ class App extends Component {
     );
   }
 }
-
-export default App;

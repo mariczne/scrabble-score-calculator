@@ -2,7 +2,7 @@ import {
   SCORE_TABLE,
   POINTS_FOR_BINGO,
   MINIMUM_LETTERS_FOR_BINGO,
-  WORD_SCORE_MULTIPLIERS as SCORE_MULTIPLIERS
+  WORD_SCORE_MULTIPLIERS
 } from "./scoretable";
 import Letter from "./Letter";
 
@@ -23,16 +23,17 @@ export default class Word {
 
   createLettersFromInput(input) {
     const letters = Array.from(input.toUpperCase());
-    if (SCORE_TABLE[this.languageCode].digraphs) {
-      this.checkForDigraphs(letters);
+    const isLanguageWithDigraphs = SCORE_TABLE[this.languageCode].digraphs;
+    if (isLanguageWithDigraphs) {
+      Word.checkForDigraphs(letters, this.languageCode);
     }
     return letters.map(letter => new Letter(letter, this.languageCode));
   }
 
-  checkForDigraphs(letters) {
-    // special case for double letters (i.e. in Spanish)
+  static checkForDigraphs(letters, languageCode) {
+    const digraphs = SCORE_TABLE[languageCode].digraphs;
     for (let i = 0; i < letters.length; i++) {
-      for (const digraph of SCORE_TABLE[this.languageCode].digraphs) {
+      for (const digraph of digraphs) {
         if (letters[i] === digraph[0] && letters[i + 1] === digraph[1]) {
           letters[i] = letters[i] + letters[i + 1];
           letters.splice(i + 1, 1);
@@ -59,32 +60,23 @@ export default class Word {
 
   get multiplierTotal() {
     let multiplierTotal = 1;
-    for (const timesUsed in this.bonusesUsed) {
-      multiplierTotal *= this.bonusesUsed[timesUsed] * SCORE_MULTIPLIERS[timesUsed];
+    for (const bonusName in this.bonusesUsed) {
+      const timesBonusUsed = this.bonusesUsed[bonusName];
+      const bonusMultiplier = WORD_SCORE_MULTIPLIERS[bonusName];
+      multiplierTotal *= timesBonusUsed * bonusMultiplier;
     }
     return multiplierTotal;
   }
 
   isAnyLetterInvalid() {
-    return this.letters.some(element => !Number.isInteger(element.score));
-  }
-
-  isNextWordBonusAllowed() {
-    // there cannot ever be more word bonuses than total number of letters
-    let totalTimesBonusesUsed = 0;
-    for (const timesUsed in this.bonusesUsed) {
-      totalTimesBonusesUsed += this.bonusesUsed[timesUsed];
-    }
-    for (const letter of this.letters) {
-      if (letter.scoreMultiplier > 1) {
-        totalTimesBonusesUsed++;
-      }
-    }
-    return this.letters.length > totalTimesBonusesUsed;
+    return this.letters.some(letter => !Number.isInteger(letter.score));
   }
 
   addBonus(bonusType) {
-    if (this.isNextWordBonusAllowed()) {
+    if (!WORD_SCORE_MULTIPLIERS.hasOwnProperty(bonusType)) {
+      throw new RangeError(`No '${bonusType}' bonus type in the score table`);
+    }
+    if (this.isNextBonusAllowed()) {
       if (this.bonusesUsed.hasOwnProperty(bonusType)) {
         this.bonusesUsed[bonusType]++;
       } else {
@@ -93,13 +85,31 @@ export default class Word {
     }
   }
 
-  isBingoAllowed() {
-    return this.letters.length >= MINIMUM_LETTERS_FOR_BINGO;
+  isNextBonusAllowed() {
+    // there cannot ever be more word+letter bonuses than total number of letters
+    let totalTimesBonusesUsed = 0;
+    for (const bonusName in this.bonusesUsed) {
+      const timesBonusUsed = this.bonusesUsed[bonusName];
+      totalTimesBonusesUsed += timesBonusUsed;
+    }
+    for (const letter of this.letters) {
+      if (letter.isMultiplied()) {
+        totalTimesBonusesUsed++;
+      }
+    }
+    return this.letters.length > totalTimesBonusesUsed;
   }
 
   toggleBingo() {
     if (this.isBingoAllowed()) {
       this.isBingoUsed = !this.isBingoUsed;
     }
+  }
+
+  isBingoAllowed() {
+    if (!POINTS_FOR_BINGO) {
+      return false;
+    }
+    return this.letters.length >= MINIMUM_LETTERS_FOR_BINGO;
   }
 }

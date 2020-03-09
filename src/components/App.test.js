@@ -18,11 +18,10 @@ afterEach(() => {
   container = null;
 });
 
-
 it("correctly renders calculated score of a word", () => {
   const app = render(<App />);
   const wordInput = app.getByTestId("word-input");
-  const wordScore = app.getByTestId("word-score");
+  const wordScore = app.getByTestId("word-score-value");
   expect(wordInput.value).toBe("");
   expect(wordScore.textContent).toEqual("0");
   fireEvent.change(wordInput, { target: { value: "szkrabble" } });
@@ -35,7 +34,7 @@ it("correctly renders score of a word in different language", () => {
   const wordInput = app.getByTestId("word-input");
 
   fireEvent.change(wordInput, { target: { value: "szkrabble" } });
-  const wordScore = app.getByTestId("word-score");
+  const wordScore = app.getByTestId("word-score-value");
   const langSelect = app.getByTestId("lang-select");
   fireEvent.change(langSelect, { target: { value: "PL" } });
   expect(wordScore.textContent).toEqual("15");
