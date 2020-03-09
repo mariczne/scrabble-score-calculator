@@ -21,17 +21,21 @@
 .word-input {
   display: block;
   font-size: 1.2rem;
-  padding: 0.2rem;
+  padding: 0.5rem;
   margin: 1rem auto;
   border: 1px solid black;
-  border-radius: 0.2em;
+  border-radius: 0.25em;
+}
+
+.word-score {
+  font-size: 1.5rem;
 }
 
 .lang-select {
   font-size: 1rem;
-  padding: 0.2rem;
+  padding: 0.25rem;
   margin-left: 0.5rem;
   border: 1px solid black;
-  border-radius: 0.2em;
+  border-radius: 0.25em;
   background-color: white;
 }

@@ -1,11 +1,10 @@
-export const MIN_LETTER_SCORE_MULTIPLIER = 1;
 export const MAX_LETTER_SCORE_MULTIPLIER = 3;
-export const POINTS_FOR_BINGO = 50;
+export const POINTS_FOR_BINGO = 50; // 0 disables bingo completely
 export const MINIMUM_LETTERS_FOR_BINGO = 7;
 export const WORD_SCORE_MULTIPLIERS = {
   double: 2,
   triple: 3
-}
+};
 
 export const SCORE_TABLE = {
   DE: {
@@ -96,7 +95,7 @@ export const SCORE_TABLE = {
     5: ["Ą", "Ę", "F", "Ó", "Ś", "Ż"],
     6: ["Ć"],
     7: ["Ń"],
-    9: ["Ź"],
+    9: ["Ź"]
   },
   PT: {
     displayName: "português",
@@ -107,7 +106,7 @@ export const SCORE_TABLE = {
     4: ["F", "G", "H", "V"],
     5: ["J"],
     6: ["Q"],
-    8: ["X", "Z"],
+    8: ["X", "Z"]
   },
   RU: {
     displayName: "русский",

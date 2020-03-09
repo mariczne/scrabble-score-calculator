@@ -1,8 +1,4 @@
-import {
-  SCORE_TABLE,
-  MIN_LETTER_SCORE_MULTIPLIER as MIN_SCORE_MULTIPLIER,
-  MAX_LETTER_SCORE_MULTIPLIER as MAX_SCORE_MULTIPLIER
-} from "./scoretable";
+import { SCORE_TABLE, MAX_LETTER_SCORE_MULTIPLIER } from "./scoretable";
 
 export default class Letter {
   constructor(character, languageCode) {
@@ -15,7 +11,7 @@ export default class Letter {
 
     this.character = character;
     this.languageCode = languageCode;
-    this._scoreMultiplier = MIN_SCORE_MULTIPLIER;
+    this._scoreMultiplier = 1;
   }
 
   get score() {
@@ -33,9 +29,9 @@ export default class Letter {
     if (!Number.isInteger(n)) {
       throw new TypeError("Argument has to be an integer");
     }
-    if (n < MIN_SCORE_MULTIPLIER || n > MAX_SCORE_MULTIPLIER) {
+    if (n < 1 || n > MAX_LETTER_SCORE_MULTIPLIER) {
       throw new RangeError(
-        `Argument has to be between ${MIN_SCORE_MULTIPLIER} and ${MAX_SCORE_MULTIPLIER}`
+        `Argument has to be between 1 and ${MAX_LETTER_SCORE_MULTIPLIER}`
       );
     }
 
@@ -44,5 +40,9 @@ export default class Letter {
 
   get scoreMultiplier() {
     return this._scoreMultiplier;
+  }
+
+  isMultiplied() {
+    return this._scoreMultiplier !== 1;
   }
 }

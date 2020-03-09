@@ -4,7 +4,7 @@
   height: 1.5rem;
   width: 1.5rem;
   padding: 1rem;
-  margin: 0.1rem;
+  margin: 0.125rem;
   border: 1px solid black;
   border-radius: 5%;
   background-color: antiquewhite;
@@ -44,8 +44,8 @@
 .tile__letter-score {
   position: relative;
   left: 1rem;
-  top: -0.3rem;
-  font-size: 1.2rem;
+  top: -0.25rem;
+  font-size: 1.25rem;
 }
 
 .tile__bonus-name {
@@ -53,14 +53,14 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 0.55rem;
+  font-size: 0.5rem;
   color: black; 
 }
 
 .tile__bonus-state {
   position: absolute;
-  right: 0.2rem;
-  top: 2.4rem;
-  font-size: 33%;
+  right: 0.25rem;
+  top: 2.5rem;
+  font-size: 0.825rem;
   color: black;
 }
