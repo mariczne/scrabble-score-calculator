@@ -1,8 +1,7 @@
 import React from "react";
-import "./Tile.css";
 
 const LETTER_STYLE = {
-  invalid: { backgroundColor: "lightgray" },
+  invalid: { backgroundColor: "lightgray", cursor: "default" },
   1: { backgroundColor: "antiquewhite" },
   2: { backgroundColor: "#6cf" },
   3: { backgroundColor: "#06f", color: "white" }

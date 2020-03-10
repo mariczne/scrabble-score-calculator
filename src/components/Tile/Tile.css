@@ -14,7 +14,7 @@
   font-weight: 700;
   cursor: pointer;
   user-select: none;
-  animation: fadeIn 0.5s;
+  animation: fadeIn 0.3s;
 }
 
 @keyframes fadeIn {

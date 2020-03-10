@@ -1,5 +1,4 @@
 import React from "react";
-import "./Tile.css";
 
 const BINGO_STYLE = {
   allowed: { backgroundColor: "orange" },
