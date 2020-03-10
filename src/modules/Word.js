@@ -16,30 +16,40 @@ export default class Word {
     }
 
     this.languageCode = languageCode;
-    this.letters = this.createLettersFromInput(input);
+    this.letters = Word.createLetters(input, languageCode);
     this.bonusesUsed = {};
     this.isBingoUsed = false;
   }
 
-  createLettersFromInput(input) {
+  static createLetters(input, languageCode) {
     const letters = Array.from(input.toUpperCase());
-    const isLanguageWithDigraphs = SCORE_TABLE[this.languageCode].digraphs;
-    if (isLanguageWithDigraphs) {
-      Word.checkForDigraphs(letters, this.languageCode);
+    const isLanguageWithMultigraphs = Boolean(
+      SCORE_TABLE[languageCode].multigraphs
+    );
+    if (isLanguageWithMultigraphs) {
+      Word.checkForMultigraphs(letters, languageCode);
     }
-    return letters.map(letter => new Letter(letter, this.languageCode));
+    return letters.map(letter => new Letter(letter, languageCode));
   }
 
-  static checkForDigraphs(letters, languageCode) {
-    const digraphs = SCORE_TABLE[languageCode].digraphs;
-    for (let i = 0; i < letters.length; i++) {
-      for (const digraph of digraphs) {
-        if (letters[i] === digraph[0] && letters[i + 1] === digraph[1]) {
-          letters[i] = letters[i] + letters[i + 1];
-          letters.splice(i + 1, 1);
+  static checkForMultigraphs(letters, languageCode) {
+    const multigraphs = sortDescendingByLength(SCORE_TABLE[languageCode].multigraphs)
+    letters.forEach(() => {
+      multigraphs.forEach(multigraph => {
+        const multigraphIndexAt = findIndexOfContiguousSubarray(
+          letters,
+          multigraph
+        );
+        const isMultigraphFound = multigraphIndexAt !== -1;
+        if (isMultigraphFound) {
+          letters.splice(
+            multigraphIndexAt,
+            multigraph.length,
+            multigraph.join("")
+          );
         }
-      }
-    }
+      });
+    });
   }
 
   get score() {
@@ -68,9 +78,9 @@ export default class Word {
     return multiplierTotal;
   }
 
-  isAnyLetterInvalid() {
+  isAnyLetterInvalid = () => {
     return this.letters.some(letter => !Number.isInteger(letter.score));
-  }
+  };
 
   addBonus(bonusType) {
     if (!WORD_SCORE_MULTIPLIERS.hasOwnProperty(bonusType)) {
@@ -85,7 +95,7 @@ export default class Word {
     }
   }
 
-  isNextBonusAllowed() {
+  isNextBonusAllowed = () => {
     // there cannot ever be more word+letter bonuses than total number of letters
     let totalTimesBonusesUsed = 0;
     for (const bonusName in this.bonusesUsed) {
@@ -93,12 +103,12 @@ export default class Word {
       totalTimesBonusesUsed += timesBonusUsed;
     }
     for (const letter of this.letters) {
-      if (letter.isMultiplied()) {
+      if (letter.hasMultipliedScore()) {
         totalTimesBonusesUsed++;
       }
     }
     return this.letters.length > totalTimesBonusesUsed;
-  }
+  };
 
   toggleBingo() {
     if (this.isBingoAllowed()) {
@@ -106,14 +116,27 @@ export default class Word {
     }
   }
 
-  isBingoAllowed() {
+  isBingoAllowed = () => {
     if (!POINTS_FOR_BINGO) {
       return false;
     }
     return this.letters.length >= MINIMUM_LETTERS_FOR_BINGO;
-  }
+  };
 
-  hasInvalidScore() {
+  hasInvalidScore = () => {
     return Number.isNaN(this.score);
+  };
+}
+
+function findIndexOfContiguousSubarray(arr, subarr) {
+  for (let i = 0; i < 1 + (arr.length - subarr.length); ++i) {
+    if (subarr.every((element, j) => element === arr[i + j])) {
+      return i;
+    }
   }
+  return -1;
+}
+
+function sortDescendingByLength(arr) {
+  return arr.sort((prev, curr) => curr.length - prev.length)
 }

@@ -13,7 +13,7 @@ import Instructions from "./Instructions";
 import Footer from "./Footer";
 import "./App.css";
 
-const DEFAULT_LANGUAGE = "EN";
+const DEFAULT_LANGUAGE = "eng";
 
 export default class App extends Component {
   state = {
@@ -42,7 +42,7 @@ export default class App extends Component {
     if (letter.hasInvalidScore()) {
       return;
     }
-    if (letter.isMultiplied() || word.isNextBonusAllowed()) {
+    if (word.isNextBonusAllowed() || letter.hasMultipliedScore()) {
       if (letter.scoreMultiplier === MAX_LETTER_SCORE_MULTIPLIER) {
         letter.scoreMultiplier = 1;
       } else {
@@ -72,7 +72,8 @@ export default class App extends Component {
       handleLanguageChange,
       handleInputChange,
       handleBonus,
-      handleBingo
+      handleBingo,
+      cycleLetterBonus
     } = this;
 
     return (
@@ -86,18 +87,18 @@ export default class App extends Component {
           handleInputChange={handleInputChange}
         />
         <BonusTiles
-          word={word}
           handleBonus={handleBonus}
           handleBingo={handleBingo}
+          isNextBonusAllowed={word.isNextBonusAllowed()}
+          bonusesUsed={word.bonusesUsed}
+          isBingoAllowed={word.isBingoAllowed()}
+          isBingoUsed={word.isBingoUsed}
         />
         <LetterTiles
           letters={word.letters}
-          cycleLetterBonus={this.cycleLetterBonus}
+          cycleLetterBonus={cycleLetterBonus}
         />
-        <WordScore
-          wordHasInvalidScore={word.hasInvalidScore()}
-          score={word.score}
-        />
+        <WordScore isScoreInvalid={word.hasInvalidScore()} score={word.score} />
         <Instructions />
         <Footer />
       </div>

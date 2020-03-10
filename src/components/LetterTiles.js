@@ -1,23 +1,22 @@
-import React from 'react'
+import React from "react";
 import { LetterTile } from "./Tile/Tile";
 
-export default function LetterTiles({letters, cycleLetterBonus}) {
+export default function LetterTiles({ letters, cycleLetterBonus }) {
   function renderLetterTiles() {
-    return letters.map(({ character, score, scoreMultiplier }, index) => (
-      <LetterTile
-        key={index}
-        index={index}
-        character={character}
-        score={score}
-        scoreMultiplier={scoreMultiplier}
-        cycleLetterBonus={cycleLetterBonus}
-      />
-    ));
-  };
+    return letters.map(
+      ({ character, score, scoreMultiplier, hasInvalidScore }, index) => (
+        <LetterTile
+          key={index}
+          index={index}
+          character={character}
+          score={score}
+          isScoreInvalid={hasInvalidScore()}
+          scoreMultiplier={scoreMultiplier}
+          cycleLetterBonus={cycleLetterBonus}
+        />
+      )
+    );
+  }
 
-  return (
-    <div>
-      {renderLetterTiles()}
-    </div>
-  )
+  return <div>{renderLetterTiles()}</div>;
 }

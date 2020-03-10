@@ -44,11 +44,11 @@ export default class Letter {
     return this._scoreMultiplier;
   }
   
-  hasInvalidScore() {
+  hasInvalidScore = () => {
     return Number.isNaN(this.score);
   }
 
-  isMultiplied() {
+  hasMultipliedScore = () => {
     return this._scoreMultiplier !== 1;
   }
 }

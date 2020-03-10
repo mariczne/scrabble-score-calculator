@@ -41,6 +41,10 @@
   transform: translate(-60%, -55%) scaleX(0.65);
 }
 
+.tile__letter--triple {
+  transform: translate(-60%, -55%) scaleX(0.4);
+}
+
 .tile__letter-score {
   position: relative;
   left: 1rem;
