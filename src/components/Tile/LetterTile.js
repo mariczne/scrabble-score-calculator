@@ -11,47 +11,45 @@ export default function LetterTile({
   index,
   character,
   score,
+  isScoreInvalid,
   scoreMultiplier,
   cycleLetterBonus
 }) {
   function styleDiv() {
-    if (isInvalidLetter()) {
+    if (isScoreInvalid) {
       return LETTER_STYLE.invalid;
     }
     return LETTER_STYLE[scoreMultiplier];
   }
 
-  function isInvalidLetter() {
-    return Number.isNaN(score);
-  }
-
   function renderScore() {
-    if (isBlankTile()) {
+    if (isBlankTile) {
       return null;
     }
-    if (isInvalidLetter()) {
+    if (isScoreInvalid) {
       return "?";
     }
     return score;
   }
 
-  function isBlankTile() {
-    return character === " ";
-  }
+  const isBlankTile = character === " ";
 
-  function isDigraph() {
-    return character.length === 2;
-  }
+  const isDigraph = character.length === 2;
+
+  const isTrigraph = character.length === 3;
 
   return (
     <div
       className="tile"
       style={styleDiv()}
       onClick={() => cycleLetterBonus(index)}
+      tabIndex="0"
     >
       <span
         className={`tile__letter ${
-          isDigraph() ? "tile__letter--double" : null
+          isDigraph ? "tile__letter--double" : null
+        } ${
+          isTrigraph ? "tile__letter--triple" : null
         }`}
       >
         {character.toUpperCase()}

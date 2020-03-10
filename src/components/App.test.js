@@ -36,6 +36,6 @@ it("correctly renders score of a word in different language", () => {
   fireEvent.change(wordInput, { target: { value: "szkrabble" } });
   const wordScore = app.getByTestId("word-score-value");
   const langSelect = app.getByTestId("lang-select");
-  fireEvent.change(langSelect, { target: { value: "PL" } });
+  fireEvent.change(langSelect, { target: { value: "pol" } });
   expect(wordScore.textContent).toEqual("15");
 });

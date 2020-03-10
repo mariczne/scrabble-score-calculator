@@ -5,13 +5,15 @@ import {
   MINIMUM_LETTERS_FOR_BINGO
 } from "../modules/scoretable";
 
+const isGameUsingBingo = POINTS_FOR_BINGO > 0;
+
 export default function Instructions() {
   return (
     <div>
       <p>Click on a tile to toggle its letter bonus</p>
       <p>All bonuses get reset when user input changes</p>
       <p>A blank tile can be entered by using the spacebar</p>
-      {POINTS_FOR_BINGO ? (
+      {isGameUsingBingo ? (
         <p>
           {BINGO_NAME} can be activated when there are at least{" "}
           {MINIMUM_LETTERS_FOR_BINGO} tiles used

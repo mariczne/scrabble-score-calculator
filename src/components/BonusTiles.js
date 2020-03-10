@@ -6,7 +6,14 @@ import {
   WORD_SCORE_MULTIPLIERS
 } from "../modules/scoretable";
 
-export default function BonusTiles({ word, handleBonus, handleBingo }) {
+export default function BonusTiles({
+  handleBonus,
+  handleBingo,
+  isNextBonusAllowed,
+  bonusesUsed,
+  isBingoAllowed,
+  isBingoUsed
+}) {
   function renderBonusTiles() {
     const tiles = [];
     for (const bonusType in WORD_SCORE_MULTIPLIERS) {
@@ -14,9 +21,9 @@ export default function BonusTiles({ word, handleBonus, handleBingo }) {
         <BonusTile
           key={bonusType}
           bonusType={bonusType}
-          timesUsed={word.bonusesUsed[bonusType]}
+          timesUsed={bonusesUsed[bonusType]}
           handleBonus={handleBonus}
-          isNextBonusAllowed={word.isNextBonusAllowed()}
+          isNextBonusAllowed={isNextBonusAllowed}
         />
       );
     }
@@ -30,8 +37,8 @@ export default function BonusTiles({ word, handleBonus, handleBingo }) {
           key={BINGO_NAME}
           bingoName={BINGO_NAME}
           handleBingo={handleBingo}
-          isBingoAllowed={word.isBingoAllowed()}
-          isBingoUsed={word.isBingoUsed}
+          isBingoAllowed={isBingoAllowed}
+          isBingoUsed={isBingoUsed}
         />
       );
     }

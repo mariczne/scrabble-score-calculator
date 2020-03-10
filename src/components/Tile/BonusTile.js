@@ -42,6 +42,7 @@ export default function BonusTile({
       className="tile"
       style={styleDiv()}
       onClick={() => handleBonus(bonusType)}
+      tabIndex="0"
     >
       <span className="tile__bonus-name">{renderBonusName()}</span>
       {renderBonusState()}

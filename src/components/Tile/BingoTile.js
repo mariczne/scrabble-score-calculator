@@ -29,7 +29,7 @@ export default function BingoTile({
   }
 
   return (
-    <div className="tile" style={styleDiv()} onClick={handleBingo}>
+    <div className="tile" style={styleDiv()} onClick={handleBingo} tabIndex="0">
       <span className="tile__bonus-name">{bingoName.toUpperCase()}</span>
       {renderBingoState()}
     </div>
