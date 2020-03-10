@@ -112,4 +112,8 @@ export default class Word {
     }
     return this.letters.length >= MINIMUM_LETTERS_FOR_BINGO;
   }
+
+  hasInvalidScore() {
+    return Number.isNaN(this.score);
+  }
 }

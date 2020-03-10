@@ -34,12 +34,18 @@ export default class Letter {
         `Argument has to be between 1 and ${MAX_LETTER_SCORE_MULTIPLIER}`
       );
     }
-
+    if (this.hasInvalidScore()) {
+      throw new Error("Can't set multiplier to a letter with invalid score");
+    }
     this._scoreMultiplier = n;
   }
 
   get scoreMultiplier() {
     return this._scoreMultiplier;
+  }
+  
+  hasInvalidScore() {
+    return Number.isNaN(this.score);
   }
 
   isMultiplied() {

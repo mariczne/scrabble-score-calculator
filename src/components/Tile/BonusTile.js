@@ -1,5 +1,4 @@
 import React from "react";
-import "./Tile.css";
 
 const BONUS_STYLE = {
   notAllowed: {
