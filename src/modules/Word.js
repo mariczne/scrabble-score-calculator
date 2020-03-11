@@ -74,7 +74,9 @@ export default class Word {
     let multiplierTotal = 1;
     for (const bonusType in this.bonusesUsed) {
       const bonusMultiplier = WORD_SCORE_MULTIPLIERS[bonusType];
-      multiplierTotal *= this.timesBonusTypeUsed(bonusType) * bonusMultiplier;
+      for (let i = 0; i < this.timesBonusTypeUsed(bonusType); i++) {
+        multiplierTotal *= bonusMultiplier;
+      }
     }
     return multiplierTotal;
   }
