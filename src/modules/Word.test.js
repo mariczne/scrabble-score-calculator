@@ -61,6 +61,14 @@ describe("calculates word score with bonuses", () => {
 
     expect(word.score).toEqual(128);
   });
+
+  it("calculates word score when word score is tripled twice (9x multiplier)", () => {
+    const word = new Word("późność", "pol");
+
+    word.addBonus("triple", 2);
+
+    expect(word.score).toEqual(261);
+  });
 });
 
 it("returns NaN for word score when at least one letter is not in the scoretable", () => {
