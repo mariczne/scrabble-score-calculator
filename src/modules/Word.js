@@ -27,19 +27,17 @@ export default class Word {
       SCORE_TABLE[languageCode].multigraphs
     );
     if (isLanguageWithMultigraphs) {
-      Word.checkForMultigraphs(letters, languageCode);
+      Word.processMultigraphs(letters, languageCode);
     }
     return letters.map(letter => new Letter(letter, languageCode));
   }
 
-  static checkForMultigraphs(letters, languageCode) {
-    const multigraphs = sortDescendingByLength(SCORE_TABLE[languageCode].multigraphs)
+  static processMultigraphs(letters, languageCode) {
+    const multigraphs = SCORE_TABLE[languageCode].multigraphs;
+    sortArrayByLengthDescending(multigraphs);
     letters.forEach(() => {
       multigraphs.forEach(multigraph => {
-        const multigraphIndexAt = findIndexOfContiguousSubarray(
-          letters,
-          multigraph
-        );
+        const multigraphIndexAt = findIndexOfSubarray(letters, multigraph);
         const isMultigraphFound = multigraphIndexAt !== -1;
         if (isMultigraphFound) {
           letters.splice(
@@ -68,47 +66,74 @@ export default class Word {
     );
   }
 
-  get multiplierTotal() {
-    let multiplierTotal = 1;
-    for (const bonusName in this.bonusesUsed) {
-      const timesBonusUsed = this.bonusesUsed[bonusName];
-      const bonusMultiplier = WORD_SCORE_MULTIPLIERS[bonusName];
-      multiplierTotal *= timesBonusUsed * bonusMultiplier;
-    }
-    return multiplierTotal;
-  }
-
   isAnyLetterInvalid = () => {
     return this.letters.some(letter => !Number.isInteger(letter.score));
   };
 
-  addBonus(bonusType) {
-    if (!WORD_SCORE_MULTIPLIERS.hasOwnProperty(bonusType)) {
-      throw new RangeError(`No '${bonusType}' bonus type in the score table`);
+  get multiplierTotal() {
+    let multiplierTotal = 1;
+    for (const bonusType in this.bonusesUsed) {
+      const bonusMultiplier = WORD_SCORE_MULTIPLIERS[bonusType];
+      multiplierTotal *= this.timesBonusTypeUsed(bonusType) * bonusMultiplier;
     }
-    if (this.isNextBonusAllowed()) {
-      if (this.bonusesUsed.hasOwnProperty(bonusType)) {
-        this.bonusesUsed[bonusType]++;
-      } else {
-        this.bonusesUsed[bonusType] = 1;
+    return multiplierTotal;
+  }
+
+  timesBonusTypeUsed = bonusType => {
+    return this.bonusesUsed[bonusType];
+  };
+
+  addBonus(bonusType, n = 1) {
+    checkIfBonusDefinedInScoretable(bonusType);
+    if (n < 0) {
+      throw new RangeError("Cannot add bonus a negative number of times");
+    }
+    while (n > 0) {
+      if (this.isNextBonusAllowed()) {
+        if (this.isBonusTypeUsed(bonusType)) {
+          this.bonusesUsed[bonusType]++;
+        } else {
+          this.bonusesUsed[bonusType] = 1;
+        }
       }
+      n--;
     }
   }
 
+  isBonusTypeUsed = bonusType => {
+    return this.bonusesUsed.hasOwnProperty(bonusType);
+  };
+
   isNextBonusAllowed = () => {
     // there cannot ever be more word+letter bonuses than total number of letters
-    let totalTimesBonusesUsed = 0;
-    for (const bonusName in this.bonusesUsed) {
-      const timesBonusUsed = this.bonusesUsed[bonusName];
-      totalTimesBonusesUsed += timesBonusUsed;
+    let totalTimesAnyBonusTypeUsed = 0;
+    for (const bonusType in this.bonusesUsed) {
+      totalTimesAnyBonusTypeUsed += this.timesBonusTypeUsed(bonusType);
     }
     for (const letter of this.letters) {
       if (letter.hasMultipliedScore()) {
-        totalTimesBonusesUsed++;
+        totalTimesAnyBonusTypeUsed++;
       }
     }
-    return this.letters.length > totalTimesBonusesUsed;
+    return this.letters.length > totalTimesAnyBonusTypeUsed;
   };
+
+  removeBonus(bonusType, n = 1) {
+    checkIfBonusDefinedInScoretable(bonusType);
+    if (n < 0) {
+      throw new RangeError("Cannot remove bonus a negative number of times");
+    }
+    if (this.isBonusTypeUsed(bonusType)) {
+      while (n > 0) {
+        if (this.timesBonusTypeUsed(bonusType) === 1) {
+          delete this.bonusesUsed[bonusType];
+        } else if (this.timesBonusTypeUsed(bonusType) > 1) {
+          this.bonusesUsed[bonusType]--;
+        }
+        n--;
+      }
+    }
+  }
 
   toggleBingo() {
     if (this.isBingoAllowed()) {
@@ -117,10 +142,11 @@ export default class Word {
   }
 
   isBingoAllowed = () => {
-    if (!POINTS_FOR_BINGO) {
-      return false;
+    const isGameUsingBingo = POINTS_FOR_BINGO > 0;
+    if (isGameUsingBingo) {
+      return this.letters.length >= MINIMUM_LETTERS_FOR_BINGO;
     }
-    return this.letters.length >= MINIMUM_LETTERS_FOR_BINGO;
+    return false;
   };
 
   hasInvalidScore = () => {
@@ -128,7 +154,17 @@ export default class Word {
   };
 }
 
-function findIndexOfContiguousSubarray(arr, subarr) {
+function checkIfBonusDefinedInScoretable(bonusType) {
+  if (!isBonusDefinedInScoretable(bonusType)) {
+    throw new RangeError(`No '${bonusType}' bonus type in the score table`);
+  }
+}
+
+function isBonusDefinedInScoretable(bonusType) {
+  return WORD_SCORE_MULTIPLIERS.hasOwnProperty(bonusType);
+}
+
+function findIndexOfSubarray(arr, subarr) {
   for (let i = 0; i < 1 + (arr.length - subarr.length); ++i) {
     if (subarr.every((element, j) => element === arr[i + j])) {
       return i;
@@ -137,6 +173,6 @@ function findIndexOfContiguousSubarray(arr, subarr) {
   return -1;
 }
 
-function sortDescendingByLength(arr) {
-  return arr.sort((prev, curr) => curr.length - prev.length)
+function sortArrayByLengthDescending(arr) {
+  return arr.sort((prev, curr) => curr.length - prev.length);
 }

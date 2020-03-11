@@ -14,20 +14,24 @@ import Footer from "./Footer";
 import "./App.css";
 
 const DEFAULT_LANGUAGE = "eng";
+const isGameUsingBingo = POINTS_FOR_BINGO > 0;
 
 export default class App extends Component {
   state = {
     inputValue: "",
-    languageCode: localStorage.getItem("languageCode") || DEFAULT_LANGUAGE,
-    word: new Word("", localStorage.getItem("languageCode") || DEFAULT_LANGUAGE)
+    languageCode: DEFAULT_LANGUAGE,
+    word: new Word("", DEFAULT_LANGUAGE)
   };
 
   handleInputChange = e => {
     this.setState({ inputValue: e.target.value }, () => this.updateWord());
   };
 
+  handleInputReset = () => {
+    this.setState({ inputValue: "" }, () => this.updateWord());
+  };
+
   handleLanguageChange = e => {
-    localStorage.setItem("languageCode", e.target.value);
     this.setState({ languageCode: e.target.value }, () => this.updateWord());
   };
 
@@ -52,14 +56,20 @@ export default class App extends Component {
     this.setState({ word: word });
   };
 
-  handleBonus = bonusType => {
+  addBonus = bonusType => {
     const { word } = this.state;
     word.addBonus(bonusType);
     this.setState({ word: word });
   };
 
+  removeBonus = bonusType => {
+    const { word } = this.state;
+    word.removeBonus(bonusType);
+    this.setState({ word: word });
+  };
+
   handleBingo = () => {
-    if (POINTS_FOR_BINGO) {
+    if (isGameUsingBingo) {
       const { word } = this.state;
       word.toggleBingo();
       this.setState({ word: word });
@@ -71,7 +81,9 @@ export default class App extends Component {
     const {
       handleLanguageChange,
       handleInputChange,
-      handleBonus,
+      handleInputReset,
+      addBonus,
+      removeBonus,
       handleBingo,
       cycleLetterBonus
     } = this;
@@ -85,12 +97,15 @@ export default class App extends Component {
         <WordInput
           inputValue={inputValue}
           handleInputChange={handleInputChange}
+          handleInputReset={handleInputReset}
         />
         <BonusTiles
-          handleBonus={handleBonus}
-          handleBingo={handleBingo}
-          isNextBonusAllowed={word.isNextBonusAllowed()}
+          addBonus={addBonus}
+          removeBonus={removeBonus}
           bonusesUsed={word.bonusesUsed}
+          isNextBonusAllowed={word.isNextBonusAllowed()}
+          isGameUsingBingo={isGameUsingBingo}
+          handleBingo={handleBingo}
           isBingoAllowed={word.isBingoAllowed()}
           isBingoUsed={word.isBingoUsed}
         />

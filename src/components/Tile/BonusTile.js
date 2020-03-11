@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const BONUS_STYLE = {
   notAllowed: {
@@ -16,7 +17,8 @@ const BONUS_STYLE = {
 export default function BonusTile({
   bonusType,
   timesUsed,
-  handleBonus,
+  addBonus,
+  removeBonus,
   isNextBonusAllowed
 }) {
   function styleDiv() {
@@ -37,15 +39,48 @@ export default function BonusTile({
     return null;
   }
 
+  function renderBonusRemoveButton() {
+    if (timesUsed > 0) {
+      return (
+        <button
+          className="tile__bonus-remove"
+          onClick={() => removeBonus(bonusType)}
+        >
+          –
+        </button>
+      );
+    }
+    return null;
+  }
+
   return (
-    <div
-      className="tile"
-      style={styleDiv()}
-      onClick={() => handleBonus(bonusType)}
-      tabIndex="0"
-    >
-      <span className="tile__bonus-name">{renderBonusName()}</span>
-      {renderBonusState()}
-    </div>
+    <>
+      {renderBonusRemoveButton()}
+      <div
+        className="tile"
+        style={styleDiv()}
+        onClick={() => addBonus(bonusType)}
+        tabIndex="0"
+      >
+        <span className="tile__bonus-name">{renderBonusName()}</span>
+        {renderBonusState()}
+      </div>
+    </>
   );
 }
+
+BonusTile.propTypes = {
+  bonusType: PropTypes.string,
+  timesUsed: PropTypes.number,
+  addBonus: PropTypes.func,
+  removeBonus: PropTypes.func,
+  isNextBonusAllowed: PropTypes.bool
+};
+
+BonusTile.defaultProps = {
+  bonusType: "double",
+  timesUsed: 0,
+  addBonus: () => {},
+  removeBonus: () => {},
+  isNextBonusAllowed: true
+};

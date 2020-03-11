@@ -1,14 +1,25 @@
 import React from "react";
+import PropTypes from "prop-types";
 
-const INVALID_SCORE_TEXT = "At least one invalid letter";
-
-export default function WordScore({ isScoreInvalid, score }) {
+export default function WordScore({ isScoreInvalid, score, invalidScoreText }) {
   function renderWordScore() {
     if (isScoreInvalid) {
-      return INVALID_SCORE_TEXT;
+      return invalidScoreText;
     }
     return <span data-testid="word-score-value">{score}</span>;
   }
 
   return <span className="word-score">Score: {renderWordScore()}</span>;
 }
+
+WordScore.propTypes = {
+  isScoreInvalid: PropTypes.bool,
+  score: PropTypes.number,
+  invalidScoreText: PropTypes.string
+};
+
+WordScore.defaultProps = {
+  isScoreInvalid: false,
+  score: 0,
+  invalidScoreText: "At least one invalid letter"
+};

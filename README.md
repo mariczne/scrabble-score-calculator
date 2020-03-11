@@ -6,5 +6,8 @@ It's a React web application that allows the user to calculate the Scrabble scor
 The app is live at <https://mariczne.github.io/scrabble-score-calculator/>
 
 ## Why was it made?
-- Because similar apps usually have some kind of limitation, i.e. only a single language (English) letter scoring tables is available
+- Because similar apps usually have some kind of limitation, i.e. only a single language (English) letter scoring table is available
 - Because I needed a quick project to refresh my React skills
+
+## Features
+- support for many language variants of Scrabble, including languages with di- or trigraph tiles (i.e. Spanish, Hungarian)

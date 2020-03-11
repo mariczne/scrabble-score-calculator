@@ -1,16 +1,15 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { BonusTile, BingoTile } from "./Tile/Tile";
-import {
-  POINTS_FOR_BINGO,
-  BINGO_NAME,
-  WORD_SCORE_MULTIPLIERS
-} from "../modules/scoretable";
+import { BINGO_NAME, WORD_SCORE_MULTIPLIERS } from "../modules/scoretable";
 
 export default function BonusTiles({
-  handleBonus,
-  handleBingo,
-  isNextBonusAllowed,
+  addBonus,
+  removeBonus,
   bonusesUsed,
+  isNextBonusAllowed,
+  isGameUsingBingo,
+  handleBingo,
   isBingoAllowed,
   isBingoUsed
 }) {
@@ -22,7 +21,8 @@ export default function BonusTiles({
           key={bonusType}
           bonusType={bonusType}
           timesUsed={bonusesUsed[bonusType]}
-          handleBonus={handleBonus}
+          addBonus={addBonus}
+          removeBonus={removeBonus}
           isNextBonusAllowed={isNextBonusAllowed}
         />
       );
@@ -31,7 +31,7 @@ export default function BonusTiles({
   }
 
   function renderBingoTile() {
-    if (POINTS_FOR_BINGO) {
+    if (isGameUsingBingo) {
       return (
         <BingoTile
           key={BINGO_NAME}
@@ -51,3 +51,25 @@ export default function BonusTiles({
     </div>
   );
 }
+
+BonusTiles.propTypes = {
+  addBonus: PropTypes.func,
+  removeBonus: PropTypes.func,
+  bonusesUsed: PropTypes.object,
+  isNextBonusAllowed: PropTypes.bool,
+  isGameUsingBingo: PropTypes.bool,
+  handleBingo: PropTypes.func,
+  isBingoAllowed: PropTypes.bool,
+  isBingoUsed: PropTypes.bool
+};
+
+BonusTiles.defaultProps = {
+  addBonus: () => {},
+  removeBonus: () => {},
+  bonusesUsed: {},
+  isNextBonusAllowed: true,
+  isGameUsingBingo: true,
+  handleBingo: () => {},
+  isBingoAllowed: false,
+  isBingoUsed: false
+};

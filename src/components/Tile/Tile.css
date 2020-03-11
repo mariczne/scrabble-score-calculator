@@ -47,7 +47,7 @@
 
 .tile__letter-score {
   position: relative;
-  left: 1rem;
+  left: 0.925rem;
   top: -0.25rem;
   font-size: 1.25rem;
 }
@@ -58,7 +58,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: 0.5rem;
-  color: black; 
+  color: black;
 }
 
 .tile__bonus-state {
@@ -67,4 +67,12 @@
   top: 2.5rem;
   font-size: 0.825rem;
   color: black;
+}
+
+.tile__bonus-remove {
+  position: absolute;
+  z-index: 1;
+  cursor: pointer;
+  background-color: #ffffff00;
+  border: none;
 }

@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { LetterTile } from "./Tile/Tile";
 
 export default function LetterTiles({ letters, cycleLetterBonus }) {
@@ -20,3 +21,13 @@ export default function LetterTiles({ letters, cycleLetterBonus }) {
 
   return <div>{renderLetterTiles()}</div>;
 }
+
+LetterTiles.propTypes = {
+  letters: PropTypes.array,
+  cycleLetterBonus: PropTypes.func
+};
+
+LetterTiles.defaultProps = {
+  letters: [],
+  cycleLetterBonus: () => {}
+};

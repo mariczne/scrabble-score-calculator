@@ -1,17 +1,17 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const BINGO_STYLE = {
   allowed: { backgroundColor: "orange" },
   notAllowed: { backgroundColor: "lightgray", cursor: "default" }
 };
 
-const TEXT_WHEN_USED = "ACTIVE";
-
 export default function BingoTile({
   bingoName,
   handleBingo,
   isBingoAllowed,
-  isBingoUsed
+  isBingoUsed,
+  textWhenBingoUsed
 }) {
   function styleDiv() {
     const { allowed, notAllowed } = BINGO_STYLE;
@@ -23,7 +23,7 @@ export default function BingoTile({
 
   function renderBingoState() {
     if (isBingoUsed) {
-      return <span className="tile__bonus-state">{TEXT_WHEN_USED}</span>;
+      return <span className="tile__bonus-state">{textWhenBingoUsed}</span>;
     }
     return null;
   }
@@ -35,3 +35,19 @@ export default function BingoTile({
     </div>
   );
 }
+
+BingoTile.propTypes = {
+  bingoName: PropTypes.string,
+  handleBingo: PropTypes.func,
+  isBingoAllowed: PropTypes.bool,
+  isBingoUsed: PropTypes.bool,
+  textWhenBingoUsed: PropTypes.string
+};
+
+BingoTile.defaultProps = {
+  bingoName: "Bingo",
+  handleBingo: () => {},
+  isBingoAllowed: false,
+  isBingoUsed: false,
+  textWhenBingoUsed: "ACTIVE"
+};
