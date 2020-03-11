@@ -73,10 +73,18 @@ it("can't add more word bonuses than total amount of letters", () => {
   const word = new Word("bo", "pol");
 
   word.addBonus("double");
-  word.addBonus("triple");
-  word.addBonus("triple");
+  word.addBonus("triple", 2);
 
   expect(word.score).toEqual(24);
+});
+
+it("won't remove more word bonuses of certain type than there are already added", () => {
+  const word = new Word("test", "pol");
+
+  word.addBonus("double", 3);
+  word.removeBonus("double", 5);
+
+  expect(word.score).toEqual(6);
 });
 
 it("calculates score for words with digraphs in languages that support them", () => {
@@ -84,5 +92,14 @@ it("calculates score for words with digraphs in languages that support them", ()
   const llama = new Word("llama", "spa");
 
   expect(lama.score).toEqual(6);
+  expect(lama.letters.length).toEqual(4);
   expect(llama.score).toEqual(13);
+  expect(llama.letters.length).toEqual(4);
+});
+
+it("calculates score for words with trigraphs in languages that support them", () => {
+  const word = new Word("oozhrii", "gwi");
+
+  expect(word.letters.length).toEqual(3);
+  expect(word.score).toEqual(13);
 });

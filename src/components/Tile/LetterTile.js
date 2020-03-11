@@ -1,7 +1,8 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const LETTER_STYLE = {
-  invalid: { backgroundColor: "lightgray", cursor: "default" },
+  invalidScore: { backgroundColor: "lightgray", cursor: "default" },
   1: { backgroundColor: "antiquewhite" },
   2: { backgroundColor: "#6cf" },
   3: { backgroundColor: "#06f", color: "white" }
@@ -17,7 +18,7 @@ export default function LetterTile({
 }) {
   function styleDiv() {
     if (isScoreInvalid) {
-      return LETTER_STYLE.invalid;
+      return LETTER_STYLE.invalidScore;
     }
     return LETTER_STYLE[scoreMultiplier];
   }
@@ -46,9 +47,7 @@ export default function LetterTile({
       tabIndex="0"
     >
       <span
-        className={`tile__letter ${
-          isDigraph ? "tile__letter--double" : null
-        } ${
+        className={`tile__letter ${isDigraph ? "tile__letter--double" : null} ${
           isTrigraph ? "tile__letter--triple" : null
         }`}
       >
@@ -59,8 +58,20 @@ export default function LetterTile({
   );
 }
 
+LetterTile.propTypes = {
+  index: PropTypes.number,
+  character: PropTypes.string,
+  score: PropTypes.number,
+  isScoreInvalid: PropTypes.bool,
+  scoreMultiplier: PropTypes.number,
+  cycleLetterBonus: PropTypes.func
+};
+
 LetterTile.defaultProps = {
+  index: 0,
   character: " ",
-  score: "?",
-  scoreMultiplier: 1
+  score: null,
+  isScoreInvalid: false,
+  scoreMultiplier: 1,
+  cycleLetterBonus: () => {}
 };

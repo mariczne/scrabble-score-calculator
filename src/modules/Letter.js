@@ -43,12 +43,12 @@ export default class Letter {
   get scoreMultiplier() {
     return this._scoreMultiplier;
   }
-  
+
   hasInvalidScore = () => {
     return Number.isNaN(this.score);
-  }
+  };
 
   hasMultipliedScore = () => {
     return this._scoreMultiplier !== 1;
-  }
+  };
 }

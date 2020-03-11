@@ -2,21 +2,21 @@ import React from "react";
 import { render, fireEvent } from "@testing-library/react";
 import App from "./App";
 
-import { unmountComponentAtNode } from "react-dom";
+// import { unmountComponentAtNode } from "react-dom";
 
-let container = null;
-beforeEach(() => {
-  // setup a DOM element as a render target
-  container = document.createElement("div");
-  document.body.appendChild(container);
-});
+// let container = null;
+// beforeEach(() => {
+//   // setup a DOM element as a render target
+//   container = document.createElement("div");
+//   document.body.appendChild(container);
+// });
 
-afterEach(() => {
-  // cleanup on exiting
-  unmountComponentAtNode(container);
-  container.remove();
-  container = null;
-});
+// afterEach(() => {
+//   // cleanup on exiting
+//   unmountComponentAtNode(container);
+//   container.remove();
+//   container = null;
+// });
 
 it("correctly renders calculated score of a word", () => {
   const app = render(<App />);
