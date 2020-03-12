@@ -23,18 +23,16 @@ export default class Word {
 
   static createLetters(input, languageCode) {
     const letters = Array.from(input.toUpperCase());
-    const isLanguageWithMultigraphs = Boolean(
-      SCORE_TABLE[languageCode].multigraphs
-    );
-    if (isLanguageWithMultigraphs) {
+    if (isLanguageWithMultigraphs(languageCode)) {
       Word.processMultigraphs(letters, languageCode);
     }
     return letters.map(letter => new Letter(letter, languageCode));
   }
 
   static processMultigraphs(letters, languageCode) {
-    const multigraphs = SCORE_TABLE[languageCode].multigraphs;
-    sortArrayByLengthDescending(multigraphs);
+    let multigraphs = getMultigraphsInLanguage(languageCode);
+    multigraphs = sortArrayByLengthDescending(multigraphs);
+
     letters.forEach(() => {
       multigraphs.forEach(multigraph => {
         const multigraphIndexAt = findIndexOfSubarray(letters, multigraph);
@@ -154,6 +152,14 @@ export default class Word {
   hasInvalidScore = () => {
     return Number.isNaN(this.score);
   };
+}
+
+function isLanguageWithMultigraphs(languageCode) {
+  return SCORE_TABLE[languageCode].hasOwnProperty("multigraphs");
+}
+
+function getMultigraphsInLanguage(languageCode) {
+  return SCORE_TABLE[languageCode].multigraphs;
 }
 
 function checkIfBonusDefinedInScoretable(bonusType) {
