@@ -1,5 +1,5 @@
-export function checkIsLanguageDefinedInScoretable({ scoreTable, languageCode }) {
-  if (!isLanguageDefinedInScoretable({ scoreTable, languageCode })) {
+export function checkIsLanguageDefinedInScoretable(language) {
+  if (!isLanguageDefinedInScoretable(language)) {
     throw new RangeError("Unsupported language");
   }
 }
