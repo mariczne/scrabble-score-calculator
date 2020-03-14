@@ -14,7 +14,7 @@ export default class Letter {
     this._scoreMultiplier = 1;
   }
 
-  get score() {
+  getScore = () => {
     const score = Number(
       Object.keys(SCORE_TABLE[this.languageCode]).find(key =>
         SCORE_TABLE[this.languageCode][key].includes(
@@ -25,7 +25,7 @@ export default class Letter {
     return score * this._scoreMultiplier;
   }
 
-  set scoreMultiplier(n) {
+  setScoreMultiplier = (n) => {
     if (!Number.isInteger(n)) {
       throw new TypeError("Argument has to be an integer");
     }
@@ -40,12 +40,12 @@ export default class Letter {
     this._scoreMultiplier = n;
   }
 
-  get scoreMultiplier() {
+  getScoreMultiplier = () => {
     return this._scoreMultiplier;
   }
 
   hasInvalidScore = () => {
-    return Number.isNaN(this.score);
+    return Number.isNaN(this.getScore());
   };
 
   hasMultipliedScore = () => {

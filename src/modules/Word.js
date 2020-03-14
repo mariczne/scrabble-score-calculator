@@ -48,7 +48,7 @@ export default class Word {
     });
   }
 
-  get score() {
+  getScore = () => {
     if (this.letters.length === 0) {
       return 0;
     }
@@ -57,18 +57,18 @@ export default class Word {
     }
     return (
       this.letters
-        .map(element => element.score)
+        .map(element => element.getScore())
         .reduce((prev, curr) => (prev += curr))
-        * this.multiplierTotal
+        * this.getMultiplierTotal()
         + (this.isBingoUsed ? POINTS_FOR_BINGO : 0)
     );
   }
 
   isAnyLetterInvalid = () => {
-    return this.letters.some(letter => !Number.isInteger(letter.score));
+    return this.letters.some(letter => !Number.isInteger(letter.getScore()));
   };
 
-  get multiplierTotal() {
+  getMultiplierTotal = () => {
     let multiplierTotal = 1;
     for (const bonusType in this.bonusesUsed) {
       const bonusMultiplier = WORD_SCORE_MULTIPLIERS[bonusType];
@@ -83,7 +83,7 @@ export default class Word {
     return this.bonusesUsed[bonusType];
   };
 
-  addBonus(bonusType, n = 1) {
+  addBonus = (bonusType, n = 1) => {
     checkIfBonusDefinedInScoretable(bonusType);
     if (n < 0) {
       throw new RangeError("Cannot add bonus a negative number of times");
@@ -118,7 +118,7 @@ export default class Word {
     return this.letters.length > totalTimesAnyBonusTypeUsed;
   };
 
-  removeBonus(bonusType, n = 1) {
+  removeBonus = (bonusType, n = 1) => {
     checkIfBonusDefinedInScoretable(bonusType);
     if (n < 0) {
       throw new RangeError("Cannot remove bonus a negative number of times");
@@ -135,7 +135,7 @@ export default class Word {
     }
   }
 
-  toggleBingo() {
+  toggleBingo = () => {
     if (this.isBingoAllowed()) {
       this.isBingoUsed = !this.isBingoUsed;
     }
@@ -150,7 +150,7 @@ export default class Word {
   };
 
   hasInvalidScore = () => {
-    return Number.isNaN(this.score);
+    return Number.isNaN(this.getScore());
   };
 }
 
