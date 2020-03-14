@@ -46,6 +46,7 @@ export default class App extends Component {
     const targetValue = e.target.value;
     this.setState(state => {
       return {
+        languageCode: targetValue,
         word: new Word(state.inputValue, targetValue)
       };
     });

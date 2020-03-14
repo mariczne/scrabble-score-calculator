@@ -1,6 +1,5 @@
 export function sortArrayByLengthDescending(arr) {
-  const newArr = [...arr]
-  return newArr.sort((prev, curr) => curr.length - prev.length);
+  return [...arr].sort((prev, curr) => curr.length - prev.length);
 }
 
 export function findIndexOfSubarray(arr, subArr) {
@@ -10,4 +9,13 @@ export function findIndexOfSubarray(arr, subArr) {
     }
   }
   return -1;
+}
+
+export function joinSubarrayIntoSingleElement(arr, subArr) {
+  const newArr = [...arr];
+  const subArrIndexAt = findIndexOfSubarray(newArr, subArr);
+  if (subArrIndexAt !== -1) {
+    newArr.splice(subArrIndexAt, subArr.length, subArr.join(""));
+  }
+  return newArr;
 }
