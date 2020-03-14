@@ -99,10 +99,10 @@ it("calculates score for words with digraphs in languages that support them", ()
   const lama = new Word("lama", "spa");
   const llama = new Word("llama", "spa");
 
-  expect(lama.getScore()).toEqual(6);
   expect(lama.letters.length).toEqual(4);
-  expect(llama.getScore()).toEqual(13);
+  expect(lama.getScore()).toEqual(6);
   expect(llama.letters.length).toEqual(4);
+  expect(llama.getScore()).toEqual(13);
 });
 
 it("calculates score for words with trigraphs in languages that support them", () => {

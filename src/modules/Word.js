@@ -5,47 +5,42 @@ import {
   WORD_SCORE_MULTIPLIERS
 } from "./scoretable";
 import Letter from "./Letter";
+import {
+  isLanguageWithMultigraphs,
+  processMultigraphs
+} from "./util/multigraph";
+import { checkIsBonusDefinedInScoretable } from "./util/bonus";
+import { checkIsLanguageDefinedInScoretable } from "./util/language";
 
 export default class Word {
   constructor(input, languageCode) {
-    if (typeof input !== "string" || typeof languageCode !== "string") {
-      throw new TypeError("Both arguments have to be of type 'string'");
-    }
-    if (!SCORE_TABLE.hasOwnProperty(languageCode)) {
-      throw new RangeError("Unsupported language");
-    }
-
+    this.handleErrors(input, languageCode);
     this.languageCode = languageCode;
     this.letters = Word.createLetters(input, languageCode);
     this.bonusesUsed = {};
     this.isBingoUsed = false;
   }
 
+  handleErrors = (input, languageCode) => {
+    if (typeof input !== "string" || typeof languageCode !== "string") {
+      throw new TypeError("Both arguments have to be of type 'string'");
+    }
+    checkIsLanguageDefinedInScoretable({
+      scoreTable: SCORE_TABLE,
+      languageCode
+    });
+  };
+
   static createLetters(input, languageCode) {
-    const letters = Array.from(input.toUpperCase());
-    if (isLanguageWithMultigraphs(languageCode)) {
-      Word.processMultigraphs(letters, languageCode);
+    let letters = Array.from(input.toUpperCase());
+    const language = {
+      scoreTable: SCORE_TABLE,
+      languageCode
+    };
+    if (isLanguageWithMultigraphs(language)) {
+      letters = processMultigraphs(letters, language);
     }
     return letters.map(letter => new Letter(letter, languageCode));
-  }
-
-  static processMultigraphs(letters, languageCode) {
-    let multigraphs = getMultigraphsInLanguage(languageCode);
-    multigraphs = sortArrayByLengthDescending(multigraphs);
-
-    letters.forEach(() => {
-      multigraphs.forEach(multigraph => {
-        const multigraphIndexAt = findIndexOfSubarray(letters, multigraph);
-        const isMultigraphFound = multigraphIndexAt !== -1;
-        if (isMultigraphFound) {
-          letters.splice(
-            multigraphIndexAt,
-            multigraph.length,
-            multigraph.join("")
-          );
-        }
-      });
-    });
   }
 
   getScore = () => {
@@ -62,7 +57,7 @@ export default class Word {
         * this.getMultiplierTotal()
         + (this.isBingoUsed ? POINTS_FOR_BINGO : 0)
     );
-  }
+  };
 
   isAnyLetterInvalid = () => {
     return this.letters.some(letter => !Number.isInteger(letter.getScore()));
@@ -77,14 +72,18 @@ export default class Word {
       }
     }
     return multiplierTotal;
-  }
+  };
 
   timesBonusTypeUsed = bonusType => {
     return this.bonusesUsed[bonusType];
   };
 
   addBonus = (bonusType, n = 1) => {
-    checkIfBonusDefinedInScoretable(bonusType);
+    const bonus = {
+      wordScoreMultipliers: WORD_SCORE_MULTIPLIERS,
+      bonusType
+    };
+    checkIsBonusDefinedInScoretable(bonus);
     if (n < 0) {
       throw new RangeError("Cannot add bonus a negative number of times");
     }
@@ -98,7 +97,7 @@ export default class Word {
       }
       n--;
     }
-  }
+  };
 
   isBonusTypeUsed = bonusType => {
     return this.bonusesUsed.hasOwnProperty(bonusType);
@@ -119,7 +118,11 @@ export default class Word {
   };
 
   removeBonus = (bonusType, n = 1) => {
-    checkIfBonusDefinedInScoretable(bonusType);
+    const bonus = {
+      wordScoreMultipliers: WORD_SCORE_MULTIPLIERS,
+      bonusType
+    };
+    checkIsBonusDefinedInScoretable(bonus);
     if (n < 0) {
       throw new RangeError("Cannot remove bonus a negative number of times");
     }
@@ -133,13 +136,13 @@ export default class Word {
         n--;
       }
     }
-  }
+  };
 
   toggleBingo = () => {
     if (this.isBingoAllowed()) {
       this.isBingoUsed = !this.isBingoUsed;
     }
-  }
+  };
 
   isBingoAllowed = () => {
     const isGameUsingBingo = POINTS_FOR_BINGO > 0;
@@ -152,35 +155,4 @@ export default class Word {
   hasInvalidScore = () => {
     return Number.isNaN(this.getScore());
   };
-}
-
-function isLanguageWithMultigraphs(languageCode) {
-  return SCORE_TABLE[languageCode].hasOwnProperty("multigraphs");
-}
-
-function getMultigraphsInLanguage(languageCode) {
-  return SCORE_TABLE[languageCode].multigraphs;
-}
-
-function checkIfBonusDefinedInScoretable(bonusType) {
-  if (!isBonusDefinedInScoretable(bonusType)) {
-    throw new RangeError(`No '${bonusType}' bonus type in the score table`);
-  }
-}
-
-function isBonusDefinedInScoretable(bonusType) {
-  return WORD_SCORE_MULTIPLIERS.hasOwnProperty(bonusType);
-}
-
-function findIndexOfSubarray(arr, subarr) {
-  for (let i = 0; i < 1 + (arr.length - subarr.length); ++i) {
-    if (subarr.every((element, j) => element === arr[i + j])) {
-      return i;
-    }
-  }
-  return -1;
-}
-
-function sortArrayByLengthDescending(arr) {
-  return arr.sort((prev, curr) => curr.length - prev.length);
 }
