@@ -1,8 +1,12 @@
-import { sortArrayByLengthDescending, findIndexOfSubarray } from "./array";
+import {
+  sortArrayByLengthDescending,
+  findIndexOfSubarray,
+  joinSubarrayIntoSingleElement
+} from "./array";
 import { checkIsLanguageDefinedInScoretable } from "./language";
 
 export function isLanguageWithMultigraphs({ scoreTable, languageCode }) {
-  checkIsLanguageDefinedInScoretable({scoreTable, languageCode});
+  checkIsLanguageDefinedInScoretable({ scoreTable, languageCode });
   return scoreTable[languageCode].hasOwnProperty("multigraphs");
 }
 
@@ -16,25 +20,15 @@ export function getMultigraphsInLanguage({ scoreTable, languageCode }) {
 export function processMultigraphs(letters, language) {
   let multigraphs = getMultigraphsInLanguage(language);
   multigraphs = sortArrayByLengthDescending(multigraphs);
+  let lettersCopy = [...letters];
 
-  let lettersProcessed = [...letters];
-
-  lettersProcessed.forEach(() => {
-    multigraphs.forEach(multigraph => {
-      const multigraphIndexAt = findIndexOfSubarray(
-        lettersProcessed,
-        multigraph
-      );
-      const isMultigraphFound = multigraphIndexAt !== -1;
-      if (isMultigraphFound) {
-        lettersProcessed.splice(
-          multigraphIndexAt,
-          multigraph.length,
-          multigraph.join("")
-        );
-      }
-    });
+  multigraphs.forEach(multigraph => {
+    let isMultigraphFound = findIndexOfSubarray(lettersCopy, multigraph) !== -1;
+    while (isMultigraphFound) {
+      lettersCopy = joinSubarrayIntoSingleElement(lettersCopy, multigraph);
+      isMultigraphFound = findIndexOfSubarray(lettersCopy, multigraph) !== -1;
+    }
   });
 
-  return lettersProcessed;
+  return lettersCopy;
 }

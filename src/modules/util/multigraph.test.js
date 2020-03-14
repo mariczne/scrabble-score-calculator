@@ -7,8 +7,8 @@ import { SCORE_TABLE } from "../scoretable";
 let language;
 
 beforeEach(() => {
-  language = { scoreTable: SCORE_TABLE }
-})
+  language = { scoreTable: SCORE_TABLE };
+});
 
 describe("isLanguageWithMultigraphs", () => {
   it("should return false if language doesn't have any multigraphs", () => {
@@ -44,32 +44,18 @@ describe("getMultigraphsInLanguage", () => {
 });
 
 describe("processMultigraphs", () => {
-  it('should return a new array', () => {
+  it("should return a new array", () => {
     language.languageCode = "hun";
     const wordBefore = Array.from("nem");
     expect(processMultigraphs(wordBefore, language)).not.toBe(wordBefore);
     // but, in this case, their contents should not differ
     expect(processMultigraphs(wordBefore, language)).toEqual(wordBefore);
-  })
-  
+  });
 
   it("should return an array where adjacent multigraph elements are joined", () => {
     language.languageCode = "hun";
-    const wordBefore = Array.from("hajdúszoboszló".toUpperCase());
-    const wordAfter = [
-      "H",
-      "A",
-      "J",
-      "D",
-      "Ú",
-      "SZ",
-      "O",
-      "B",
-      "O",
-      "SZ",
-      "L",
-      "Ó"
-    ];
+    const wordBefore = Array.from("szeged".toUpperCase());
+    const wordAfter = ["SZ", "E", "G", "E", "D"];
 
     expect(processMultigraphs(wordBefore, language)).toEqual(wordAfter);
   });

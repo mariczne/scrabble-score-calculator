@@ -1,4 +1,8 @@
-import { sortArrayByLengthDescending, findIndexOfSubarray } from "./array";
+import {
+  sortArrayByLengthDescending,
+  findIndexOfSubarray,
+  joinSubarrayIntoSingleElement
+} from "./array";
 
 describe("sortArrayByLengthDescending", () => {
   it("should return a new array", () => {
@@ -30,5 +34,23 @@ describe("findIndexOfSubarray", () => {
     const subArr = ["b", "c", "d"];
 
     expect(findIndexOfSubarray(arr, subArr)).toEqual(1);
+  });
+});
+
+describe("joinSubarrayIntoSingleElement", () => {
+  it("should return a new array", () => {
+    const arrBefore = Array.from("sz".toUpperCase());
+    const arrAfter = [["SZ"]];
+    const subArr = ["S", "Z"];
+
+    expect(joinSubarrayIntoSingleElement(arrBefore, subArr)).not.toBe(arrAfter);
+  });
+
+  it("should join the elements of a first found contiguous subarray", () => {
+    const arrBefore = Array.from("bosz".toUpperCase());
+    const arrAfter = ["B", "O", "SZ"];
+    const subArr = ["S", "Z"];
+    
+    expect(joinSubarrayIntoSingleElement(arrBefore, subArr)).toEqual(arrAfter);
   });
 });
