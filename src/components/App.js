@@ -24,20 +24,31 @@ export default class App extends Component {
   };
 
   handleInputChange = e => {
-    this.setState({ inputValue: e.target.value }, () => this.updateWord());
+    const targetValue = e.target.value;
+    this.setState(state => {
+      return {
+        inputValue: targetValue,
+        word: new Word(targetValue, state.languageCode)
+      };
+    });
   };
 
   handleInputReset = () => {
-    this.setState({ inputValue: "" }, () => this.updateWord());
+    this.setState(state => {
+      return {
+        inputValue: "",
+        word: new Word("", state.languageCode)
+      };
+    });
   };
 
   handleLanguageChange = e => {
-    this.setState({ languageCode: e.target.value }, () => this.updateWord());
-  };
-
-  updateWord = () => {
-    const { inputValue, languageCode } = this.state;
-    this.setState({ word: new Word(inputValue, languageCode) });
+    const targetValue = e.target.value;
+    this.setState(state => {
+      return {
+        word: new Word(state.inputValue, targetValue)
+      };
+    });
   };
 
   cycleLetterBonus = index => {
@@ -47,32 +58,42 @@ export default class App extends Component {
       return;
     }
     if (word.isNextBonusAllowed() || letter.hasMultipliedScore()) {
-      if (letter.scoreMultiplier === MAX_LETTER_SCORE_MULTIPLIER) {
-        letter.scoreMultiplier = 1;
-      } else {
-        letter.scoreMultiplier++;
-      }
+      this.setState(state => {
+        const word = { ...state.word };
+        const letter = word.letters[index];
+        if (letter.getScoreMultiplier() === MAX_LETTER_SCORE_MULTIPLIER) {
+          letter.setScoreMultiplier(1);
+        } else {
+          letter.setScoreMultiplier(letter.getScoreMultiplier() + 1);
+        }
+        return { word };
+      });
     }
-    this.setState({ word: word });
   };
 
   addBonus = bonusType => {
-    const { word } = this.state;
-    word.addBonus(bonusType);
-    this.setState({ word: word });
+    this.setState(state => {
+      const word = { ...state.word };
+      word.addBonus(bonusType);
+      return { word };
+    });
   };
 
   removeBonus = bonusType => {
-    const { word } = this.state;
-    word.removeBonus(bonusType);
-    this.setState({ word: word });
+    this.setState(state => {
+      const word = { ...state.word };
+      word.removeBonus(bonusType);
+      return { word };
+    });
   };
 
   handleBingo = () => {
     if (isGameUsingBingo) {
-      const { word } = this.state;
-      word.toggleBingo();
-      this.setState({ word: word });
+      this.setState(state => {
+        const word = { ...state.word };
+        word.toggleBingo();
+        return { word };
+      });
     }
   };
 
@@ -113,7 +134,10 @@ export default class App extends Component {
           letters={word.letters}
           cycleLetterBonus={cycleLetterBonus}
         />
-        <WordScore isScoreInvalid={word.hasInvalidScore()} score={word.score} />
+        <WordScore
+          isScoreInvalid={word.hasInvalidScore()}
+          score={word.getScore()}
+        />
         <Instructions />
         <Footer />
       </div>

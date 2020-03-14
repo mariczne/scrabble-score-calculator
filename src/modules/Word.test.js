@@ -14,16 +14,16 @@ describe("throws errors when incorrect arguments are supplied", () => {
 it("calculates word score without any bonuses", () => {
   const word = new Word("późność", "pol");
 
-  expect(word.score).toEqual(29);
+  expect(word.getScore()).toEqual(29);
 });
 
 describe("calculates word score with bonuses", () => {
   it("calculates word score when any letter score is doubled", () => {
     const word = new Word("późność", "pol");
 
-    word.letters[1].scoreMultiplier = 2;
+    word.letters[1].setScoreMultiplier(2);
 
-    expect(word.score).toEqual(34);
+    expect(word.getScore()).toEqual(34);
   });
 
   it("calculates word score when word score is doubled", () => {
@@ -31,7 +31,7 @@ describe("calculates word score with bonuses", () => {
 
     word.addBonus("double");
 
-    expect(word.score).toEqual(58);
+    expect(word.getScore()).toEqual(58);
   });
 
   it("calculates word score when word score is tripled", () => {
@@ -39,16 +39,16 @@ describe("calculates word score with bonuses", () => {
 
     word.addBonus("triple");
 
-    expect(word.score).toEqual(87);
+    expect(word.getScore()).toEqual(87);
   });
 
   it("calculates word score when word score is doubled and any letter score is tripled", () => {
     const word = new Word("późność", "pol");
 
     word.addBonus("double");
-    word.letters[1].scoreMultiplier = 3;
+    word.letters[1].setScoreMultiplier(3);
 
-    expect(word.score).toEqual(78);
+    expect(word.getScore()).toEqual(78);
   });
 
   // trivia: best possible opening move in Polish scrabble
@@ -56,10 +56,10 @@ describe("calculates word score with bonuses", () => {
     const word = new Word("późność", "pol");
 
     word.addBonus("double");
-    word.letters[1].scoreMultiplier = 3;
+    word.letters[1].setScoreMultiplier(3);
     word.toggleBingo();
 
-    expect(word.score).toEqual(128);
+    expect(word.getScore()).toEqual(128);
   });
 
   it("calculates word score when word score is tripled twice (9x multiplier)", () => {
@@ -67,14 +67,14 @@ describe("calculates word score with bonuses", () => {
 
     word.addBonus("triple", 2);
 
-    expect(word.score).toEqual(261);
+    expect(word.getScore()).toEqual(261);
   });
 });
 
 it("returns NaN for word score when at least one letter is not in the scoretable", () => {
   const word = new Word("xero", "pol");
 
-  expect(word.score).toEqual(NaN);
+  expect(word.getScore()).toEqual(NaN);
 });
 
 it("can't add more word bonuses than total amount of letters", () => {
@@ -83,7 +83,7 @@ it("can't add more word bonuses than total amount of letters", () => {
   word.addBonus("double");
   word.addBonus("triple", 2);
 
-  expect(word.score).toEqual(24);
+  expect(word.getScore()).toEqual(24);
 });
 
 it("won't remove more word bonuses of certain type than there are already added", () => {
@@ -92,16 +92,16 @@ it("won't remove more word bonuses of certain type than there are already added"
   word.addBonus("double", 3);
   word.removeBonus("double", 5);
 
-  expect(word.score).toEqual(6);
+  expect(word.getScore()).toEqual(6);
 });
 
 it("calculates score for words with digraphs in languages that support them", () => {
   const lama = new Word("lama", "spa");
   const llama = new Word("llama", "spa");
 
-  expect(lama.score).toEqual(6);
+  expect(lama.getScore()).toEqual(6);
   expect(lama.letters.length).toEqual(4);
-  expect(llama.score).toEqual(13);
+  expect(llama.getScore()).toEqual(13);
   expect(llama.letters.length).toEqual(4);
 });
 
@@ -109,5 +109,5 @@ it("calculates score for words with trigraphs in languages that support them", (
   const word = new Word("oozhrii", "gwi");
 
   expect(word.letters.length).toEqual(3);
-  expect(word.score).toEqual(13);
+  expect(word.getScore()).toEqual(13);
 });

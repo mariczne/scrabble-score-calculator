@@ -5,14 +5,14 @@ import { LetterTile } from "./Tile/Tile";
 export default function LetterTiles({ letters, cycleLetterBonus }) {
   function renderLetterTiles() {
     return letters.map(
-      ({ character, score, scoreMultiplier, hasInvalidScore }, index) => (
+      ({ character, getScore, getScoreMultiplier, hasInvalidScore }, index) => (
         <LetterTile
           key={index}
           index={index}
           character={character}
-          score={score}
+          score={getScore()}
           isScoreInvalid={hasInvalidScore()}
-          scoreMultiplier={scoreMultiplier}
+          scoreMultiplier={getScoreMultiplier()}
           cycleLetterBonus={cycleLetterBonus}
         />
       )
