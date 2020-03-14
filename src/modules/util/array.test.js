@@ -39,11 +39,10 @@ describe("findIndexOfSubarray", () => {
 
 describe("joinSubarrayIntoSingleElement", () => {
   it("should return a new array", () => {
-    const arrBefore = Array.from("sz".toUpperCase());
-    const arrAfter = [["SZ"]];
+    const arrBefore = Array.from("test".toUpperCase());
     const subArr = ["S", "Z"];
 
-    expect(joinSubarrayIntoSingleElement(arrBefore, subArr)).not.toBe(arrAfter);
+    expect(joinSubarrayIntoSingleElement(arrBefore, subArr)).not.toBe(arrBefore);
   });
 
   it("should join the elements of a first found contiguous subarray", () => {
