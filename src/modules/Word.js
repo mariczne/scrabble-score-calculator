@@ -7,6 +7,7 @@ import {
 import Letter from "./Letter";
 import {
   isLanguageWithMultigraphs,
+  getMultigraphsInLanguage,
   processMultigraphs
 } from "./util/multigraph";
 import { checkIsBonusDefinedInScoretable } from "./util/bonus";
@@ -38,7 +39,8 @@ export default class Word {
       languageCode
     };
     if (isLanguageWithMultigraphs(language)) {
-      letters = processMultigraphs(letters, language);
+      const multigraphs = getMultigraphsInLanguage(language);
+      letters = processMultigraphs(letters, multigraphs);
     }
     return letters.map(letter => new Letter(letter, languageCode));
   }

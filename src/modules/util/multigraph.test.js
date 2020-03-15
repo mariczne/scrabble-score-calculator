@@ -46,17 +46,38 @@ describe("getMultigraphsInLanguage", () => {
 describe("processMultigraphs", () => {
   it("should return a new array", () => {
     language.languageCode = "hun";
+    const multigraphs = getMultigraphsInLanguage(language);
     const wordBefore = Array.from("nem");
-    expect(processMultigraphs(wordBefore, language)).not.toBe(wordBefore);
+
+    expect(processMultigraphs(wordBefore, multigraphs)).not.toBe(wordBefore);
     // but, in this case, their contents should not differ
-    expect(processMultigraphs(wordBefore, language)).toEqual(wordBefore);
+    expect(processMultigraphs(wordBefore, multigraphs)).toEqual(wordBefore);
   });
 
   it("should return an array where adjacent multigraph elements are joined", () => {
     language.languageCode = "hun";
+    const multigraphs = getMultigraphsInLanguage(language);
     const wordBefore = Array.from("szeged".toUpperCase());
     const wordAfter = ["SZ", "E", "G", "E", "D"];
 
-    expect(processMultigraphs(wordBefore, language)).toEqual(wordAfter);
+    expect(processMultigraphs(wordBefore, multigraphs)).toEqual(wordAfter);
+  });
+
+  it("should return an array where two or more of the same multigraphs are joined", () => {
+    language.languageCode = "hun";
+    const multigraphs = getMultigraphsInLanguage(language);
+    const wordBefore = Array.from("szeszes".toUpperCase());
+    const wordAfter = ["SZ", "E", "SZ", "E", "S"];
+
+    expect(processMultigraphs(wordBefore, multigraphs)).toEqual(wordAfter);
+  });
+
+  it("should return an array where all (different) multigraph elements are joined", () => {
+    language.languageCode = "hun";
+    const multigraphs = getMultigraphsInLanguage(language);
+    const wordBefore = Array.from("nagyszülőd".toUpperCase());
+    const wordAfter = ["N", "A", "GY", "SZ", "Ü", "L", "Ő", "D"];
+
+    expect(processMultigraphs(wordBefore, multigraphs)).toEqual(wordAfter);
   });
 });

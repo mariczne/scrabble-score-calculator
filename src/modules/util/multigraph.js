@@ -12,23 +12,23 @@ export function isLanguageWithMultigraphs({ scoreTable, languageCode }) {
 
 export function getMultigraphsInLanguage({ scoreTable, languageCode }) {
   if (isLanguageWithMultigraphs({ scoreTable, languageCode })) {
-    return [...scoreTable[languageCode].multigraphs];
+    return sortArrayByLengthDescending([
+      ...scoreTable[languageCode].multigraphs
+    ]);
   }
   return [];
 }
 
-export function processMultigraphs(letters, language) {
-  let multigraphs = getMultigraphsInLanguage(language);
-  multigraphs = sortArrayByLengthDescending(multigraphs);
+export function processMultigraphs(letters, multigraphs) {
   let lettersCopy = [...letters];
 
-  multigraphs.forEach(multigraph => {
+  for (const multigraph of multigraphs) {
     let isMultigraphFound = findIndexOfSubarray(lettersCopy, multigraph) !== -1;
     while (isMultigraphFound) {
       lettersCopy = joinSubarrayIntoSingleElement(lettersCopy, multigraph);
       isMultigraphFound = findIndexOfSubarray(lettersCopy, multigraph) !== -1;
     }
-  });
+  }
 
   return lettersCopy;
 }
