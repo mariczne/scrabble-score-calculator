@@ -46,8 +46,8 @@ describe("joinSubarrayIntoSingleElement", () => {
   });
 
   it("should join the elements of a first found contiguous subarray", () => {
-    const arrBefore = Array.from("bosz".toUpperCase());
-    const arrAfter = ["B", "O", "SZ"];
+    const arrBefore = Array.from("boszo".toUpperCase());
+    const arrAfter = ["B", "O", "SZ", "O"];
     const subArr = ["S", "Z"];
     
     expect(joinSubarrayIntoSingleElement(arrBefore, subArr)).toEqual(arrAfter);

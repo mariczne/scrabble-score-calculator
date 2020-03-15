@@ -13,7 +13,7 @@ export function findIndexOfSubarray(arr, subArr) {
 
 export function joinSubarrayIntoSingleElement(arr, subArr) {
   const newArr = [...arr];
-  const subArrIndexAt = findIndexOfSubarray(newArr, subArr);
+  const subArrIndexAt = findIndexOfSubarray(arr, subArr);
   if (subArrIndexAt !== -1) {
     newArr.splice(subArrIndexAt, subArr.length, subArr.join(""));
   }
