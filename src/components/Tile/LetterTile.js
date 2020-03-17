@@ -39,6 +39,10 @@ export default function LetterTile({
 
   const isTrigraph = character.length === 3;
 
+  const spanClassName = `tile__letter ${
+    isDigraph ? "tile__letter--double" : null
+  } ${isTrigraph ? "tile__letter--triple" : null}`;
+
   return (
     <div
       className="tile"
@@ -46,13 +50,7 @@ export default function LetterTile({
       onClick={() => cycleLetterBonus(index)}
       tabIndex="0"
     >
-      <span
-        className={`tile__letter ${isDigraph ? "tile__letter--double" : null} ${
-          isTrigraph ? "tile__letter--triple" : null
-        }`}
-      >
-        {character.toUpperCase()}
-      </span>
+      <span className={spanClassName}>{character.toUpperCase()}</span>
       <span className="tile__letter-score">{renderScore()}</span>
     </div>
   );

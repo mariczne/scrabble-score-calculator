@@ -1,15 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
-
 export default function WordScore({ isScoreInvalid, score, invalidScoreText }) {
-  function renderWordScore() {
-    if (isScoreInvalid) {
-      return invalidScoreText;
-    }
-    return <span data-testid="word-score-value">{score}</span>;
-  }
-
-  return <span className="word-score">Score: {renderWordScore()}</span>;
+  return (
+    <span className="word-score">
+      Word score:{" "}
+      {isScoreInvalid ? (
+        invalidScoreText
+      ) : (
+        <span data-testid="word-score-value">{score}</span>
+      )}
+    </span>
+  );
 }
 
 WordScore.propTypes = {

@@ -28,42 +28,23 @@ export default function BonusTile({
     return BONUS_STYLE[bonusType];
   }
 
-  function renderBonusName() {
-    return `${bonusType.toUpperCase()} WORD SCORE`;
-  }
-
-  function renderBonusState() {
-    if (timesUsed > 0) {
-      return <span className="tile__bonus-state">x{timesUsed}</span>;
-    }
-    return null;
-  }
-
-  function renderBonusRemoveButton() {
-    if (timesUsed > 0) {
-      return (
-        <button
-          className="tile__bonus-remove"
-          onClick={() => removeBonus(bonusType)}
-        >
-          –
-        </button>
-      );
-    }
-    return null;
-  }
+  const bonusName = `${bonusType.toUpperCase()} WORD SCORE`;
 
   return (
     <>
-      {renderBonusRemoveButton()}
+      <BonusRemoveButton
+        bonusType={bonusType}
+        timesUsed={timesUsed}
+        removeBonus={removeBonus}
+      />
       <div
         className="tile"
         style={styleDiv()}
         onClick={() => addBonus(bonusType)}
         tabIndex="0"
       >
-        <span className="tile__bonus-name">{renderBonusName()}</span>
-        {renderBonusState()}
+        <span className="tile__bonus-name">{bonusName}</span>
+        <BonusState timesUsed={timesUsed} />
       </div>
     </>
   );
@@ -83,4 +64,45 @@ BonusTile.defaultProps = {
   addBonus: () => {},
   removeBonus: () => {},
   isNextBonusAllowed: true
+};
+
+function BonusRemoveButton({ bonusType, timesUsed, removeBonus }) {
+  if (timesUsed > 0) {
+    return (
+      <button
+        className="tile__bonus-remove"
+        onClick={() => removeBonus(bonusType)}
+      >
+        –
+      </button>
+    );
+  }
+  return null;
+}
+
+BonusRemoveButton.propTypes = {
+  bonusType: PropTypes.string,
+  timesUsed: PropTypes.number,
+  removeBonus: PropTypes.func
+};
+
+BonusRemoveButton.defaultProps = {
+  bonusType: "double",
+  timesUsed: 0,
+  removeBonus: () => {}
+};
+
+function BonusState({ timesUsed }) {
+  if (timesUsed > 0) {
+    return <span className="tile__bonus-state">x{timesUsed}</span>;
+  }
+  return null;
+}
+
+BonusState.propTypes = {
+  timesUsed: PropTypes.number
+};
+
+BonusState.defaultProps = {
+  timesUsed: 0
 };
