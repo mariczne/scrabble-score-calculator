@@ -6,18 +6,7 @@ export default function LangSelect({
   currentLanguageCode,
   handleLanguageChange
 }) {
-  function renderLanguageOptions() {
-    const options = [];
-    for (const languageCode in SCORE_TABLE) {
-      const languageDisplayName = SCORE_TABLE[languageCode].displayName;
-      options.push(
-        <option key={languageCode} value={languageCode}>
-          {languageDisplayName}
-        </option>
-      );
-    }
-    return options;
-  }
+  const languages = Array.from(Object.keys(SCORE_TABLE));
 
   return (
     <div>
@@ -28,7 +17,13 @@ export default function LangSelect({
         className="lang-select"
         data-testid="lang-select"
       >
-        {renderLanguageOptions()}
+        {languages.map(languageCode => {
+          return (
+            <option key={languageCode} value={languageCode}>
+              {SCORE_TABLE[languageCode].displayName}
+            </option>
+          );
+        })}
       </select>
     </div>
   );

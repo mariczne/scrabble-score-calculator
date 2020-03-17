@@ -13,12 +13,12 @@ export default function Instructions() {
       <p>Click on a tile to toggle its letter bonus</p>
       <p>A blank tile can be entered by using the spacebar</p>
       <p>All bonuses get reset when user input or language changes</p>
-      {isGameUsingBingo ? (
+      {isGameUsingBingo && (
         <p>
           {BINGO_NAME} can be activated when there are at least{" "}
           {MINIMUM_LETTERS_FOR_BINGO} tiles used
         </p>
-      ) : null}
+      )}
       <p>
         There cannot ever be more word + letter bonuses than letters in a word
       </p>

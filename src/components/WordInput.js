@@ -1,22 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+const RESET_BTN_TEXT = "Reset word";
+
 export default function WordInput({
   inputValue,
   handleInputChange,
   handleInputReset
 }) {
-  function renderInputReset() {
-    if (inputValue) {
-      return (
-        <button onClick={handleInputReset} className="word-reset">
-          Reset word
-        </button>
-      );
-    }
-    return null;
-  }
-
   return (
     <div>
       <input
@@ -27,7 +18,11 @@ export default function WordInput({
         data-testid="word-input"
         placeholder="Type a word to start"
       />
-      {renderInputReset()}
+      {inputValue && (
+        <button onClick={handleInputReset} className="word-reset">
+          {RESET_BTN_TEXT}
+        </button>
+      )}
     </div>
   );
 }

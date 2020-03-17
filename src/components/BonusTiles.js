@@ -13,26 +13,23 @@ export default function BonusTiles({
   isBingoAllowed,
   isBingoUsed
 }) {
-  function renderBonusTiles() {
-    const tiles = [];
-    for (const bonusType in WORD_SCORE_MULTIPLIERS) {
-      tiles.push(
-        <BonusTile
-          key={bonusType}
-          bonusType={bonusType}
-          timesUsed={bonusesUsed[bonusType]}
-          addBonus={addBonus}
-          removeBonus={removeBonus}
-          isNextBonusAllowed={isNextBonusAllowed}
-        />
-      );
-    }
-    return tiles;
-  }
+  const bonusTypes = Array.from(Object.keys(WORD_SCORE_MULTIPLIERS));
 
-  function renderBingoTile() {
-    if (isGameUsingBingo) {
-      return (
+  return (
+    <div>
+      {bonusTypes.map(bonusType => {
+        return (
+          <BonusTile
+            key={bonusType}
+            bonusType={bonusType}
+            timesUsed={bonusesUsed[bonusType]}
+            addBonus={addBonus}
+            removeBonus={removeBonus}
+            isNextBonusAllowed={isNextBonusAllowed}
+          />
+        );
+      })}
+      {isGameUsingBingo && (
         <BingoTile
           key={BINGO_NAME}
           bingoName={BINGO_NAME}
@@ -40,14 +37,7 @@ export default function BonusTiles({
           isBingoAllowed={isBingoAllowed}
           isBingoUsed={isBingoUsed}
         />
-      );
-    }
-  }
-
-  return (
-    <div>
-      {renderBonusTiles()}
-      {renderBingoTile()}
+      )}
     </div>
   );
 }

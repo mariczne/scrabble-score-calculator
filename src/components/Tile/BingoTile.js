@@ -21,17 +21,12 @@ export default function BingoTile({
     return notAllowed;
   }
 
-  function renderBingoState() {
-    if (isBingoUsed) {
-      return <span className="tile__bonus-state">{textWhenBingoUsed}</span>;
-    }
-    return null;
-  }
-
   return (
     <div className="tile" style={styleDiv()} onClick={handleBingo} tabIndex="0">
       <span className="tile__bonus-name">{bingoName.toUpperCase()}</span>
-      {renderBingoState()}
+      {isBingoUsed ?? (
+        <span className="tile__bonus-state">{textWhenBingoUsed}</span>
+      )}
     </div>
   );
 }
