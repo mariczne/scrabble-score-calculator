@@ -2,7 +2,7 @@ import {
   isBonusDefinedInScoretable,
   checkIsBonusDefinedInScoretable
 } from "./bonus";
-import { WORD_SCORE_MULTIPLIERS } from "../../constants/scoretable";
+import { WORD_SCORE_MULTIPLIERS } from "../../../constants/scoretable";
 let bonus;
 
 beforeEach(() => {

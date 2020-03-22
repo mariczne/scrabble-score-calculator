@@ -1,7 +1,6 @@
 import {
   sortArrayByLengthDescending,
-  findIndexOfSubarray,
-  joinSubarrayIntoSingleElement
+  joinAllSubarraysIntoSingleElements
 } from "./array";
 import { checkIsLanguageDefinedInScoretable } from "./language";
 
@@ -23,11 +22,7 @@ export function processMultigraphs(letters, multigraphs) {
   let lettersCopy = [...letters];
 
   for (const multigraph of multigraphs) {
-    let isMultigraphFound = findIndexOfSubarray(lettersCopy, multigraph) !== -1;
-    while (isMultigraphFound) {
-      lettersCopy = joinSubarrayIntoSingleElement(lettersCopy, multigraph);
-      isMultigraphFound = findIndexOfSubarray(lettersCopy, multigraph) !== -1;
-    }
+    lettersCopy = joinAllSubarraysIntoSingleElements(lettersCopy, multigraph);
   }
 
   return lettersCopy;
