@@ -12,10 +12,25 @@ export function findIndexOfSubarray(arr, subArr) {
 }
 
 export function joinSubarrayIntoSingleElement(arr, subArr) {
-  const newArr = [...arr];
   const subArrIndexAt = findIndexOfSubarray(arr, subArr);
   if (subArrIndexAt !== -1) {
-    newArr.splice(subArrIndexAt, subArr.length, subArr.join(""));
+    return [
+      ...arr.slice(0, subArrIndexAt),
+      subArr.join(""),
+      ...arr.slice(subArrIndexAt + subArr.length, arr.length)
+    ];
   }
-  return newArr;
+  return [...arr];
+}
+
+export function joinAllSubarraysIntoSingleElements(arr, subArr) {
+  const subArrIndexAt = findIndexOfSubarray(arr, subArr);
+  if (subArrIndexAt === -1) {
+    return [...arr];
+  } else {
+    return joinAllSubarraysIntoSingleElements(
+      joinSubarrayIntoSingleElement(arr, subArr),
+      subArr
+    );
+  }
 }

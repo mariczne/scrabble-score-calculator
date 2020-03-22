@@ -1,7 +1,8 @@
 import {
   sortArrayByLengthDescending,
   findIndexOfSubarray,
-  joinSubarrayIntoSingleElement
+  joinSubarrayIntoSingleElement,
+  joinAllSubarraysIntoSingleElements
 } from "./array";
 
 describe("sortArrayByLengthDescending", () => {
@@ -42,14 +43,37 @@ describe("joinSubarrayIntoSingleElement", () => {
     const arrBefore = Array.from("test".toUpperCase());
     const subArr = ["S", "Z"];
 
-    expect(joinSubarrayIntoSingleElement(arrBefore, subArr)).not.toBe(arrBefore);
+    expect(joinSubarrayIntoSingleElement(arrBefore, subArr)).not.toBe(
+      arrBefore
+    );
   });
 
   it("should join the elements of a first found contiguous subarray", () => {
     const arrBefore = Array.from("boszo".toUpperCase());
     const arrAfter = ["B", "O", "SZ", "O"];
     const subArr = ["S", "Z"];
-    
+
     expect(joinSubarrayIntoSingleElement(arrBefore, subArr)).toEqual(arrAfter);
+  });
+});
+
+describe("joinSubarraysIntoSingleElements", () => {
+  it("should return a new array", () => {
+    const arrBefore = Array.from("test".toUpperCase());
+    const subArr = ["S", "Z"];
+
+    expect(joinAllSubarraysIntoSingleElements(arrBefore, subArr)).not.toBe(
+      arrBefore
+    );
+  });
+
+  it("should join the elements of a all contiguous subarrays", () => {
+    const arrBefore = Array.from("boszoszo".toUpperCase());
+    const arrAfter = ["B", "O", "SZ", "O", "SZ", "O"];
+    const subArr = ["S", "Z"];
+
+    expect(joinAllSubarraysIntoSingleElements(arrBefore, subArr)).toEqual(
+      arrAfter
+    );
   });
 });

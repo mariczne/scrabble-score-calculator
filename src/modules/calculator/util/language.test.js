@@ -2,7 +2,7 @@ import {
   isLanguageDefinedInScoretable,
   checkIsLanguageDefinedInScoretable
 } from "./language";
-import { SCORE_TABLE } from "../../constants/scoretable";
+import { SCORE_TABLE } from "../../../constants/scoretable";
 let language;
 
 beforeEach(() => {
