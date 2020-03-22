@@ -1,19 +1,22 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { SCORE_TABLE } from "../modules/scoretable";
+import React, { useContext } from "react";
+import { SCORE_TABLE } from "../constants/scoretable";
+import { WordContext } from "../context/word";
 
-export default function LangSelect({
-  currentLanguageCode,
-  handleLanguageChange
-}) {
+export default function LangSelect() {
   const languages = Array.from(Object.keys(SCORE_TABLE));
+  const [state, dispatch] = useContext(WordContext);
 
   return (
     <div>
       Language:
       <select
-        value={currentLanguageCode}
-        onChange={handleLanguageChange}
+        value={state.language}
+        onChange={e =>
+          dispatch({
+            type: "CHANGE_LANGUAGE",
+            payload: { language: e.target.value }
+          })
+        }
         className="lang-select"
         data-testid="lang-select"
       >
@@ -28,13 +31,3 @@ export default function LangSelect({
     </div>
   );
 }
-
-LangSelect.propTypes = {
-  currentLanguageCode: PropTypes.string,
-  handleLanguageChange: PropTypes.func
-};
-
-LangSelect.defaultProps = {
-  currentLanguageCode: "eng",
-  handleLanguageChange: () => {}
-};

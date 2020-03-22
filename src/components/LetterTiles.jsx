@@ -1,36 +1,30 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, { useContext } from "react";
+import { WordContext } from "../context/word";
 import { LetterTile } from "./Tile/Tile";
+import { Calculator, getTilesInWord } from "../modules/calculator";
 
-export default function LetterTiles({ letters, cycleLetterBonus }) {
+export default function LetterTiles() {
+  const [state, dispatch] = useContext(WordContext);
+  const tiles = getTilesInWord(state.input, { languageCode: state.language });
+
+  const cycleTileBonus = tileId => {
+    dispatch({ type: "CYCLE_TILE_BONUS", payload: { tileId } });
+  };
   return (
     <div>
-      {letters.map(
-        (
-          { character, getScore, getScoreMultiplier, hasInvalidScore },
-          index
-        ) => (
-          <LetterTile
-            key={index}
-            index={index}
-            character={character}
-            score={getScore()}
-            isScoreInvalid={hasInvalidScore()}
-            scoreMultiplier={getScoreMultiplier()}
-            cycleLetterBonus={cycleLetterBonus}
-          />
-        )
-      )}
+      {tiles.map((tile, index) => (
+        <LetterTile
+          key={index}
+          index={index}
+          character={tile}
+          score={Calculator.getTileScore(tile, {
+            languageCode: state.language,
+            scoreMultiplier: state.tileBonuses[index]
+          })}
+          scoreMultiplier={state.tileBonuses[index]}
+          cycleLetterBonus={cycleTileBonus}
+        />
+      ))}
     </div>
   );
 }
-
-LetterTiles.propTypes = {
-  letters: PropTypes.array,
-  cycleLetterBonus: PropTypes.func
-};
-
-LetterTiles.defaultProps = {
-  letters: [],
-  cycleLetterBonus: () => {}
-};

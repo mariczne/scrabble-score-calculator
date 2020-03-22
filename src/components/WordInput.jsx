@@ -1,38 +1,31 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, { useContext } from "react";
+import { WordContext } from "../context/word";
 
-const RESET_BTN_TEXT = "Reset word";
+export default function WordInput() {
+  const [state, dispatch] = useContext(WordContext);
 
-export default function WordInput({
-  inputValue,
-  handleInputChange,
-  handleInputReset
-}) {
   return (
     <div>
       <input
         type="text"
-        value={inputValue}
-        onChange={handleInputChange}
+        value={state.input}
+        onChange={e =>
+          dispatch({ type: "CHANGE_INPUT", payload: { input: e.target.value } })
+        }
         className="word-input"
         data-testid="word-input"
         placeholder="Type a word to start"
       />
-      {inputValue && (
-        <button onClick={handleInputReset} className="word-reset">
-          {RESET_BTN_TEXT}
+      {state.input && (
+        <button
+          onClick={() =>
+            dispatch({ type: "RESET" })
+          }
+          className="word-reset"
+        >
+          Reset
         </button>
       )}
     </div>
   );
 }
-
-WordInput.propTypes = {
-  inputValue: PropTypes.string,
-  handleInputChange: PropTypes.func
-};
-
-WordInput.defaultProps = {
-  inputValue: "",
-  handleInputChange: () => {}
-};

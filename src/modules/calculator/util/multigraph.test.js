@@ -3,7 +3,7 @@ import {
   isLanguageWithMultigraphs,
   getMultigraphsInLanguage
 } from "./multigraph";
-import { SCORE_TABLE } from "../scoretable";
+import { SCORE_TABLE } from "../../../constants/scoretable";
 let language;
 
 beforeEach(() => {
