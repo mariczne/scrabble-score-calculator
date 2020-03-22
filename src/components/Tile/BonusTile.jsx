@@ -17,8 +17,7 @@ const BONUS_STYLE = {
 export default function BonusTile({
   bonusType,
   timesUsed,
-  addBonus,
-  removeBonus,
+  handleWordBonus,
   isNextBonusAllowed
 }) {
   function styleDiv() {
@@ -35,12 +34,12 @@ export default function BonusTile({
       <BonusRemoveButton
         bonusType={bonusType}
         timesUsed={timesUsed}
-        removeBonus={removeBonus}
+        handleWordBonus={handleWordBonus}
       />
       <div
         className="tile"
         style={styleDiv()}
-        onClick={() => addBonus(bonusType)}
+        onClick={() => handleWordBonus("ADD_WORD_BONUS", bonusType)}
         tabIndex="0"
       >
         <span className="tile__bonus-name">{bonusName}</span>
@@ -53,25 +52,23 @@ export default function BonusTile({
 BonusTile.propTypes = {
   bonusType: PropTypes.string,
   timesUsed: PropTypes.number,
-  addBonus: PropTypes.func,
-  removeBonus: PropTypes.func,
+  handleWordBonus: PropTypes.func,
   isNextBonusAllowed: PropTypes.bool
 };
 
 BonusTile.defaultProps = {
   bonusType: "double",
   timesUsed: 0,
-  addBonus: () => {},
-  removeBonus: () => {},
+  handleWordBonus: () => {},
   isNextBonusAllowed: true
 };
 
-function BonusRemoveButton({ bonusType, timesUsed, removeBonus }) {
+function BonusRemoveButton({ bonusType, timesUsed, handleWordBonus }) {
   if (timesUsed > 0) {
     return (
       <button
         className="tile__bonus-remove"
-        onClick={() => removeBonus(bonusType)}
+        onClick={() => handleWordBonus("REMOVE_WORD_BONUS", bonusType)}
       >
         –
       </button>
@@ -83,13 +80,13 @@ function BonusRemoveButton({ bonusType, timesUsed, removeBonus }) {
 BonusRemoveButton.propTypes = {
   bonusType: PropTypes.string,
   timesUsed: PropTypes.number,
-  removeBonus: PropTypes.func
+  handleWordBonus: PropTypes.func
 };
 
 BonusRemoveButton.defaultProps = {
   bonusType: "double",
   timesUsed: 0,
-  removeBonus: () => {}
+  handleWordBonus: () => {}
 };
 
 function BonusState({ timesUsed }) {

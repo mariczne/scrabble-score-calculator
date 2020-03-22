@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 
 const LETTER_STYLE = {
   invalidScore: { backgroundColor: "lightgray", cursor: "default" },
@@ -12,10 +12,17 @@ export default function LetterTile({
   index,
   character,
   score,
-  isScoreInvalid,
   scoreMultiplier,
   cycleLetterBonus
 }) {
+  const isScoreInvalid = Number.isNaN(score);
+
+  const isBlankTile = character === " ";
+
+  const isDigraph = character.length === 2;
+
+  const isTrigraph = character.length === 3;
+
   function styleDiv() {
     if (isScoreInvalid) {
       return LETTER_STYLE.invalidScore;
@@ -32,12 +39,6 @@ export default function LetterTile({
     }
     return score;
   }
-
-  const isBlankTile = character === " ";
-
-  const isDigraph = character.length === 2;
-
-  const isTrigraph = character.length === 3;
 
   const spanClassName = `tile__letter ${
     isDigraph ? "tile__letter--double" : null
@@ -56,20 +57,20 @@ export default function LetterTile({
   );
 }
 
-LetterTile.propTypes = {
-  index: PropTypes.number,
-  character: PropTypes.string,
-  score: PropTypes.number,
-  isScoreInvalid: PropTypes.bool,
-  scoreMultiplier: PropTypes.number,
-  cycleLetterBonus: PropTypes.func
-};
+// LetterTile.propTypes = {
+//   index: PropTypes.number,
+//   character: PropTypes.string,
+//   score: PropTypes.number,
+//   isScoreInvalid: PropTypes.bool,
+//   scoreMultiplier: PropTypes.number,
+//   cycleLetterBonus: PropTypes.func
+// };
 
-LetterTile.defaultProps = {
-  index: 0,
-  character: " ",
-  score: null,
-  isScoreInvalid: false,
-  scoreMultiplier: 1,
-  cycleLetterBonus: () => {}
-};
+// LetterTile.defaultProps = {
+//   index: 0,
+//   character: " ",
+//   score: null,
+//   isScoreInvalid: false,
+//   scoreMultiplier: 1,
+//   cycleLetterBonus: () => {}
+// };

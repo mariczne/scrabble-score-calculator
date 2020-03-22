@@ -1,26 +1,28 @@
-import React from "react";
-import PropTypes from "prop-types";
-export default function WordScore({ isScoreInvalid, score, invalidScoreText }) {
+import React, { useContext } from "react";
+import { WordContext } from "../context/word";
+import { Calculator } from "../modules/calculator";
+
+const INVALID_SCORE_TEXT = "At least one tile invalid";
+
+export default function WordScore() {
+  const [state] = useContext(WordContext);
+  const score = Calculator.getWordScore(state.input, {
+    languageCode: state.language,
+    wordBonuses: state.wordBonuses,
+    tileBonuses: state.tileBonuses,
+    isBingoUsed: state.isBingoUsed
+  });
+
+  const isScoreInvalid = Number.isNaN(score);
+
   return (
     <span className="word-score">
       Word score:{" "}
       {isScoreInvalid ? (
-        invalidScoreText
+        INVALID_SCORE_TEXT
       ) : (
         <span data-testid="word-score-value">{score}</span>
       )}
     </span>
   );
 }
-
-WordScore.propTypes = {
-  isScoreInvalid: PropTypes.bool,
-  score: PropTypes.number,
-  invalidScoreText: PropTypes.string
-};
-
-WordScore.defaultProps = {
-  isScoreInvalid: false,
-  score: 0,
-  invalidScoreText: "At least one invalid letter"
-};

@@ -1,0 +1,111 @@
+import { Calculator } from ".";
+
+describe("getTileScore", () => {
+  it("calculates tile score for different supported languages", () => {
+    const F_scoreInPolish = Calculator.getTileScore("F", {
+      languageCode: "pol"
+    });
+    const F_scoreInEnglish = Calculator.getTileScore("F", {
+      languageCode: "eng"
+    });
+
+    expect(F_scoreInPolish).toEqual(5);
+    expect(F_scoreInEnglish).toEqual(4);
+  });
+
+  it("calculates tile score with a multiplier", () => {
+    const F_scoreInPolish = Calculator.getTileScore("F", {
+      languageCode: "pol",
+      scoreMultiplier: 3
+    });
+
+    expect(F_scoreInPolish).toEqual(15);
+  });
+
+  it("calculates tile score for a multigraph", () => {
+    const SZ_scoreInHungarian = Calculator.getTileScore("SZ", {
+      languageCode: "hun"
+    });
+
+    expect(SZ_scoreInHungarian).toEqual(3);
+  });
+});
+
+describe("getWordScore", () => {
+  it("word score of an empty string is 0", () => {
+    const wordScore = Calculator.getWordScore("", { languageCode: "pol" });
+
+    expect(wordScore).toEqual(0);
+  });
+
+  it("calculates word score without any bonuses", () => {
+    const wordScore = Calculator.getWordScore("późność", {
+      languageCode: "pol"
+    });
+
+    expect(wordScore).toEqual(29);
+  });
+
+  it("calculates word score when some tiles have bonuses", () => {
+    const wordScore = Calculator.getWordScore("późność", {
+      languageCode: "pol",
+      tileBonuses: { 1: 2, 5: 3 }
+    });
+
+    expect(wordScore).toEqual(44);
+  });
+
+  it("calculates word score when there are word bonuses", () => {
+    const wordScore = Calculator.getWordScore("późność", {
+      languageCode: "pol",
+      wordBonuses: {
+        double: 2,
+        triple: 1
+      }
+    });
+
+    expect(wordScore).toEqual(348);
+  });
+
+  it("calculates word score when there are both word and letter bonuses", () => {
+    const wordScore = Calculator.getWordScore("późność", {
+      languageCode: "pol",
+      wordBonuses: {
+        double: 2,
+        triple: 1
+      },
+      tileBonuses: { 2: 3 }
+    });
+
+    expect(wordScore).toEqual(564);
+  });
+
+  it("adds points for bingo to the total score", () => {
+    const wordScore = Calculator.getWordScore("późność", {
+      languageCode: "pol",
+      isBingoUsed: true
+    });
+
+    expect(wordScore).toEqual(79);
+  });
+
+  it("returns NaN for word score when at least one letter is not in the scoretable", () => {
+    const wordScore = Calculator.getWordScore("xero", {
+      languageCode: "pol"
+    });
+
+    expect(wordScore).toEqual(NaN);
+  });
+
+  it("calculates score for words with digraphs in languages that support them", () => {
+    const lamaScore = Calculator.getWordScore("lama", {
+      languageCode: "spa"
+    });
+    const llamaScore = Calculator.getWordScore("llama", {
+      languageCode: "spa"
+    });
+
+    expect(lamaScore).toEqual(6);
+    expect(llamaScore).toEqual(13);
+  });
+});
