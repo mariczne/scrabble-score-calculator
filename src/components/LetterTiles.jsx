@@ -9,10 +9,16 @@ export default function LetterTiles() {
   } = useContext(WordContext);
   const tiles = getTilesInWord(state.input, { languageCode: state.language });
 
-  const cycleTileBonus = tileId => {
-    dispatch({ type: "CYCLE_TILE_BONUS", payload: { tileId } });
+  const cycleTileBonus = tileIndex => {
+    dispatch({ type: "CYCLE_TILE_BONUS", payload: { tileIndex } });
   };
-  
+
+  function getTileScoreMultiplier(index) {
+    return (
+      state.tileBonuses.find(tile => tile.index === index)?.multiplier ?? 1
+    );
+  }
+
   return (
     <div>
       {tiles.map((tile, index) => (
@@ -22,9 +28,9 @@ export default function LetterTiles() {
           character={tile}
           score={getTileScore(tile, {
             languageCode: state.language,
-            scoreMultiplier: state.tileBonuses[index]
+            scoreMultiplier: getTileScoreMultiplier(index)
           })}
-          scoreMultiplier={state.tileBonuses[index]}
+          scoreMultiplier={getTileScoreMultiplier(index)}
           cycleLetterBonus={cycleTileBonus}
         />
       ))}

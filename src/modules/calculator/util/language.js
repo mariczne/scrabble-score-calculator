@@ -1,15 +1,12 @@
-import SCORE_TABLE from "../constants/scoreTable";
+import SCORE_TABLE from "../scoreTable";
 
-export function checkIsLanguageDefinedInScoretable(language) {
-  if (!isLanguageDefinedInScoretable(language)) {
+export function checkIsLanguageDefined(language) {
+  if (!isLanguageDefined(language)) {
     throw new RangeError("Unsupported language");
   }
 }
 
-export function isLanguageDefinedInScoretable({
-  scoreTable = SCORE_TABLE,
-  languageCode
-}) {
+export function isLanguageDefined({ scoreTable = SCORE_TABLE, languageCode }) {
   return scoreTable.hasOwnProperty(languageCode);
 }
 

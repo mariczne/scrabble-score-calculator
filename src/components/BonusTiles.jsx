@@ -4,7 +4,7 @@ import {
   isNextBonusAllowed,
   isBingoAllowed,
   getWordBonusTypes
-} from "../modules/calculator/util/bonus";
+} from "../modules/calculator";
 import { BonusTile, BingoTile } from "./Tile/Tile";
 
 export default function BonusTiles() {
@@ -32,7 +32,9 @@ export default function BonusTiles() {
           <BonusTile
             key={bonusType}
             bonusType={bonusType}
-            timesUsed={state.wordBonuses[bonusType]}
+            timesUsed={
+              state.wordBonuses.find(bonus => bonus.type === bonusType)?.times
+            }
             isNextBonusAllowed={isNextBonusAllowed(state.input, {
               languageCode: state.language,
               wordBonuses: state.wordBonuses,

@@ -20,7 +20,7 @@ export default function WordInput() {
       />
       {state.input && (
         <button
-          onClick={() => dispatch({ type: "RESET" })}
+          onClick={() => dispatch({ type: "RESET_WORD" })}
           className="word-reset"
         >
           Reset

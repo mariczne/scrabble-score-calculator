@@ -1,4 +1,4 @@
-import SCORE_TABLE from "../constants/scoreTable";
+import SCORE_TABLE from "../scoreTable";
 import {
   processMultigraphs,
   isLanguageWithMultigraphs,
