@@ -5,6 +5,7 @@ import {
   isBingoAllowed,
   getWordBonusTypes
 } from "../modules/calculator";
+import { addWordBonus, removeWordBonus, toggleBingo } from "../actions/word";
 import { BonusTile, BingoTile } from "./Tile/Tile";
 
 export default function BonusTiles() {
@@ -16,14 +17,6 @@ export default function BonusTiles() {
   } = useContext(WordContext);
 
   const isGameUsingBingo = POINTS_FOR_BINGO > 0;
-
-  const handleWordBonus = (action, bonusType) => {
-    dispatch({ type: action, payload: { bonusType } });
-  };
-
-  const toggleBingo = () => {
-    dispatch({ type: "TOGGLE_BINGO" });
-  };
 
   return (
     <>
@@ -40,7 +33,8 @@ export default function BonusTiles() {
               wordBonuses: state.wordBonuses,
               tileBonuses: state.tileBonuses
             })}
-            handleWordBonus={handleWordBonus}
+            addWordBonus={() => dispatch(addWordBonus(state, bonusType))}
+            removeWordBonus={() => dispatch(removeWordBonus(state, bonusType))}
           />
         );
       })}
@@ -48,7 +42,7 @@ export default function BonusTiles() {
         <BingoTile
           key={BINGO_NAME}
           bingoName={BINGO_NAME}
-          handleBingo={toggleBingo}
+          toggleBingo={() => dispatch(toggleBingo(state))}
           isBingoAllowed={isBingoAllowed(state.input, {
             languageCode: state.language
           })}

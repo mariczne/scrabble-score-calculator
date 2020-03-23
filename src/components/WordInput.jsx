@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { WordContext } from "../context/word";
+import { setInput } from "../actions/word";
 
 export default function WordInput() {
   const {
@@ -11,9 +12,7 @@ export default function WordInput() {
       <input
         type="text"
         value={state.input}
-        onChange={e =>
-          dispatch({ type: "CHANGE_INPUT", payload: { input: e.target.value } })
-        }
+        onChange={e => dispatch(setInput(e.target.value))}
         className="word-input"
         data-testid="word-input"
         placeholder="Type a word to start"

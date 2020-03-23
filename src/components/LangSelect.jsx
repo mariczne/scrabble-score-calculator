@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { WordContext } from "../context/word";
 import { getSupportedLanguages } from "../modules/calculator";
+import { changeLanguage } from "../actions/word";
 
 const languages = getSupportedLanguages();
 
@@ -14,12 +15,7 @@ export default function LangSelect() {
       Language:
       <select
         value={state.language}
-        onChange={e =>
-          dispatch({
-            type: "CHANGE_LANGUAGE",
-            payload: { language: e.target.value }
-          })
-        }
+        onChange={e => dispatch(changeLanguage(e.target.value))}
         className="lang-select"
         data-testid="lang-select"
       >

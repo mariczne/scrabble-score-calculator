@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { WordContext } from "../context/word";
 import { getTileScore, getTilesInWord } from "../modules/calculator";
+import { cycleTileBonus } from "../actions/word";
 import { LetterTile } from "./Tile/Tile";
 
 export default function LetterTiles() {
@@ -8,10 +9,6 @@ export default function LetterTiles() {
     wordReducer: [state, dispatch]
   } = useContext(WordContext);
   const tiles = getTilesInWord(state.input, { languageCode: state.language });
-
-  const cycleTileBonus = tileIndex => {
-    dispatch({ type: "CYCLE_TILE_BONUS", payload: { tileIndex } });
-  };
 
   function getTileScoreMultiplier(index) {
     return (
@@ -31,7 +28,7 @@ export default function LetterTiles() {
             scoreMultiplier: getTileScoreMultiplier(index)
           })}
           scoreMultiplier={getTileScoreMultiplier(index)}
-          cycleLetterBonus={cycleTileBonus}
+          cycleLetterBonus={() => dispatch(cycleTileBonus(state, index))}
         />
       ))}
     </div>

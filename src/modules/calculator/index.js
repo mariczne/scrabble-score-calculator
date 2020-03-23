@@ -1,12 +1,16 @@
 import { POINTS_FOR_BINGO } from "./settings";
 import SCORE_TABLE from "./scoreTable";
+import { getWordMultiplier } from "./util/bonus";
 import {
   isLanguageWithMultigraphs,
   getMultigraphsInLanguage,
   processMultigraphs
 } from "./util/multigraph";
-import { checkIsLanguageDefined } from "./util/language";
-import { getWordMultiplier } from "./util/bonus";
+import {
+  checkIsLanguageDefined,
+  checkIsBingoAllowed,
+  checkAreAllBonusesAllowed
+} from "./util/error";
 
 export const getWordScore = (
   input,
@@ -21,7 +25,11 @@ export const getWordScore = (
   if (!input) {
     return 0;
   }
+  if (isBingoUsed) {
+    checkIsBingoAllowed(input, { languageCode });
+  }
   checkIsLanguageDefined({ scoreTable, languageCode });
+  checkAreAllBonusesAllowed(input, { languageCode, wordBonuses, tileBonuses });
 
   return (
     getTilesInWord(input, { scoreTable, languageCode })
@@ -32,9 +40,9 @@ export const getWordScore = (
             tileBonuses.find(tile => tile.index === index)?.multiplier ?? 1
         })
       )
-      .reduce((acc, curr) => (acc += curr))
-      * getWordMultiplier(wordBonuses)
-      + (isBingoUsed ? POINTS_FOR_BINGO : 0)
+      .reduce((acc, curr) => (acc += curr)) *
+      getWordMultiplier(wordBonuses) +
+    (isBingoUsed ? POINTS_FOR_BINGO : 0)
   );
 };
 
@@ -69,8 +77,8 @@ export const getTilesInWord = (
 export { default as SETTINGS } from "./settings";
 export { default as SCORE_TABLE } from "./scoreTable";
 export { getSupportedLanguages } from "./util/language";
+export * from "./util/error";
 export {
-  getWordMultiplier,
   getWordBonusTypes,
   isNextBonusAllowed,
   isBingoAllowed

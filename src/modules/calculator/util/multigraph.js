@@ -2,7 +2,7 @@ import {
   sortArrayByLengthDescending,
   joinAllSubarraysIntoSingleElements
 } from "./array";
-import { checkIsLanguageDefined } from "./language";
+import { checkIsLanguageDefined } from "./error";
 
 export function isLanguageWithMultigraphs({ scoreTable, languageCode }) {
   checkIsLanguageDefined({ scoreTable, languageCode });

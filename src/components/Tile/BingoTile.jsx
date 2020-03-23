@@ -8,7 +8,7 @@ const BINGO_STYLE = {
 
 export default function BingoTile({
   bingoName,
-  handleBingo,
+  toggleBingo,
   isBingoAllowed,
   isBingoUsed,
   textWhenBingoUsed
@@ -22,7 +22,7 @@ export default function BingoTile({
   }
 
   return (
-    <div className="tile" style={styleDiv()} onClick={handleBingo} tabIndex="0">
+    <div className="tile" style={styleDiv()} onClick={toggleBingo} tabIndex="0">
       <span className="tile__bonus-name">{bingoName.toUpperCase()}</span>
       {isBingoUsed && (
         <span className="tile__bonus-state">{textWhenBingoUsed}</span>
@@ -33,7 +33,7 @@ export default function BingoTile({
 
 BingoTile.propTypes = {
   bingoName: PropTypes.string,
-  handleBingo: PropTypes.func,
+  toggleBingo: PropTypes.func,
   isBingoAllowed: PropTypes.bool,
   isBingoUsed: PropTypes.bool,
   textWhenBingoUsed: PropTypes.string
@@ -41,7 +41,7 @@ BingoTile.propTypes = {
 
 BingoTile.defaultProps = {
   bingoName: "Bingo",
-  handleBingo: () => {},
+  toggleBingo: () => {},
   isBingoAllowed: false,
   isBingoUsed: false,
   textWhenBingoUsed: "ACTIVE"

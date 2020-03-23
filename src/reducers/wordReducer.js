@@ -1,71 +1,20 @@
-import {
-  SETTINGS,
-  getTilesInWord,
-  isNextBonusAllowed,
-  isBingoAllowed
-} from "../modules/calculator";
-
-const { MAX_LETTER_SCORE_MULTIPLIER } = SETTINGS;
-
 export default function wordReducer(state, action) {
   switch (action.type) {
-    case "CHANGE_INPUT": {
-      return changeInput(state, action.payload.input);
+    case "SET_INPUT": {
+      return { ...state, input: action.payload.inputValue };
     }
     case "CHANGE_LANGUAGE": {
       return { ...state, language: action.payload.language };
     }
-    case "CYCLE_TILE_BONUS": {
-      return cycleTileBonus(state, action.payload.tileIndex);
-    }
-    case "ADD_WORD_BONUS": {
-      return addWordBonus(state, action.payload.bonusType);
-    }
-    case "REMOVE_WORD_BONUS": {
-      return removeWordBonus(state, action.payload.bonusType);
-    }
-    case "TOGGLE_BINGO": {
-      return toggleBingo(state);
-    }
-    case "RESET_WORD": {
+    case "ADD_TILE_BONUS": {
+      const { tileIndex } = action.payload;
       return {
         ...state,
-        input: "",
-        wordBonuses: {},
-        tileBonuses: [],
-        isBingoUsed: false
+        tileBonuses: [...state.tileBonuses, { index: tileIndex, multiplier: 2 }]
       };
     }
-    default: {
-      throw new Error(`Unsupported action type: ${action.type}`);
-    }
-  }
-}
-
-function changeInput(state, input) {
-  // remove surplus tile bonuses
-  const tilesInWordCount = getTilesInWord(input, { languageCode: state.language })
-    .length;
-  const tileBonuses = state.tileBonuses.filter(
-    bonus => bonus.tileIndex < tilesInWordCount
-  );
-
-  return {
-    ...state,
-    tileBonuses,
-    input
-  };
-}
-
-function cycleTileBonus(state, tileIndex) {
-  const tileBonus = state.tileBonuses.find(tile => tile.index === tileIndex);
-  if (tileBonus) {
-    if (tileBonus.multiplier === MAX_LETTER_SCORE_MULTIPLIER) {
-      return {
-        ...state,
-        tileBonuses: state.tileBonuses.filter(tile => tile.index !== tileIndex)
-      };
-    } else {
+    case "INCREMENT_TILE_BONUS": {
+      const { tileIndex } = action.payload;
       return {
         ...state,
         tileBonuses: state.tileBonuses.map(tile => {
@@ -76,34 +25,22 @@ function cycleTileBonus(state, tileIndex) {
         })
       };
     }
-  } else {
-    if (
-      isNextBonusAllowed(state.input, {
-        languageCode: state.language,
-        wordBonuses: state.wordBonuses,
-        tileBonuses: state.tileBonuses
-      })
-    ) {
+    case "REMOVE_TILE_BONUS": {
+      const { tileIndex } = action.payload;
       return {
         ...state,
-        tileBonuses: [...state.tileBonuses, { index: tileIndex, multiplier: 2 }]
+        tileBonuses: state.tileBonuses.filter(tile => tile.index !== tileIndex)
       };
-    } else {
-      return state;
     }
-  }
-}
-
-function addWordBonus(state, bonusType) {
-  if (
-    isNextBonusAllowed(state.input, {
-      languageCode: state.language,
-      wordBonuses: state.wordBonuses,
-      tileBonuses: state.tileBonuses
-    })
-  ) {
-    const bonus = state.wordBonuses.find(bonus => bonus.type === bonusType);
-    if (bonus) {
+    case "ADD_WORD_BONUS": {
+      const { bonusType } = action.payload;
+      return {
+        ...state,
+        wordBonuses: [...state.wordBonuses, { type: bonusType, times: 1 }]
+      };
+    }
+    case "INCREMENT_WORD_BONUS_COUNT": {
+      const { bonusType } = action.payload;
       return {
         ...state,
         wordBonuses: state.wordBonuses.map(bonus => {
@@ -113,21 +50,16 @@ function addWordBonus(state, bonusType) {
           return bonus;
         })
       };
-    } else {
+    }
+    case "REMOVE_WORD_BONUS": {
+      const { bonusType } = action.payload;
       return {
         ...state,
-        wordBonuses: [...state.wordBonuses, { type: bonusType, times: 1 }]
+        wordBonuses: state.wordBonuses.filter(bonus => bonus.type !== bonusType)
       };
     }
-  } else {
-    return state;
-  }
-}
-
-function removeWordBonus(state, bonusType) {
-  const bonus = state.wordBonuses.find(bonus => bonus.type === bonusType);
-  if (bonus) {
-    if (bonus.times > 1) {
+    case "DECREMENT_WORD_BONUS_COUNT": {
+      const { bonusType } = action.payload;
       return {
         ...state,
         wordBonuses: state.wordBonuses.map(bonus => {
@@ -137,20 +69,24 @@ function removeWordBonus(state, bonusType) {
           return bonus;
         })
       };
-    } else {
+    }
+    case "TOGGLE_BINGO": {
+      return { ...state, isBingoUsed: !state.isBingoUsed };
+    }
+    case "RESET_WORD": {
       return {
         ...state,
-        wordBonuses: state.wordBonuses.filter(bonus => bonus.type !== bonusType)
+        input: "",
+        wordBonuses: [],
+        tileBonuses: [],
+        isBingoUsed: false
       };
     }
-  } else {
-    return state;
+    case undefined: {
+      return state;
+    }
+    default: {
+      throw new Error(`Unsupported action type: ${action.type}`);
+    }
   }
-}
-
-function toggleBingo(state) {
-  if (isBingoAllowed(state.input, { languageCode: state.language })) {
-    return { ...state, isBingoUsed: !state.isBingoUsed };
-  }
-  return state;
 }
