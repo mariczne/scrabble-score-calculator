@@ -2,7 +2,6 @@ import {
   getWordMultiplier,
   getWordBonusTypes,
   isBonusDefined,
-  checkIsBonusDefined,
   timesBonusTypeUsed,
   isNextBonusAllowed,
   isBingoAllowed
@@ -47,13 +46,6 @@ describe("isBonusDefined", () => {
   it("should return true if bonus is defined in the scoretable", () => {
     bonus.bonusType = "double";
     expect(isBonusDefined(bonus)).toEqual(true);
-  });
-});
-
-describe("checkIsBonusDefined", () => {
-  it("should throw a RangeError if bonus is not defined in the scoretable", () => {
-    bonus.bonusType = "quintuple";
-    expect(() => checkIsBonusDefined(bonus)).toThrow(RangeError);
   });
 });
 

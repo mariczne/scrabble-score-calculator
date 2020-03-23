@@ -1,5 +1,6 @@
 import { WORD_SCORE_MULTIPLIERS, MINIMUM_LETTERS_FOR_BINGO } from "../settings";
 import { getTilesInWord } from "../index";
+import { checkIsBonusDefined } from "./error";
 
 export const getWordMultiplier = (
   wordBonuses = [],
@@ -21,15 +22,6 @@ export function getWordBonusTypes(
   return Array.from(Object.keys(wordScoreMultipliers));
 }
 
-export function checkIsBonusDefined({
-  wordScoreMultipliers = WORD_SCORE_MULTIPLIERS,
-  bonusType
-}) {
-  if (!isBonusDefined({ wordScoreMultipliers, bonusType })) {
-    throw new RangeError(`No '${bonusType}' bonus type in the score table`);
-  }
-}
-
 export function isBonusDefined({
   wordScoreMultipliers = WORD_SCORE_MULTIPLIERS,
   bonusType
@@ -41,20 +33,29 @@ export const isNextBonusAllowed = (
   input,
   { languageCode, wordBonuses = [], tileBonuses = [] }
 ) => {
-  const totalTimesWordBonusesUsed = wordBonuses.reduce((total, bonus) => {
-    return (total += timesBonusTypeUsed(bonus.type, wordBonuses));
-  }, 0);
-  const totalTilesMultiplied = tileBonuses.length;
-  const totalTimesAnyBonusTypeUsed =
-    totalTimesWordBonusesUsed + totalTilesMultiplied;
   const tiles = getTilesInWord(input, {
     languageCode
   });
-  return tiles.length > totalTimesAnyBonusTypeUsed;
+  return (
+    tiles.length > totalTimesAnyBonusTypeUsed({ wordBonuses, tileBonuses })
+  );
 };
 
 export const timesBonusTypeUsed = (bonusType, wordBonuses) => {
   return wordBonuses.find(bonus => bonus.type === bonusType)?.times ?? 0;
+};
+
+export const totalTimesWordBonusesUsed = ({ wordBonuses }) => {
+  return wordBonuses.reduce((total, bonus) => {
+    return (total += timesBonusTypeUsed(bonus.type, wordBonuses));
+  }, 0);
+};
+
+export const totalTimesAnyBonusTypeUsed = ({
+  wordBonuses = [],
+  tileBonuses = []
+}) => {
+  return totalTimesWordBonusesUsed({ wordBonuses }) + tileBonuses.length;
 };
 
 export const isBingoAllowed = (
