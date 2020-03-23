@@ -1,11 +1,11 @@
-import { Calculator } from ".";
+import { getTileScore, getWordScore } from ".";
 
 describe("getTileScore", () => {
   it("calculates tile score for different supported languages", () => {
-    const F_scoreInPolish = Calculator.getTileScore("F", {
+    const F_scoreInPolish = getTileScore("F", {
       languageCode: "pol"
     });
-    const F_scoreInEnglish = Calculator.getTileScore("F", {
+    const F_scoreInEnglish = getTileScore("F", {
       languageCode: "eng"
     });
 
@@ -14,7 +14,7 @@ describe("getTileScore", () => {
   });
 
   it("calculates tile score with a multiplier", () => {
-    const F_scoreInPolish = Calculator.getTileScore("F", {
+    const F_scoreInPolish = getTileScore("F", {
       languageCode: "pol",
       scoreMultiplier: 3
     });
@@ -23,7 +23,7 @@ describe("getTileScore", () => {
   });
 
   it("calculates tile score for a multigraph", () => {
-    const SZ_scoreInHungarian = Calculator.getTileScore("SZ", {
+    const SZ_scoreInHungarian = getTileScore("SZ", {
       languageCode: "hun"
     });
 
@@ -33,13 +33,13 @@ describe("getTileScore", () => {
 
 describe("getWordScore", () => {
   it("word score of an empty string is 0", () => {
-    const wordScore = Calculator.getWordScore("", { languageCode: "pol" });
+    const wordScore = getWordScore("", { languageCode: "pol" });
 
     expect(wordScore).toEqual(0);
   });
 
   it("calculates word score without any bonuses", () => {
-    const wordScore = Calculator.getWordScore("późność", {
+    const wordScore = getWordScore("późność", {
       languageCode: "pol"
     });
 
@@ -47,7 +47,7 @@ describe("getWordScore", () => {
   });
 
   it("calculates word score when some tiles have bonuses", () => {
-    const wordScore = Calculator.getWordScore("późność", {
+    const wordScore = getWordScore("późność", {
       languageCode: "pol",
       tileBonuses: { 1: 2, 5: 3 }
     });
@@ -56,7 +56,7 @@ describe("getWordScore", () => {
   });
 
   it("calculates word score when there are word bonuses", () => {
-    const wordScore = Calculator.getWordScore("późność", {
+    const wordScore = getWordScore("późność", {
       languageCode: "pol",
       wordBonuses: {
         double: 2,
@@ -68,7 +68,7 @@ describe("getWordScore", () => {
   });
 
   it("calculates word score when there are both word and letter bonuses", () => {
-    const wordScore = Calculator.getWordScore("późność", {
+    const wordScore = getWordScore("późność", {
       languageCode: "pol",
       wordBonuses: {
         double: 2,
@@ -81,7 +81,7 @@ describe("getWordScore", () => {
   });
 
   it("adds points for bingo to the total score", () => {
-    const wordScore = Calculator.getWordScore("późność", {
+    const wordScore = getWordScore("późność", {
       languageCode: "pol",
       isBingoUsed: true
     });
@@ -90,7 +90,7 @@ describe("getWordScore", () => {
   });
 
   it("returns NaN for word score when at least one letter is not in the scoretable", () => {
-    const wordScore = Calculator.getWordScore("xero", {
+    const wordScore = getWordScore("xero", {
       languageCode: "pol"
     });
 
@@ -98,10 +98,10 @@ describe("getWordScore", () => {
   });
 
   it("calculates score for words with digraphs in languages that support them", () => {
-    const lamaScore = Calculator.getWordScore("lama", {
+    const lamaScore = getWordScore("lama", {
       languageCode: "spa"
     });
-    const llamaScore = Calculator.getWordScore("llama", {
+    const llamaScore = getWordScore("llama", {
       languageCode: "spa"
     });
 

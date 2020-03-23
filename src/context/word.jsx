@@ -1,7 +1,8 @@
 import React, { useReducer, createContext } from "react";
+import SETTINGS from "../modules/calculator/constants/settings";
 import wordReducer from "../reducers/wordReducer";
 
-export const WordContext = createContext();
+const BINGO_NAME = "Bingo";
 
 const initialState = {
   input: "",
@@ -11,7 +12,14 @@ const initialState = {
   isBingoUsed: false
 };
 
+export const WordContext = createContext(initialState);
+
 export function WordContextProvider(props) {
   const [state, dispatch] = useReducer(wordReducer, initialState);
-  return <WordContext.Provider value={[state, dispatch]} {...props} />;
+  return (
+    <WordContext.Provider
+      value={{ wordReducer: [state, dispatch], SETTINGS, BINGO_NAME }}
+      {...props}
+    />
+  );
 }

@@ -1,16 +1,15 @@
-import {
-  SCORE_TABLE,
-  WORD_SCORE_MULTIPLIERS,
-  POINTS_FOR_BINGO,
-  MINIMUM_LETTERS_FOR_BINGO
-} from "../../constants/scoretable";
+import { POINTS_FOR_BINGO, WORD_SCORE_MULTIPLIERS } from "./constants/settings";
+import SCORE_TABLE from "./constants/scoreTable";
 import {
   isLanguageWithMultigraphs,
   getMultigraphsInLanguage,
   processMultigraphs
 } from "./util/multigraph";
 import { checkIsLanguageDefinedInScoretable } from "./util/language";
-import { checkIsBonusDefinedInScoretable } from "./util/bonus";
+import {
+  checkIsBonusDefinedInScoretable,
+  timesBonusTypeUsed
+} from "./util/bonus";
 
 export const getWordScore = (
   input,
@@ -35,9 +34,9 @@ export const getWordScore = (
           scoreMultiplier: tileBonuses[index]
         })
       )
-      .reduce((acc, curr) => (acc += curr)) 
-      * getWordMultiplier(wordBonuses)
-      + (isBingoUsed ? POINTS_FOR_BINGO : 0)
+      .reduce((acc, curr) => (acc += curr)) *
+      getWordMultiplier(wordBonuses) +
+    (isBingoUsed ? POINTS_FOR_BINGO : 0)
   );
 };
 
@@ -68,14 +67,17 @@ export const getTilesInWord = (
   return tiles;
 };
 
-const getWordMultiplier = (wordBonuses = []) => {
+export const getWordMultiplier = (
+  wordBonuses = [],
+  wordScoreMultipliers = WORD_SCORE_MULTIPLIERS
+) => {
   let multiplierTotal = 1;
   for (const bonusType in wordBonuses) {
     checkIsBonusDefinedInScoretable({
-      wordScoreMultipliers: WORD_SCORE_MULTIPLIERS,
+      wordScoreMultipliers,
       bonusType
     });
-    const bonusMultiplier = WORD_SCORE_MULTIPLIERS[bonusType];
+    const bonusMultiplier = wordScoreMultipliers[bonusType];
     for (let i = 0; i < timesBonusTypeUsed(bonusType, wordBonuses); i++) {
       multiplierTotal *= bonusMultiplier;
     }
@@ -83,40 +85,11 @@ const getWordMultiplier = (wordBonuses = []) => {
   return multiplierTotal;
 };
 
-export const isNextBonusAllowed = state => {
-  let totalTimesAnyBonusTypeUsed = 0;
-  for (const bonusType in state.wordBonuses) {
-    totalTimesAnyBonusTypeUsed += timesBonusTypeUsed(
-      bonusType,
-      state.wordBonuses
-    );
-  }
-  for (const key in state.tileBonuses) {
-    console.log("haha");
-    console.log(state.tileBonuses[key]);
-    if (state.tileBonuses[key] !== 1) {
-      totalTimesAnyBonusTypeUsed++;
-    }
-    console.log(totalTimesAnyBonusTypeUsed);
-  }
-  const tiles = getTilesInWord(state.input, {
-    languageCode: state.languageCode
-  });
-  return tiles.length > totalTimesAnyBonusTypeUsed;
-};
+export { getSupportedLanguages } from "./util/language";
 
-const timesBonusTypeUsed = (bonusType, wordBonuses) => {
-  return wordBonuses[bonusType];
+export default {
+  getWordScore,
+  getTileScore,
+  getTilesInWord,
+  getWordMultiplier
 };
-
-export const isBingoAllowed = (
-  state,
-  minTilesForBingo = MINIMUM_LETTERS_FOR_BINGO
-) => {
-  return (
-    getTilesInWord(state.input, { languageCode: state.language }).length >=
-    minTilesForBingo
-  );
-};
-
-export const Calculator = { getWordScore, getTileScore, getTilesInWord };

@@ -1,12 +1,15 @@
 import React, { useContext } from "react";
 import { WordContext } from "../context/word";
-import { Calculator } from "../modules/calculator";
+import { getWordScore } from "../modules/calculator";
 
 const INVALID_SCORE_TEXT = "At least one tile invalid";
 
 export default function WordScore() {
-  const [state] = useContext(WordContext);
-  const score = Calculator.getWordScore(state.input, {
+  const {
+    wordReducer: [state]
+  } = useContext(WordContext);
+
+  const score = getWordScore(state.input, {
     languageCode: state.language,
     wordBonuses: state.wordBonuses,
     tileBonuses: state.tileBonuses,
