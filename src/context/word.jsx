@@ -1,5 +1,5 @@
 import React, { useReducer, createContext } from "react";
-import SETTINGS from "../modules/calculator/constants/settings";
+import { SETTINGS } from "../modules/calculator";
 import wordReducer from "../reducers/wordReducer";
 
 const BINGO_NAME = "Bingo";
@@ -7,8 +7,8 @@ const BINGO_NAME = "Bingo";
 const initialState = {
   input: "",
   language: "eng",
-  wordBonuses: {},
-  tileBonuses: {},
+  wordBonuses: [],
+  tileBonuses: [],
   isBingoUsed: false
 };
 

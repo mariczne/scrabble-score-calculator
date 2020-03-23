@@ -1,95 +1,83 @@
-import { POINTS_FOR_BINGO, WORD_SCORE_MULTIPLIERS } from "./constants/settings";
-import SCORE_TABLE from "./constants/scoreTable";
+import { POINTS_FOR_BINGO } from "./settings";
+import SCORE_TABLE from "./scoreTable";
 import {
   isLanguageWithMultigraphs,
   getMultigraphsInLanguage,
   processMultigraphs
 } from "./util/multigraph";
-import { checkIsLanguageDefinedInScoretable } from "./util/language";
-import {
-  checkIsBonusDefinedInScoretable,
-  timesBonusTypeUsed
-} from "./util/bonus";
+import { checkIsLanguageDefined } from "./util/language";
+import { getWordMultiplier } from "./util/bonus";
 
 export const getWordScore = (
   input,
   {
-    languageCode = "eng",
+    languageCode,
     scoreTable = SCORE_TABLE,
-    wordBonuses = {},
-    tileBonuses = {},
+    wordBonuses = [],
+    tileBonuses = [],
     isBingoUsed = false
   }
 ) => {
   if (!input) {
     return 0;
   }
-  checkIsLanguageDefinedInScoretable({ scoreTable, languageCode });
-  const tiles = getTilesInWord(input, { scoreTable, languageCode });
+  checkIsLanguageDefined({ scoreTable, languageCode });
+
   return (
-    tiles
+    getTilesInWord(input, { scoreTable, languageCode })
       .map((tile, index) =>
         getTileScore(tile, {
           languageCode,
-          scoreMultiplier: tileBonuses[index]
+          multiplier:
+            tileBonuses.find(tile => tile.index === index)?.multiplier ?? 1
         })
       )
-      .reduce((acc, curr) => (acc += curr)) *
-      getWordMultiplier(wordBonuses) +
-    (isBingoUsed ? POINTS_FOR_BINGO : 0)
+      .reduce((acc, curr) => (acc += curr))
+      * getWordMultiplier(wordBonuses)
+      + (isBingoUsed ? POINTS_FOR_BINGO : 0)
   );
 };
 
 export const getTileScore = (
   input,
-  { languageCode = "eng", scoreTable = SCORE_TABLE, scoreMultiplier = 1 }
+  { languageCode, scoreTable = SCORE_TABLE, multiplier = 1 }
 ) => {
-  checkIsLanguageDefinedInScoretable({ scoreTable, languageCode });
+  checkIsLanguageDefined({ scoreTable, languageCode });
+
   const score = Number(
     Object.keys(scoreTable[languageCode]).find(key =>
       scoreTable[languageCode][key].includes(input.toUpperCase())
     )
   );
-  return score * scoreMultiplier;
+  return score * multiplier;
 };
 
 export const getTilesInWord = (
   input,
-  { languageCode = "eng", scoreTable = SCORE_TABLE }
+  { languageCode, scoreTable = SCORE_TABLE }
 ) => {
   const language = { scoreTable, languageCode };
-  checkIsLanguageDefinedInScoretable(language);
-  let tiles = Array.from(input.toUpperCase());
+  checkIsLanguageDefined(language);
+
+  const tiles = Array.from(input.toUpperCase());
   if (isLanguageWithMultigraphs(language)) {
-    const multigraphs = getMultigraphsInLanguage(language);
-    tiles = processMultigraphs(tiles, multigraphs);
+    return processMultigraphs(tiles, getMultigraphsInLanguage(language));
   }
   return tiles;
 };
 
-export const getWordMultiplier = (
-  wordBonuses = [],
-  wordScoreMultipliers = WORD_SCORE_MULTIPLIERS
-) => {
-  let multiplierTotal = 1;
-  for (const bonusType in wordBonuses) {
-    checkIsBonusDefinedInScoretable({
-      wordScoreMultipliers,
-      bonusType
-    });
-    const bonusMultiplier = wordScoreMultipliers[bonusType];
-    for (let i = 0; i < timesBonusTypeUsed(bonusType, wordBonuses); i++) {
-      multiplierTotal *= bonusMultiplier;
-    }
-  }
-  return multiplierTotal;
-};
-
+export { default as SETTINGS } from "./settings";
+export { default as SCORE_TABLE } from "./scoreTable";
 export { getSupportedLanguages } from "./util/language";
+export {
+  getWordMultiplier,
+  getWordBonusTypes,
+  isNextBonusAllowed,
+  isBingoAllowed
+} from "./util/bonus";
 
 export default {
   getWordScore,
   getTileScore,
-  getTilesInWord,
-  getWordMultiplier
+  getTilesInWord
 };

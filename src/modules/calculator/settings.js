@@ -6,9 +6,11 @@ export const WORD_SCORE_MULTIPLIERS = {
   triple: 3
 };
 
-export default {
+const SETTINGS = {
   MAX_LETTER_SCORE_MULTIPLIER,
   POINTS_FOR_BINGO,
   MINIMUM_LETTERS_FOR_BINGO,
   WORD_SCORE_MULTIPLIERS
 };
+
+export default SETTINGS;

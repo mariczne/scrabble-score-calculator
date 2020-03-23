@@ -2,10 +2,10 @@ import {
   sortArrayByLengthDescending,
   joinAllSubarraysIntoSingleElements
 } from "./array";
-import { checkIsLanguageDefinedInScoretable } from "./language";
+import { checkIsLanguageDefined } from "./language";
 
 export function isLanguageWithMultigraphs({ scoreTable, languageCode }) {
-  checkIsLanguageDefinedInScoretable({ scoreTable, languageCode });
+  checkIsLanguageDefined({ scoreTable, languageCode });
   return scoreTable[languageCode].hasOwnProperty("multigraphs");
 }
 

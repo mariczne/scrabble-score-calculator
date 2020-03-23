@@ -16,7 +16,7 @@ describe("getTileScore", () => {
   it("calculates tile score with a multiplier", () => {
     const F_scoreInPolish = getTileScore("F", {
       languageCode: "pol",
-      scoreMultiplier: 3
+      multiplier: 3
     });
 
     expect(F_scoreInPolish).toEqual(15);
@@ -49,7 +49,10 @@ describe("getWordScore", () => {
   it("calculates word score when some tiles have bonuses", () => {
     const wordScore = getWordScore("późność", {
       languageCode: "pol",
-      tileBonuses: { 1: 2, 5: 3 }
+      tileBonuses: [
+        { index: 1, multiplier: 2 },
+        { index: 5, multiplier: 3 }
+      ]
     });
 
     expect(wordScore).toEqual(44);
@@ -58,10 +61,10 @@ describe("getWordScore", () => {
   it("calculates word score when there are word bonuses", () => {
     const wordScore = getWordScore("późność", {
       languageCode: "pol",
-      wordBonuses: {
-        double: 2,
-        triple: 1
-      }
+      wordBonuses: [
+        { type: "double", times: 2 },
+        { type: "triple", times: 1 }
+      ]
     });
 
     expect(wordScore).toEqual(348);
@@ -70,11 +73,11 @@ describe("getWordScore", () => {
   it("calculates word score when there are both word and letter bonuses", () => {
     const wordScore = getWordScore("późność", {
       languageCode: "pol",
-      wordBonuses: {
-        double: 2,
-        triple: 1
-      },
-      tileBonuses: { 2: 3 }
+      wordBonuses: [
+        { type: "double", times: 2 },
+        { type: "triple", times: 1 }
+      ],
+      tileBonuses: [{ index: 2, multiplier: 3 }]
     });
 
     expect(wordScore).toEqual(564);
