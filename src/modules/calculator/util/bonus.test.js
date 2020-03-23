@@ -1,8 +1,8 @@
+import { WORD_SCORE_MULTIPLIERS } from "../constants/settings";
 import {
   isBonusDefinedInScoretable,
   checkIsBonusDefinedInScoretable
 } from "./bonus";
-import { WORD_SCORE_MULTIPLIERS } from "../../../constants/scoretable";
 let bonus;
 
 beforeEach(() => {
@@ -14,7 +14,7 @@ describe("isBonusDefinedInScoretable", () => {
     bonus.bonusType = "quintuple";
     expect(isBonusDefinedInScoretable(bonus)).toEqual(false);
   });
-  
+
   it("should return true if bonus is defined in the scoretable", () => {
     bonus.bonusType = "double";
     expect(isBonusDefinedInScoretable(bonus)).toEqual(true);

@@ -1,18 +1,21 @@
 import React, { useContext } from "react";
 import { WordContext } from "../context/word";
-import { BonusTile, BingoTile } from "./Tile/Tile";
 import {
-  BINGO_NAME,
-  POINTS_FOR_BINGO,
-  WORD_SCORE_MULTIPLIERS
-} from "../constants/scoretable";
-import { isNextBonusAllowed, isBingoAllowed } from "../modules/calculator";
-
-const isGameUsingBingo = POINTS_FOR_BINGO > 0;
+  isNextBonusAllowed,
+  isBingoAllowed,
+  getWordBonusTypes
+} from "../modules/calculator/util/bonus";
+import { BonusTile, BingoTile } from "./Tile/Tile";
 
 export default function BonusTiles() {
-  const bonusTypes = Array.from(Object.keys(WORD_SCORE_MULTIPLIERS));
-  const [state, dispatch] = useContext(WordContext);
+  const bonusTypes = getWordBonusTypes();
+  const {
+    wordReducer: [state, dispatch],
+    SETTINGS: { POINTS_FOR_BINGO },
+    BINGO_NAME
+  } = useContext(WordContext);
+
+  const isGameUsingBingo = POINTS_FOR_BINGO > 0;
 
   const handleWordBonus = (action, bonusType) => {
     dispatch({ type: action, payload: { bonusType } });
@@ -23,14 +26,18 @@ export default function BonusTiles() {
   };
 
   return (
-    <div>
+    <>
       {bonusTypes.map(bonusType => {
         return (
           <BonusTile
             key={bonusType}
             bonusType={bonusType}
             timesUsed={state.wordBonuses[bonusType]}
-            isNextBonusAllowed={isNextBonusAllowed(state)}
+            isNextBonusAllowed={isNextBonusAllowed(state.input, {
+              languageCode: state.language,
+              wordBonuses: state.wordBonuses,
+              tileBonuses: state.tileBonuses
+            })}
             handleWordBonus={handleWordBonus}
           />
         );
@@ -40,11 +47,13 @@ export default function BonusTiles() {
           key={BINGO_NAME}
           bingoName={BINGO_NAME}
           handleBingo={toggleBingo}
-          isBingoAllowed={isBingoAllowed(state)}
+          isBingoAllowed={isBingoAllowed(state.input, {
+            languageCode: state.language
+          })}
           isBingoUsed={state.isBingoUsed}
           textWhenBingoUsed="ACTIVE"
         />
       )}
-    </div>
+    </>
   );
 }

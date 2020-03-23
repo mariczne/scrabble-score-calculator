@@ -1,9 +1,9 @@
+import SCORE_TABLE from "../constants/scoreTable";
 import {
   processMultigraphs,
   isLanguageWithMultigraphs,
   getMultigraphsInLanguage
 } from "./multigraph";
-import { SCORE_TABLE } from "../../../constants/scoretable";
 let language;
 
 beforeEach(() => {

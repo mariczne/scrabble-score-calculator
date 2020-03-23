@@ -1,9 +1,9 @@
-import { MAX_LETTER_SCORE_MULTIPLIER } from "../constants/scoretable";
+import { MAX_LETTER_SCORE_MULTIPLIER } from "../modules/calculator/constants/settings";
+import { getTilesInWord } from "../modules/calculator";
 import {
   isNextBonusAllowed,
-  isBingoAllowed,
-  getTilesInWord
-} from "../modules/calculator";
+  isBingoAllowed
+} from "../modules/calculator/util/bonus";
 
 export default function wordReducer(state, action) {
   switch (action.type) {
@@ -60,7 +60,13 @@ function changeInput(state, input) {
 function cycleTileBonus(state, tileId) {
   if (state.tileBonuses[tileId]) {
     if (state.tileBonuses[tileId] === 1) {
-      if (isNextBonusAllowed(state)) {
+      if (
+        isNextBonusAllowed(state.input, {
+          languageCode: state.language,
+          wordBonuses: state.wordBonuses,
+          tileBonuses: state.tileBonuses
+        })
+      ) {
         return { ...state, tileBonuses: { ...state.tileBonuses, [tileId]: 2 } };
       } else {
         return state;
@@ -76,7 +82,13 @@ function cycleTileBonus(state, tileId) {
         }
       };
     }
-  } else if (isNextBonusAllowed(state)) {
+  } else if (
+    isNextBonusAllowed(state.input, {
+      languageCode: state.language,
+      wordBonuses: state.wordBonuses,
+      tileBonuses: state.tileBonuses
+    })
+  ) {
     return {
       ...state,
       tileBonuses: {
@@ -88,7 +100,13 @@ function cycleTileBonus(state, tileId) {
 }
 
 function addWordBonus(state, bonusType) {
-  if (isNextBonusAllowed(state)) {
+  if (
+    isNextBonusAllowed(state.input, {
+      languageCode: state.language,
+      wordBonuses: state.wordBonuses,
+      tileBonuses: state.tileBonuses
+    })
+  ) {
     if (!state.wordBonuses[bonusType]) {
       return {
         ...state,
@@ -127,7 +145,7 @@ function removeWordBonus(state, bonusType) {
 }
 
 function toggleBingo(state) {
-  if (isBingoAllowed(state)) {
+  if (isBingoAllowed(state.input, { languageCode: state.language })) {
     return { ...state, isBingoUsed: !state.isBingoUsed };
   }
   return state;

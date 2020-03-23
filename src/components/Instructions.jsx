@@ -1,15 +1,14 @@
-import React from "react";
-import {
-  BINGO_NAME,
-  POINTS_FOR_BINGO,
-  MINIMUM_LETTERS_FOR_BINGO
-} from "../constants/scoretable";
-
-const isGameUsingBingo = POINTS_FOR_BINGO > 0;
+import React, { useContext } from "react";
+import { WordContext } from "../context/word";
 
 export default function Instructions() {
+  const {
+    SETTINGS: { POINTS_FOR_BINGO, BINGO_NAME, MINIMUM_LETTERS_FOR_BINGO }
+  } = useContext(WordContext);
+  const isGameUsingBingo = POINTS_FOR_BINGO > 0;
+
   return (
-    <div>
+    <>
       <p>Click on a tile to toggle its letter bonus</p>
       <p>A blank tile can be entered by using the spacebar</p>
       {isGameUsingBingo && (
@@ -18,14 +17,12 @@ export default function Instructions() {
           {MINIMUM_LETTERS_FOR_BINGO} tiles used
         </p>
       )}
-      <p>
-        There cannot be more word + letter bonuses than letters in a word
-      </p>
+      <p>There cannot be more word + letter bonuses than letters in a word</p>
       <p>
         <a href="https://en.wikipedia.org/wiki/Scrabble#Scoring">
           Scrabble scoring rules
         </a>
       </p>
-    </div>
+    </>
   );
 }

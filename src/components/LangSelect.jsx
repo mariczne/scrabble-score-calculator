@@ -1,13 +1,16 @@
 import React, { useContext } from "react";
-import { SCORE_TABLE } from "../constants/scoretable";
 import { WordContext } from "../context/word";
+import { getSupportedLanguages } from "../modules/calculator";
+
+const languages = getSupportedLanguages();
 
 export default function LangSelect() {
-  const languages = Array.from(Object.keys(SCORE_TABLE));
-  const [state, dispatch] = useContext(WordContext);
+  const {
+    wordReducer: [state, dispatch]
+  } = useContext(WordContext);
 
   return (
-    <div>
+    <>
       Language:
       <select
         value={state.language}
@@ -20,14 +23,14 @@ export default function LangSelect() {
         className="lang-select"
         data-testid="lang-select"
       >
-        {languages.map(languageCode => {
+        {languages.map(language => {
           return (
-            <option key={languageCode} value={languageCode}>
-              {SCORE_TABLE[languageCode].displayName}
+            <option key={language.code} value={language.code}>
+              {language.displayName}
             </option>
           );
         })}
       </select>
-    </div>
+    </>
   );
 }

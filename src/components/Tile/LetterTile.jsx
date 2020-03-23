@@ -1,5 +1,5 @@
 import React from "react";
-// import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 
 const LETTER_STYLE = {
   invalidScore: { backgroundColor: "lightgray", cursor: "default" },
@@ -57,20 +57,18 @@ export default function LetterTile({
   );
 }
 
-// LetterTile.propTypes = {
-//   index: PropTypes.number,
-//   character: PropTypes.string,
-//   score: PropTypes.number,
-//   isScoreInvalid: PropTypes.bool,
-//   scoreMultiplier: PropTypes.number,
-//   cycleLetterBonus: PropTypes.func
-// };
+LetterTile.propTypes = {
+  index: PropTypes.number,
+  character: PropTypes.string,
+  score: PropTypes.number,
+  scoreMultiplier: PropTypes.number,
+  cycleLetterBonus: PropTypes.func
+};
 
-// LetterTile.defaultProps = {
-//   index: 0,
-//   character: " ",
-//   score: null,
-//   isScoreInvalid: false,
-//   scoreMultiplier: 1,
-//   cycleLetterBonus: () => {}
-// };
+LetterTile.defaultProps = {
+  index: 0,
+  character: " ",
+  score: null,
+  scoreMultiplier: 1,
+  cycleLetterBonus: () => {}
+};

@@ -2,10 +2,12 @@ import React, { useContext } from "react";
 import { WordContext } from "../context/word";
 
 export default function WordInput() {
-  const [state, dispatch] = useContext(WordContext);
+  const {
+    wordReducer: [state, dispatch]
+  } = useContext(WordContext);
 
   return (
-    <div>
+    <>
       <input
         type="text"
         value={state.input}
@@ -18,14 +20,12 @@ export default function WordInput() {
       />
       {state.input && (
         <button
-          onClick={() =>
-            dispatch({ type: "RESET" })
-          }
+          onClick={() => dispatch({ type: "RESET" })}
           className="word-reset"
         >
           Reset
         </button>
       )}
-    </div>
+    </>
   );
 }
