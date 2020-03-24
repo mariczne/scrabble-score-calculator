@@ -27,10 +27,9 @@ export function joinAllSubarraysIntoSingleElements(arr, subArr) {
   const subArrIndexAt = findIndexOfSubarray(arr, subArr);
   if (subArrIndexAt === -1) {
     return [...arr];
-  } else {
-    return joinAllSubarraysIntoSingleElements(
-      joinSubarrayIntoSingleElement(arr, subArr),
-      subArr
-    );
   }
+  return joinAllSubarraysIntoSingleElements(
+    joinSubarrayIntoSingleElement(arr, subArr),
+    subArr
+  );
 }

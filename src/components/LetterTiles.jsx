@@ -25,7 +25,7 @@ export default function LetterTiles() {
           character={tile}
           score={getTileScore(tile, {
             languageCode: state.language,
-            scoreMultiplier: getTileScoreMultiplier(index)
+            multiplier: getTileScoreMultiplier(index)
           })}
           scoreMultiplier={getTileScoreMultiplier(index)}
           cycleLetterBonus={() => dispatch(cycleTileBonus(state, index))}
