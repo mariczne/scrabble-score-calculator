@@ -19,11 +19,9 @@ export function getMultigraphsInLanguage({ scoreTable, languageCode }) {
 }
 
 export function processMultigraphs(letters, multigraphs) {
-  let lettersCopy = [...letters];
-
-  for (const multigraph of multigraphs) {
-    lettersCopy = joinAllSubarraysIntoSingleElements(lettersCopy, multigraph);
-  }
-
-  return lettersCopy;
+  return multigraphs.reduce(
+    (letters, multigraph) =>
+      (letters = joinAllSubarraysIntoSingleElements(letters, multigraph)),
+    letters
+  );
 }

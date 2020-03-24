@@ -1,10 +1,12 @@
 export default function wordReducer(state, action) {
   switch (action.type) {
     case "SET_INPUT": {
-      return { ...state, input: action.payload.inputValue };
+      const { input } = action.payload;
+      return { ...state, input };
     }
     case "CHANGE_LANGUAGE": {
-      return { ...state, language: action.payload.language };
+      const { language } = action.payload;
+      return { ...state, language };
     }
     case "ADD_TILE_BONUS": {
       const { tileIndex } = action.payload;
@@ -82,11 +84,8 @@ export default function wordReducer(state, action) {
         isBingoUsed: false
       };
     }
-    case undefined: {
-      return state;
-    }
     default: {
-      throw new Error(`Unsupported action type: ${action.type}`);
+      return state;
     }
   }
 }
