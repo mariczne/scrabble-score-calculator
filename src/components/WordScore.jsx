@@ -11,8 +11,7 @@ export default function WordScore() {
 
   const score = getWordScore(state.input, {
     languageCode: state.language,
-    wordBonuses: state.wordBonuses,
-    tileBonuses: state.tileBonuses,
+    bonuses: state.bonuses,
     isBingoUsed: state.isBingoUsed
   });
 

@@ -1,19 +1,11 @@
-import {
-  setInput,
-  changeLanguage,
-  cycleTileBonus,
-  addWordBonus,
-  removeWordBonus,
-  toggleBingo
-} from "./word";
+import { setInput, changeLanguage, cycleTileBonus, toggleBingo } from "./word";
 
 const mockState = {};
 
 beforeEach(() => {
   mockState.input = "test";
   mockState.language = "pol";
-  mockState.wordBonuses = [];
-  mockState.tileBonuses = [];
+  mockState.bonuses = [];
   mockState.isBingoUsed = false;
 });
 
@@ -43,74 +35,40 @@ describe("cycleTileBonus", () => {
     expect(cycleTileBonus(mockState, 2)).toEqual(expectedAction);
   });
 
-  it("should create an action object of type ADD_TILE_BONUS", () => {
-    mockState.tileBonuses = [{ index: 2, multiplier: 2 }];
+  it("should create an action object of type INCREMENT_TILE_MULTIPLIER", () => {
+    mockState.bonuses = [{ index: 2, multiplier: 2, type: "tile" }];
     const expectedAction = {
-      type: "INCREMENT_TILE_BONUS",
+      type: "INCREMENT_TILE_MULTIPLIER",
       payload: { tileIndex: 2 }
     };
     expect(cycleTileBonus(mockState, 2)).toEqual(expectedAction);
   });
 
-  it("should create an action object of type REMOVE_TILE_BONUS", () => {
-    mockState.tileBonuses = [{ index: 2, multiplier: 3 }];
+  it("should create an action object of type ADD_WORD_MULTIPLIER", () => {
+    mockState.bonuses = [{ index: 2, multiplier: 3, type: "tile" }];
     const expectedAction = {
-      type: "REMOVE_TILE_BONUS",
+      type: "ADD_WORD_MULTIPLIER",
       payload: { tileIndex: 2 }
     };
     expect(cycleTileBonus(mockState, 2)).toEqual(expectedAction);
   });
 
-  it("should create an action object of type ACTION_CANCELLED", () => {
-    mockState.tileBonuses = [];
-    mockState.wordBonuses = [{ type: "double", times: 4 }];
-    const expectedAction = { type: "ACTION_CANCELLED" };
+  it("should create an action object of type INCREMENT_WORD_MULTIPLIER", () => {
+    mockState.bonuses = [{ index: 2, multiplier: 2, type: "word" }];
+    const expectedAction = {
+      type: "INCREMENT_WORD_MULTIPLIER",
+      payload: { tileIndex: 2 }
+    };
     expect(cycleTileBonus(mockState, 2)).toEqual(expectedAction);
   });
-});
 
-describe("addWordBonus", () => {
-  it("should create an action object of type ADD_WORD_BONUS", () => {
+  it("should create an action object of type REMOVE_WORD_MULTIPLIER", () => {
+    mockState.bonuses = [{ index: 2, multiplier: 3, type: "word" }];
     const expectedAction = {
-      type: "ADD_WORD_BONUS",
-      payload: { bonusType: "triple" }
+      type: "REMOVE_WORD_MULTIPLIER",
+      payload: { tileIndex: 2 }
     };
-    expect(addWordBonus(mockState, "triple")).toEqual(expectedAction);
-  });
-
-  it("should create an action object of type INCREMENT_WORD_BONUS_COUNT", () => {
-    mockState.wordBonuses = [{ type: "triple", times: 1 }];
-    const expectedAction = {
-      type: "INCREMENT_WORD_BONUS_COUNT",
-      payload: { bonusType: "triple" }
-    };
-    expect(addWordBonus(mockState, "triple")).toEqual(expectedAction);
-  });
-
-  it("should create an action object of type ACTION_CANCELLED", () => {
-    mockState.wordBonuses = [{ type: "triple", times: 4 }];
-    const expectedAction = { type: "ACTION_CANCELLED" };
-    expect(addWordBonus(mockState, "triple")).toEqual(expectedAction);
-  });
-});
-
-describe("removeWordBonus", () => {
-  it("should create an action object of type REMOVE_WORD_BONUS", () => {
-    mockState.wordBonuses = [{ type: "triple", times: 1 }];
-    const expectedAction = {
-      type: "REMOVE_WORD_BONUS",
-      payload: { bonusType: "triple" }
-    };
-    expect(removeWordBonus(mockState, "triple")).toEqual(expectedAction);
-  });
-
-  it("should create an action object of type DECREMENT_WORD_BONUS_COUNT", () => {
-    mockState.wordBonuses = [{ type: "triple", times: 2 }];
-    const expectedAction = {
-      type: "DECREMENT_WORD_BONUS_COUNT",
-      payload: { bonusType: "triple" }
-    };
-    expect(removeWordBonus(mockState, "triple")).toEqual(expectedAction);
+    expect(cycleTileBonus(mockState, 2)).toEqual(expectedAction);
   });
 });
 

@@ -1,18 +1,21 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const LETTER_STYLE = {
-  invalidScore: { backgroundColor: "lightgray", cursor: "default" },
-  1: { backgroundColor: "antiquewhite" },
-  2: { backgroundColor: "#6cf" },
+const LETTER_BONUS_STYLES = {
+  2: { backgroundColor: "#6cf", color: "white" },
   3: { backgroundColor: "#06f", color: "white" }
+};
+
+const WORD_BONUS_STYLES = {
+  2: { backgroundColor: "#f9f", color: "black" },
+  3: { backgroundColor: "#f00", color: "black" }
 };
 
 export default function LetterTile({
   index,
   character,
   score,
-  scoreMultiplier,
+  bonus,
   cycleLetterBonus
 }) {
   const isScoreInvalid = Number.isNaN(score);
@@ -25,9 +28,19 @@ export default function LetterTile({
 
   function styleDiv() {
     if (isScoreInvalid) {
-      return LETTER_STYLE.invalidScore;
+      return { backgroundColor: "lightgray", cursor: "default" };
     }
-    return LETTER_STYLE[scoreMultiplier];
+    switch (bonus.type) {
+      case "tile": {
+        return LETTER_BONUS_STYLES[bonus.multiplier];
+      }
+      case "word": {
+        return WORD_BONUS_STYLES[bonus.multiplier];
+      }
+      default: {
+        return { backgroundColor: "antiquewhite" };
+      }
+    }
   }
 
   function renderScore() {

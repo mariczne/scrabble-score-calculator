@@ -2,42 +2,24 @@ import { getTilesInWord } from "../index";
 import {
   isBonusDefined,
   isNextBonusAllowed,
-  isBingoAllowed,
-  totalTimesAnyBonusTypeUsed
+  isBingoAllowed
 } from "./bonus";
 import { isLanguageDefined } from "./language";
 
-export function checkIsBonusDefined({ wordScoreMultipliers, bonusType }) {
-  if (
-    !isBonusDefined({
-      wordScoreMultipliers,
-      bonusType
-    })
-  ) {
-    throw new RangeError(`No '${bonusType}' bonus type in the score table`);
+export function checkIsBonusDefined(multiplier) {
+  if (!isBonusDefined(multiplier)) {
+    throw new RangeError(`No ${multiplier}x word bonus in the score table`);
   }
 }
 
-export function checkIsNextBonusAllowed(
-  input,
-  { languageCode, wordBonuses, tileBonuses }
-) {
-  if (!isNextBonusAllowed(input, { languageCode, wordBonuses, tileBonuses })) {
+export function checkIsNextBonusAllowed(input, { languageCode, bonuses }) {
+  if (!isNextBonusAllowed(input, { languageCode, bonuses })) {
     throw new Error();
   }
 }
 
-export function checkAreAllBonusesAllowed(
-  input,
-  { languageCode, wordBonuses, tileBonuses }
-) {
-  if (
-    totalTimesAnyBonusTypeUsed(input, {
-      languageCode,
-      wordBonuses,
-      tileBonuses
-    }) > getTilesInWord(input, { languageCode })
-  ) {
+export function checkAreAllBonusesAllowed(input, { languageCode, bonuses }) {
+  if (bonuses.length > getTilesInWord(input, { languageCode })) {
     throw new Error();
   }
 }

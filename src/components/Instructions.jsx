@@ -1,15 +1,19 @@
 import React, { useContext } from "react";
 import { WordContext } from "../context/word";
+import BonusTiles from "./BonusTiles";
 
 export default function Instructions() {
   const {
-    SETTINGS: { POINTS_FOR_BINGO, BINGO_NAME, MINIMUM_LETTERS_FOR_BINGO }
+    SETTINGS: { POINTS_FOR_BINGO, MINIMUM_LETTERS_FOR_BINGO },
+    BINGO_NAME
   } = useContext(WordContext);
   const isGameUsingBingo = POINTS_FOR_BINGO > 0;
 
   return (
     <>
-      <p>Click on a tile to toggle its letter bonus</p>
+      <p>Possible bonuses:</p>
+      <BonusTiles />
+      <p>Click on a tile to cycle its bonus</p>
       <p>A blank tile can be entered by using the spacebar</p>
       {isGameUsingBingo && (
         <p>

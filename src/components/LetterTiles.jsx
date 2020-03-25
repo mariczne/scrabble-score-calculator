@@ -12,8 +12,17 @@ export default function LetterTiles() {
 
   function getTileScoreMultiplier(index) {
     return (
-      state.tileBonuses.find(tile => tile.index === index)?.multiplier ?? 1
+      state.bonuses.find(tile => tile.index === index && tile.type === "tile")
+        ?.multiplier ?? 1
     );
+  }
+
+  function getTileBonus(index) {
+    const bonus = state.bonuses.find(tile => tile.index === index);
+    if (bonus) {
+      return { type: bonus.type, multiplier: bonus.multiplier };
+    }
+    return { type: "none", multiplier: 1 };
   }
 
   return (
@@ -27,7 +36,7 @@ export default function LetterTiles() {
             languageCode: state.language,
             multiplier: getTileScoreMultiplier(index)
           })}
-          scoreMultiplier={getTileScoreMultiplier(index)}
+          bonus={getTileBonus(index)}
           cycleLetterBonus={() => dispatch(cycleTileBonus(state, index))}
         />
       ))}

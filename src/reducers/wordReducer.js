@@ -12,64 +12,53 @@ export default function wordReducer(state, action) {
       const { tileIndex } = action.payload;
       return {
         ...state,
-        tileBonuses: [...state.tileBonuses, { index: tileIndex, multiplier: 2 }]
+        bonuses: [
+          ...state.bonuses,
+          { type: "tile", index: tileIndex, multiplier: 2 }
+        ]
       };
     }
-    case "INCREMENT_TILE_BONUS": {
+    case "INCREMENT_TILE_MULTIPLIER": {
       const { tileIndex } = action.payload;
       return {
         ...state,
-        tileBonuses: state.tileBonuses.map(tile => {
+        bonuses: state.bonuses.map(tile => {
           if (tile.index === tileIndex) {
-            return { index: tileIndex, multiplier: tile.multiplier + 1 };
+            return { ...tile, multiplier: tile.multiplier + 1 };
           }
           return tile;
         })
       };
     }
-    case "REMOVE_TILE_BONUS": {
+    case "ADD_WORD_MULTIPLIER": {
       const { tileIndex } = action.payload;
       return {
         ...state,
-        tileBonuses: state.tileBonuses.filter(tile => tile.index !== tileIndex)
-      };
-    }
-    case "ADD_WORD_BONUS": {
-      const { bonusType } = action.payload;
-      return {
-        ...state,
-        wordBonuses: [...state.wordBonuses, { type: bonusType, times: 1 }]
-      };
-    }
-    case "INCREMENT_WORD_BONUS_COUNT": {
-      const { bonusType } = action.payload;
-      return {
-        ...state,
-        wordBonuses: state.wordBonuses.map(bonus => {
-          if (bonus.type === bonusType) {
-            return { ...bonus, times: bonus.times + 1 };
+        bonuses: state.bonuses.map(tile => {
+          if (tile.index === tileIndex) {
+            return { ...tile, type: "word", multiplier: 2 };
           }
-          return bonus;
+          return tile;
         })
       };
     }
-    case "REMOVE_WORD_BONUS": {
-      const { bonusType } = action.payload;
+    case "INCREMENT_WORD_MULTIPLIER": {
+      const { tileIndex } = action.payload;
       return {
         ...state,
-        wordBonuses: state.wordBonuses.filter(bonus => bonus.type !== bonusType)
+        bonuses: state.bonuses.map(tile => {
+          if (tile.index === tileIndex) {
+            return { ...tile, multiplier: tile.multiplier + 1 };
+          }
+          return tile;
+        })
       };
     }
-    case "DECREMENT_WORD_BONUS_COUNT": {
-      const { bonusType } = action.payload;
+    case "REMOVE_WORD_MULTIPLIER": {
+      const { tileIndex } = action.payload;
       return {
         ...state,
-        wordBonuses: state.wordBonuses.map(bonus => {
-          if (bonus.type === bonusType) {
-            return { ...bonus, times: bonus.times - 1 };
-          }
-          return bonus;
-        })
+        bonuses: state.bonuses.filter(tile => tile.index !== tileIndex)
       };
     }
     case "TOGGLE_BINGO": {
@@ -79,8 +68,7 @@ export default function wordReducer(state, action) {
       return {
         ...state,
         input: "",
-        wordBonuses: [],
-        tileBonuses: [],
+        bonuses: [],
         isBingoUsed: false
       };
     }

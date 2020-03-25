@@ -19,10 +19,10 @@ export default function LangSelect() {
         className="lang-select"
         data-testid="lang-select"
       >
-        {languages.map(language => {
+        {languages.map(({ languageCode, displayName }) => {
           return (
-            <option key={language.code} value={language.code}>
-              {language.displayName}
+            <option key={languageCode} value={languageCode}>
+              {displayName}
             </option>
           );
         })}

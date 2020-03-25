@@ -4,8 +4,7 @@ const mockState = {};
 beforeEach(() => {
   mockState.input = "test";
   mockState.language = "pol";
-  mockState.wordBonuses = [];
-  mockState.tileBonuses = [];
+  mockState.bonuses = [];
   mockState.isBingoUsed = false;
 });
 
@@ -31,88 +30,63 @@ describe("wordReducer", () => {
   it("should handle ADD_TILE_BONUS action", () => {
     const action = {
       type: "ADD_TILE_BONUS",
-      payload: { tileIndex: 2, multiplier: 2 }
-    };
-    const expectedState = {
-      ...mockState,
-      tileBonuses: [{ index: 2, multiplier: 2 }]
-    };
-    expect(wordReducer(mockState, action)).toEqual(expectedState);
-  });
-
-  it("should handle INCREMENT_TILE_BONUS action", () => {
-    mockState.tileBonuses = [{ index: 2, multiplier: 2 }];
-    const action = {
-      type: "INCREMENT_TILE_BONUS",
       payload: { tileIndex: 2 }
     };
     const expectedState = {
       ...mockState,
-      tileBonuses: [{ index: 2, multiplier: 3 }]
+      bonuses: [{ type: "tile", index: 2, multiplier: 2 }]
     };
     expect(wordReducer(mockState, action)).toEqual(expectedState);
   });
 
-  it("should handle REMOVE_TILE_BONUS action", () => {
-    mockState.tileBonuses = [{ index: 2, multiplier: 3 }];
+  it("should handle INCREMENT_TILE_MULTIPLIER action", () => {
+    mockState.bonuses = [{ type: "tile", index: 2, multiplier: 2 }];
     const action = {
-      type: "REMOVE_TILE_BONUS",
+      type: "INCREMENT_TILE_MULTIPLIER",
       payload: { tileIndex: 2 }
     };
     const expectedState = {
       ...mockState,
-      tileBonuses: []
+      bonuses: [{ type: "tile", index: 2, multiplier: 3 }]
     };
     expect(wordReducer(mockState, action)).toEqual(expectedState);
   });
 
-  it("should handle ADD_WORD_BONUS action", () => {
+  it("should handle ADD_WORD_MULTIPLIER action", () => {
+    mockState.bonuses = [{ type: "tile", index: 2, multiplier: 3 }];
     const action = {
-      type: "ADD_WORD_BONUS",
-      payload: { bonusType: "double" }
+      type: "ADD_WORD_MULTIPLIER",
+      payload: { tileIndex: 2 }
     };
     const expectedState = {
       ...mockState,
-      wordBonuses: [{ type: "double", times: 1 }]
+      bonuses: [{ type: "word", index: 2, multiplier: 2 }]
     };
     expect(wordReducer(mockState, action)).toEqual(expectedState);
   });
 
-  it("should handle INCREMENT_WORD_BONUS_COUNT action", () => {
-    mockState.wordBonuses = [{ type: "double", times: 1 }];
+  it("should handle INCREMENT_WORD_MULTIPLIER action", () => {
+    mockState.bonuses = [{ type: "word", index: 2, multiplier: 2 }];
     const action = {
-      type: "INCREMENT_WORD_BONUS_COUNT",
-      payload: { bonusType: "double" }
+      type: "INCREMENT_WORD_MULTIPLIER",
+      payload: { tileIndex: 2 }
     };
     const expectedState = {
       ...mockState,
-      wordBonuses: [{ type: "double", times: 2 }]
+      bonuses: [{ type: "word", index: 2, multiplier: 3 }]
     };
     expect(wordReducer(mockState, action)).toEqual(expectedState);
   });
 
-  it("should handle REMOVE_WORD_BONUS action", () => {
-    mockState.wordBonuses = [{ type: "double", times: 1 }];
+  it("should handle REMOVE_WORD_MULTIPLIER action", () => {
+    mockState.bonuses = [{ type: "word", index: 2, multiplier: 3 }];
     const action = {
-      type: "REMOVE_WORD_BONUS",
-      payload: { bonusType: "double" }
+      type: "REMOVE_WORD_MULTIPLIER",
+      payload: { tileIndex: 2 }
     };
     const expectedState = {
       ...mockState,
-      wordBonuses: []
-    };
-    expect(wordReducer(mockState, action)).toEqual(expectedState);
-  });
-
-  it("should handle DECREMENT_WORD_BONUS_COUNT action", () => {
-    mockState.wordBonuses = [{ type: "double", times: 2 }];
-    const action = {
-      type: "DECREMENT_WORD_BONUS_COUNT",
-      payload: { bonusType: "double" }
-    };
-    const expectedState = {
-      ...mockState,
-      wordBonuses: [{ type: "double", times: 1 }]
+      bonuses: []
     };
     expect(wordReducer(mockState, action)).toEqual(expectedState);
   });
@@ -140,8 +114,7 @@ describe("wordReducer", () => {
     const expectedState = {
       ...mockState,
       input: "",
-      wordBonuses: [],
-      tileBonuses: [],
+      bonuses: [],
       isBingoUsed: false
     };
     expect(wordReducer(mockState, action)).toEqual(expectedState);

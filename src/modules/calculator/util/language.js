@@ -5,8 +5,8 @@ export function isLanguageDefined({ scoreTable = SCORE_TABLE, languageCode }) {
 }
 
 export function getSupportedLanguages(scoreTable = SCORE_TABLE) {
-  return Array.from(Object.keys(scoreTable)).map(language => ({
-    code: language,
-    displayName: scoreTable[language].displayName
+  return Array.from(Object.keys(scoreTable)).map(languageCode => ({
+    languageCode,
+    displayName: scoreTable[languageCode].displayName
   }));
 }
