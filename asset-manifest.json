@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/scrabble-score-calculator/static/css/main.16183123.chunk.css",
-    "main.js": "/scrabble-score-calculator/static/js/main.646f7955.chunk.js",
-    "main.js.map": "/scrabble-score-calculator/static/js/main.646f7955.chunk.js.map",
+    "main.js": "/scrabble-score-calculator/static/js/main.fcb0c272.chunk.js",
+    "main.js.map": "/scrabble-score-calculator/static/js/main.fcb0c272.chunk.js.map",
     "runtime-main.js": "/scrabble-score-calculator/static/js/runtime-main.ad2c6d58.js",
     "runtime-main.js.map": "/scrabble-score-calculator/static/js/runtime-main.ad2c6d58.js.map",
-    "static/js/2.146868cd.chunk.js": "/scrabble-score-calculator/static/js/2.146868cd.chunk.js",
-    "static/js/2.146868cd.chunk.js.map": "/scrabble-score-calculator/static/js/2.146868cd.chunk.js.map",
+    "static/js/2.639c1fb9.chunk.js": "/scrabble-score-calculator/static/js/2.639c1fb9.chunk.js",
+    "static/js/2.639c1fb9.chunk.js.map": "/scrabble-score-calculator/static/js/2.639c1fb9.chunk.js.map",
     "index.html": "/scrabble-score-calculator/index.html",
-    "precache-manifest.4e2d313d4c22e25155c837afa7e47028.js": "/scrabble-score-calculator/precache-manifest.4e2d313d4c22e25155c837afa7e47028.js",
+    "precache-manifest.855ca8914f9ffcb720fe10776b95be7f.js": "/scrabble-score-calculator/precache-manifest.855ca8914f9ffcb720fe10776b95be7f.js",
     "service-worker.js": "/scrabble-score-calculator/service-worker.js",
     "static/css/main.16183123.chunk.css.map": "/scrabble-score-calculator/static/css/main.16183123.chunk.css.map",
-    "static/js/2.146868cd.chunk.js.LICENSE.txt": "/scrabble-score-calculator/static/js/2.146868cd.chunk.js.LICENSE.txt"
+    "static/js/2.639c1fb9.chunk.js.LICENSE.txt": "/scrabble-score-calculator/static/js/2.639c1fb9.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.ad2c6d58.js",
-    "static/js/2.146868cd.chunk.js",
+    "static/js/2.639c1fb9.chunk.js",
     "static/css/main.16183123.chunk.css",
-    "static/js/main.646f7955.chunk.js"
+    "static/js/main.fcb0c272.chunk.js"
   ]
 }

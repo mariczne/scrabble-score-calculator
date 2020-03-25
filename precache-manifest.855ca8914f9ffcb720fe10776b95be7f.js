@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "e8e7aff7674c363cf9bfdbc69e61d076",
+    "revision": "808766e0cfc3fac58f3b54052decad0b",
     "url": "/scrabble-score-calculator/index.html"
   },
   {
-    "revision": "842464095317764fba7f",
+    "revision": "9a5488796a751ccb9f6e",
     "url": "/scrabble-score-calculator/static/css/main.16183123.chunk.css"
   },
   {
-    "revision": "e39536398db9cabd9a50",
-    "url": "/scrabble-score-calculator/static/js/2.146868cd.chunk.js"
+    "revision": "1f7a2b63e336fccdda3f",
+    "url": "/scrabble-score-calculator/static/js/2.639c1fb9.chunk.js"
   },
   {
     "revision": "5356fa2f66e46e6c05e4cbe319ac7f1d",
-    "url": "/scrabble-score-calculator/static/js/2.146868cd.chunk.js.LICENSE.txt"
+    "url": "/scrabble-score-calculator/static/js/2.639c1fb9.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "842464095317764fba7f",
-    "url": "/scrabble-score-calculator/static/js/main.646f7955.chunk.js"
+    "revision": "9a5488796a751ccb9f6e",
+    "url": "/scrabble-score-calculator/static/js/main.fcb0c272.chunk.js"
   },
   {
     "revision": "875f7153dbf96193fbfd",
