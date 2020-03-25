@@ -49,9 +49,9 @@ describe("getWordScore", () => {
   it("calculates word score when some tiles have bonuses", () => {
     const wordScore = getWordScore("późność", {
       languageCode: "pol",
-      tileBonuses: [
-        { index: 1, multiplier: 2 },
-        { index: 5, multiplier: 3 }
+      bonuses: [
+        { type: "tile", index: 1, multiplier: 2 },
+        { type: "tile", index: 5, multiplier: 3 }
       ]
     });
 
@@ -61,26 +61,26 @@ describe("getWordScore", () => {
   it("calculates word score when there are word bonuses", () => {
     const wordScore = getWordScore("późność", {
       languageCode: "pol",
-      wordBonuses: [
-        { type: "double", times: 2 },
-        { type: "triple", times: 1 }
+      bonuses: [
+        { type: "word", index: 1, multiplier: 2 },
+        { type: "word", index: 5, multiplier: 2 }
       ]
     });
 
-    expect(wordScore).toEqual(348);
+    expect(wordScore).toEqual(116);
   });
 
   it("calculates word score when there are both word and letter bonuses", () => {
     const wordScore = getWordScore("późność", {
       languageCode: "pol",
-      wordBonuses: [
-        { type: "double", times: 2 },
-        { type: "triple", times: 1 }
-      ],
-      tileBonuses: [{ index: 2, multiplier: 3 }]
+      bonuses: [
+        { type: "word", index: 1, multiplier: 2 },
+        { type: "word", index: 5, multiplier: 2 },
+        { type: "tile", index: 2, multiplier: 3 }
+      ]
     });
 
-    expect(wordScore).toEqual(564);
+    expect(wordScore).toEqual(188);
   });
 
   it("adds points for bingo to the total score", () => {

@@ -1,15 +1,18 @@
 import React, { useContext } from "react";
 import { WordContext } from "../context/word";
-import {
-  isNextBonusAllowed,
-  isBingoAllowed,
-  getWordBonusTypes
-} from "../modules/calculator";
-import { addWordBonus, removeWordBonus, toggleBingo } from "../actions/word";
+import { isBingoAllowed, getWordBonusTypes } from "../modules/calculator";
+import { toggleBingo } from "../actions/word";
 import { BonusTile, BingoTile } from "./Tile/Tile";
 
 export default function BonusTiles() {
-  const bonusTypes = getWordBonusTypes();
+  const wordBonusTypes = getWordBonusTypes().map(bonus => ({
+    name: bonus,
+    type: "word"
+  }));
+  const letterBonusTypes = [
+    { name: "double", type: "letter" },
+    { name: "triple", type: "letter" }
+  ];
   const {
     wordReducer: [state, dispatch],
     SETTINGS: { POINTS_FOR_BINGO },
@@ -20,21 +23,21 @@ export default function BonusTiles() {
 
   return (
     <>
-      {bonusTypes.map(bonusType => {
+      {letterBonusTypes.map(bonus => {
         return (
           <BonusTile
-            key={bonusType}
-            bonusType={bonusType}
-            timesUsed={
-              state.wordBonuses.find(bonus => bonus.type === bonusType)?.times
-            }
-            isNextBonusAllowed={isNextBonusAllowed(state.input, {
-              languageCode: state.language,
-              wordBonuses: state.wordBonuses,
-              tileBonuses: state.tileBonuses
-            })}
-            addWordBonus={() => dispatch(addWordBonus(state, bonusType))}
-            removeWordBonus={() => dispatch(removeWordBonus(state, bonusType))}
+            key={`letter_${bonus.name}`}
+            type={bonus.type}
+            name={bonus.name}
+          />
+        );
+      })}
+      {wordBonusTypes.map(bonus => {
+        return (
+          <BonusTile
+            key={`word_${bonus.name}`}
+            type={bonus.type}
+            name={bonus.name}
           />
         );
       })}

@@ -1,30 +1,71 @@
 import {
+  getTileBonuses,
+  getWordBonuses,
   getWordMultiplier,
   getWordBonusTypes,
   isBonusDefined,
-  timesBonusTypeUsed,
   isNextBonusAllowed,
   isBingoAllowed
 } from "./bonus";
-let bonus;
+let bonuses;
 
-const wordScoreMultipliersMock = {
-  double: 2,
-  triple: 3
-};
+const wordScoreMultipliersMock = [
+  { name: "double", multiplier: 2 },
+  { name: "triple", multiplier: 3 }
+];
 
 beforeEach(() => {
-  bonus = { wordScoreMultipliers: wordScoreMultipliersMock };
+  bonuses = [
+    {
+      index: 0,
+      type: "tile",
+      multiplier: 2
+    },
+    {
+      index: 2,
+      type: "word",
+      multiplier: 2
+    },
+    {
+      type: "bingo"
+    }
+  ];
+});
+
+describe("getTileBonuses", () => {
+  it("should return an array containing only tile bonuses", () => {
+    const expectedResult = [
+      {
+        index: 0,
+        type: "tile",
+        multiplier: 2
+      }
+    ];
+    expect(getTileBonuses(bonuses)).toEqual(expectedResult);
+  });
+});
+
+describe("getWordBonuses", () => {
+  it("should return an array containing only word bonuses", () => {
+    const expectedResult = [
+      {
+        index: 2,
+        type: "word",
+        multiplier: 2
+      }
+    ];
+    expect(getWordBonuses(bonuses)).toEqual(expectedResult);
+  });
 });
 
 describe("getWordMultiplier", () => {
   it("should reduce word bonuses to a single multiplier", () => {
     const wordBonuses = [
-      { type: "double", times: 2 },
-      { type: "triple", times: 1 }
+      { type: "word", index: 1, multiplier: 2 },
+      { type: "word", index: 5, multiplier: 3 }
     ];
 
-    expect(getWordMultiplier(wordBonuses)).toEqual(12);
+    expect(getWordMultiplier(wordBonuses)).toEqual(6);
   });
 });
 
@@ -39,36 +80,29 @@ describe("getWordBonusTypes", () => {
 
 describe("isBonusDefined", () => {
   it("should return false if bonus is not defined in the scoretable", () => {
-    bonus.bonusType = "quintuple";
-    expect(isBonusDefined(bonus)).toEqual(false);
+    expect(isBonusDefined(5)).toEqual(false);
   });
 
   it("should return true if bonus is defined in the scoretable", () => {
-    bonus.bonusType = "double";
-    expect(isBonusDefined(bonus)).toEqual(true);
-  });
-});
-
-describe("timesBonusTypeUsed", () => {
-  const wordBonuses = [{ type: "double", times: 2 }];
-
-  it("should return the number of times that a bonus is used", () => {
-    expect(timesBonusTypeUsed("double", wordBonuses)).toEqual(2);
+    expect(isBonusDefined(2)).toEqual(true);
   });
 });
 
 describe("isNextBonusAllowed", () => {
-  const wordBonuses = [{ type: "double", times: 2 }];
+  const bonuses = [
+    { type: "word", index: 0, multiplier: 2 },
+    { type: "word", index: 1, multiplier: 2 }
+  ];
 
   it("should return true if there are more tiles than used bonuses", () => {
     expect(
-      isNextBonusAllowed("asd", { languageCode: "eng", wordBonuses })
+      isNextBonusAllowed("asd", { languageCode: "eng", bonuses })
     ).toEqual(true);
   });
 
   it("should return false if all bonuses are taken", () => {
     expect(
-      isNextBonusAllowed("as", { languageCode: "eng", wordBonuses })
+      isNextBonusAllowed("as", { languageCode: "eng", bonuses })
     ).toEqual(false);
   });
 });

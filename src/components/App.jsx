@@ -1,7 +1,6 @@
 import React from "react";
 import LangSelect from "./LangSelect";
 import WordInput from "./WordInput";
-import BonusTiles from "./BonusTiles";
 import LetterTiles from "./LetterTiles";
 import WordScore from "./WordScore";
 import Instructions from "./Instructions";
@@ -16,7 +15,6 @@ export default function App() {
       <WordContextProvider>
         <LangSelect />
         <WordInput />
-        <BonusTiles />
         <LetterTiles />
         <WordScore />
         <Instructions />

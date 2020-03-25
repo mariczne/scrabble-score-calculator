@@ -2,49 +2,33 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const BONUS_STYLE = {
-  notAllowed: {
-    backgroundColor: "lightgray",
-    cursor: "default"
+  letter: {
+    double: {
+      backgroundColor: "#6cf",
+      cursor: "default"
+    },
+    triple: {
+      backgroundColor: "#06f",
+      cursor: "default"
+    }
   },
-  double: {
-    backgroundColor: "#f9f"
-  },
-  triple: {
-    backgroundColor: "#f00"
+  word: {
+    double: {
+      backgroundColor: "#f9f",
+      cursor: "default"
+    },
+    triple: {
+      backgroundColor: "#f00",
+      cursor: "default"
+    }
   }
 };
 
-export default function BonusTile({
-  bonusType,
-  timesUsed,
-  addWordBonus,
-  removeWordBonus,
-  isNextBonusAllowed
-}) {
-  function styleDiv() {
-    if (!isNextBonusAllowed) {
-      return BONUS_STYLE.notAllowed;
-    }
-    return BONUS_STYLE[bonusType];
-  }
-
-  const bonusName = `${bonusType.toUpperCase()} WORD SCORE`;
-
+export default function BonusTile({ type, name }) {
   return (
     <>
-      <BonusRemoveButton
-        bonusType={bonusType}
-        timesUsed={timesUsed}
-        removeWordBonus={removeWordBonus}
-      />
-      <div
-        className="tile"
-        style={styleDiv()}
-        onClick={addWordBonus}
-        tabIndex="0"
-      >
-        <span className="tile__bonus-name">{bonusName}</span>
-        <BonusState timesUsed={timesUsed} />
+      <div className="tile" style={BONUS_STYLE[type][name]} tabIndex="0">
+        <span className="tile__bonus-name">{`${name.toUpperCase()} ${type.toUpperCase()} SCORE`}</span>
       </div>
     </>
   );
@@ -69,10 +53,7 @@ BonusTile.defaultProps = {
 function BonusRemoveButton({ bonusType, timesUsed, removeWordBonus }) {
   if (timesUsed > 0) {
     return (
-      <button
-        className="tile__bonus-remove"
-        onClick={removeWordBonus}
-      >
+      <button className="tile__bonus-remove" onClick={removeWordBonus}>
         –
       </button>
     );

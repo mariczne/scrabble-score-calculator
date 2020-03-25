@@ -7,8 +7,7 @@ const BINGO_NAME = "Bingo";
 const initialState = {
   input: "",
   language: "eng",
-  wordBonuses: [],
-  tileBonuses: [],
+  bonuses: [],
   isBingoUsed: false
 };
 
