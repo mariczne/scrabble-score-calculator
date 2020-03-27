@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { WordContext } from "../context/wordContext";
 import { getTileScore, getTilesInWord } from "../modules/calculator";
-import { cycleTileBonus } from "../actions/word";
+import { cycleTileBonus } from "../actions/wordActions";
 import { LetterTile } from "./Tile/Tile";
 
 export default function LetterTiles() {

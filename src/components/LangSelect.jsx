@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { WordContext } from "../context/wordContext";
 import { getSupportedLanguages } from "../modules/calculator";
-import { changeLanguage } from "../actions/word";
+import { changeLanguage } from "../actions/wordActions";
 
 const languages = getSupportedLanguages();
 

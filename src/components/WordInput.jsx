@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { WordContext } from "../context/wordContext";
-import { setInput } from "../actions/word";
+import { setInput } from "../actions/wordActions";
 
 export default function WordInput() {
   const {
