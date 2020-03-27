@@ -1,4 +1,4 @@
-import { setInput, changeLanguage, cycleTileBonus, toggleBingo } from "./word";
+import { setInput, changeLanguage, cycleTileBonus, toggleBingo } from "./wordActions";
 import { MIN_TILES_FOR_BINGO } from "../modules/calculator/settings";
 
 const mockState = {};
