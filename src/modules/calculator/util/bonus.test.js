@@ -7,6 +7,7 @@ import {
   isNextBonusAllowed,
   isBingoAllowed
 } from "./bonus";
+import { getTilesInWord } from "../index";
 let bonuses;
 
 const wordScoreMultipliersMock = [
@@ -96,13 +97,16 @@ describe("isNextBonusAllowed", () => {
 
   it("should return true if there are more tiles than used bonuses", () => {
     expect(
-      isNextBonusAllowed("asd", { languageCode: "eng", bonuses })
+      isNextBonusAllowed(
+        getTilesInWord("asd", { languageCode: "eng" }),
+        bonuses
+      )
     ).toEqual(true);
   });
 
   it("should return false if all bonuses are taken", () => {
     expect(
-      isNextBonusAllowed("as", { languageCode: "eng", bonuses })
+      isNextBonusAllowed(getTilesInWord("as", { languageCode: "eng" }), bonuses)
     ).toEqual(false);
   });
 });

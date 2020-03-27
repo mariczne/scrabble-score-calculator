@@ -1,9 +1,5 @@
 import { getTilesInWord } from "../index";
-import {
-  isBonusDefined,
-  isNextBonusAllowed,
-  isBingoAllowed
-} from "./bonus";
+import { isBonusDefined, isNextBonusAllowed, isBingoAllowed } from "./bonus";
 import { isLanguageDefined } from "./language";
 
 export function checkIsBonusDefined(multiplier) {
@@ -13,13 +9,13 @@ export function checkIsBonusDefined(multiplier) {
 }
 
 export function checkIsNextBonusAllowed(input, { languageCode, bonuses }) {
-  if (!isNextBonusAllowed(input, { languageCode, bonuses })) {
+  if (!isNextBonusAllowed(getTilesInWord(input, { languageCode }), bonuses)) {
     throw new Error();
   }
 }
 
 export function checkAreAllBonusesAllowed(input, { languageCode, bonuses }) {
-  if (bonuses.length > getTilesInWord(input, { languageCode })) {
+  if (bonuses.length > getTilesInWord(input, { languageCode }).length) {
     throw new Error();
   }
 }

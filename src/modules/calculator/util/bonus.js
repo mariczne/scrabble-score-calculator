@@ -30,9 +30,7 @@ export function isBonusDefined(
   return wordScoreMultipliers.some(bonus => bonus.multiplier === multiplier);
 }
 
-export const isNextBonusAllowed = (input, { languageCode, bonuses = [] }) => {
-  // possibly move higher up the chain?
-  const tiles = getTilesInWord(input, { languageCode });
+export const isNextBonusAllowed = (tiles, bonuses) => {
   return tiles.length > bonuses.length;
 };
 

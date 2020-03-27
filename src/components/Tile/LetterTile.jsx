@@ -2,13 +2,13 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const LETTER_BONUS_STYLES = {
-  2: { backgroundColor: "#6cf", color: "white" },
-  3: { backgroundColor: "#06f", color: "white" }
+  2: { backgroundColor: "#6cf", color: "black" },
+  3: { backgroundColor: "#09f", color: "black" }
 };
 
 const WORD_BONUS_STYLES = {
   2: { backgroundColor: "#f9f", color: "black" },
-  3: { backgroundColor: "#f00", color: "black" }
+  3: { backgroundColor: "#f66", color: "black" }
 };
 
 export default function LetterTile({
@@ -62,6 +62,7 @@ export default function LetterTile({
       className="tile"
       style={styleDiv()}
       onClick={() => cycleLetterBonus(index)}
+      onKeyDown={e => (e.key === "Enter" ? cycleLetterBonus(index) : null)}
       tabIndex="0"
     >
       <span className={spanClassName}>{character.toUpperCase()}</span>
