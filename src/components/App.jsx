@@ -7,7 +7,7 @@ import Instructions from "./Instructions";
 import Footer from "./Footer";
 import "./App.css";
 
-import { WordContextProvider } from "../context/word";
+import { WordContextProvider } from "../context/wordContext";
 
 export default function App() {
   return (

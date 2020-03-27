@@ -2,13 +2,13 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const LETTER_BONUS_STYLES = {
-  2: { backgroundColor: "#6cf", color: "black" },
-  3: { backgroundColor: "#09f", color: "black" }
+  2: { backgroundColor: "#6cf" },
+  3: { backgroundColor: "#09f" }
 };
 
 const WORD_BONUS_STYLES = {
-  2: { backgroundColor: "#f9f", color: "black" },
-  3: { backgroundColor: "#f66", color: "black" }
+  2: { backgroundColor: "#f9f" },
+  3: { backgroundColor: "#f66" }
 };
 
 export default function LetterTile({
@@ -38,7 +38,7 @@ export default function LetterTile({
         return WORD_BONUS_STYLES[bonus.multiplier];
       }
       default: {
-        return { backgroundColor: "antiquewhite" };
+        return { backgroundColor: "antiquewhite", color: "green" };
       }
     }
   }
@@ -53,9 +53,9 @@ export default function LetterTile({
     return score;
   }
 
-  const spanClassName = `tile__letter ${
-    isDigraph ? "tile__letter--double" : null
-  } ${isTrigraph ? "tile__letter--triple" : null}`;
+  const spanClassName = `tile__letter${
+    isDigraph ? " tile__letter--double" : ""
+  }${isTrigraph ? " tile__letter--triple" : ""}`;
 
   return (
     <div

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { WordContext } from "../context/word";
+import { WordContext } from "../context/wordContext";
 import { isBingoAllowed, getWordBonusTypes } from "../modules/calculator";
 import { toggleBingo } from "../actions/word";
 import { BonusTile, BingoTile } from "./Tile/Tile";
@@ -35,24 +35,20 @@ export default function BonusTiles() {
           textWhenBingoUsed="ACTIVE"
         />
       )}
-      {letterBonusTypes.map(bonus => {
-        return (
-          <BonusTile
-            key={`letter_${bonus.name}`}
-            type={bonus.type}
-            name={bonus.name}
-          />
-        );
-      })}
-      {wordBonusTypes.map(bonus => {
-        return (
-          <BonusTile
-            key={`word_${bonus.name}`}
-            type={bonus.type}
-            name={bonus.name}
-          />
-        );
-      })}
+      {letterBonusTypes.map(bonus => (
+        <BonusTile
+          key={`letter_${bonus.name}`}
+          type={bonus.type}
+          name={bonus.name}
+        />
+      ))}
+      {wordBonusTypes.map(bonus => (
+        <BonusTile
+          key={`word_${bonus.name}`}
+          type={bonus.type}
+          name={bonus.name}
+        />
+      ))}
     </>
   );
 }

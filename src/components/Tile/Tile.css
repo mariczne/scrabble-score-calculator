@@ -8,7 +8,7 @@
   border: 1px solid black;
   border-radius: 5%;
   background-color: antiquewhite;
-  color: green;
+  color: black;
   font-size: 2.6rem;
   font-family: "Nunito Sans", sans-serif;
   font-weight: 700;
@@ -44,6 +44,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-60%, -55%);
+  line-height: 1;
 }
 
 .tile__letter--double {

@@ -4,17 +4,17 @@ import {
   getTileBonuses,
   getWordBonuses,
   getWordMultiplier
-} from "./util/bonus";
+} from "./utilities/bonus";
 import {
   isLanguageWithMultigraphs,
   getMultigraphsInLanguage,
   processMultigraphs
-} from "./util/multigraph";
+} from "./utilities/multigraph";
 import {
   checkIsLanguageDefined,
   checkAreAllBonusesAllowed,
   checkIsBingoAllowed
-} from "./util/error";
+} from "./utilities/error";
 
 export const getWordScore = (
   input,
@@ -76,13 +76,13 @@ export const getTilesInWord = (
 
 export { default as SETTINGS } from "./settings";
 export { default as SCORE_TABLE } from "./scoreTable";
-export { getSupportedLanguages } from "./util/language";
-export * from "./util/error";
+export { getSupportedLanguages } from "./utilities/language";
+export * from "./utilities/error";
 export {
   getWordBonusTypes,
   isNextBonusAllowed,
   isBingoAllowed
-} from "./util/bonus";
+} from "./utilities/bonus";
 
 export default {
   getWordScore,

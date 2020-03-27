@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { WordContext } from "../context/word";
+import { WordContext } from "../context/wordContext";
 import { setInput } from "../actions/word";
 
 export default function WordInput() {
@@ -19,7 +19,7 @@ export default function WordInput() {
       />
       {state.input && (
         <button
-          onClick={() => dispatch({ type: "RESET_WORD" })}
+          onClick={() => dispatch({ type: "WORD_RESET" })}
           className="word-reset"
         >
           Reset

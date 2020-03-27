@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { WordContext } from "../context/word";
+import { WordContext } from "../context/wordContext";
 import { getWordScore } from "../modules/calculator";
 
 const INVALID_SCORE_TEXT = "At least one tile invalid";
