@@ -1,8 +1,16 @@
+import { MINIMUM_LETTERS_FOR_BINGO } from "../modules/calculator/settings";
+
 export default function wordReducer(state, action) {
   switch (action.type) {
     case "SET_INPUT": {
       const { input } = action.payload;
-      return { ...state, input };
+      return {
+        ...state,
+        input,
+        bonuses: state.bonuses.filter(bonus => bonus.index < input.length),
+        isBingoUsed:
+          input.length >= MINIMUM_LETTERS_FOR_BINGO ? state.isBingoUsed : false
+      };
     }
     case "CHANGE_LANGUAGE": {
       const { language } = action.payload;

@@ -22,7 +22,13 @@ export default function BingoTile({
   }
 
   return (
-    <div className="tile" style={styleDiv()} onClick={toggleBingo} tabIndex="0">
+    <div
+      className="tile"
+      style={styleDiv()}
+      onClick={toggleBingo}
+      onKeyDown={e => (e.key === "Enter" ? toggleBingo() : null)}
+      tabIndex="0"
+    >
       <span className="tile__bonus-name">{bingoName.toUpperCase()}</span>
       {isBingoUsed && (
         <span className="tile__bonus-state">{textWhenBingoUsed}</span>

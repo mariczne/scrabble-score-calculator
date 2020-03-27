@@ -17,6 +17,15 @@
   animation: fadeIn 0.3s;
 }
 
+.tile:focus {
+  outline: none;
+  border: 2px solid blue;
+}
+
+.tile--bonus {
+  cursor: default;
+}
+
 @keyframes fadeIn {
   0% {
     opacity: 0;

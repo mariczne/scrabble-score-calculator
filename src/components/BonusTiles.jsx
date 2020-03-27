@@ -23,6 +23,18 @@ export default function BonusTiles() {
 
   return (
     <>
+      {isGameUsingBingo && (
+        <BingoTile
+          key={BINGO_NAME}
+          bingoName={BINGO_NAME}
+          toggleBingo={() => dispatch(toggleBingo(state))}
+          isBingoAllowed={isBingoAllowed(state.input, {
+            languageCode: state.language
+          })}
+          isBingoUsed={state.isBingoUsed}
+          textWhenBingoUsed="ACTIVE"
+        />
+      )}
       {letterBonusTypes.map(bonus => {
         return (
           <BonusTile
@@ -41,18 +53,6 @@ export default function BonusTiles() {
           />
         );
       })}
-      {isGameUsingBingo && (
-        <BingoTile
-          key={BINGO_NAME}
-          bingoName={BINGO_NAME}
-          toggleBingo={() => dispatch(toggleBingo(state))}
-          isBingoAllowed={isBingoAllowed(state.input, {
-            languageCode: state.language
-          })}
-          isBingoUsed={state.isBingoUsed}
-          textWhenBingoUsed="ACTIVE"
-        />
-      )}
     </>
   );
 }

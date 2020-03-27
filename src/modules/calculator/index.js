@@ -40,10 +40,9 @@ export const getWordScore = (
           multiplier:
             tileBonuses.find(tile => tile.index === index)?.multiplier ?? 1
         })
-      )
-      .reduce((acc, curr) => (acc += curr)) *
-      getWordMultiplier(wordBonuses) +
-    (isBingoUsed ? POINTS_FOR_BINGO : 0)
+      ).reduce((acc, curr) => (acc += curr))
+      * getWordMultiplier(wordBonuses)
+      + (isBingoUsed ? POINTS_FOR_BINGO : 0)
   );
 };
 
