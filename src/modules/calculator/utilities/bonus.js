@@ -1,4 +1,4 @@
-import { WORD_SCORE_MULTIPLIERS, MINIMUM_LETTERS_FOR_BINGO } from "../settings";
+import { WORD_SCORE_MULTIPLIERS, MIN_TILES_FOR_BINGO } from "../settings";
 import { getTilesInWord } from "../index";
 import { checkIsBonusDefined } from "./error";
 
@@ -36,7 +36,7 @@ export const isNextBonusAllowed = (tiles, bonuses) => {
 
 export const isBingoAllowed = (
   input,
-  { languageCode, minTilesForBingo = MINIMUM_LETTERS_FOR_BINGO }
+  { languageCode, minTilesForBingo = MIN_TILES_FOR_BINGO }
 ) => {
   return getTilesInWord(input, { languageCode }).length >= minTilesForBingo;
 };

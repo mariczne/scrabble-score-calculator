@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { WordContext } from "../context/word";
+import { WordContext } from "../context/wordContext";
 import { getTileScore, getTilesInWord } from "../modules/calculator";
 import { cycleTileBonus } from "../actions/word";
 import { LetterTile } from "./Tile/Tile";

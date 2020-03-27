@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
-import { WordContext } from "../context/word";
+import { WordContext } from "../context/wordContext";
 import BonusTiles from "./BonusTiles";
 
 export default function Instructions() {
   const {
-    SETTINGS: { POINTS_FOR_BINGO, MINIMUM_LETTERS_FOR_BINGO },
+    SETTINGS: { POINTS_FOR_BINGO, MIN_TILES_FOR_BINGO },
     BINGO_NAME
   } = useContext(WordContext);
   const isGameUsingBingo = POINTS_FOR_BINGO > 0;
@@ -18,7 +18,7 @@ export default function Instructions() {
       {isGameUsingBingo && (
         <p>
           {BINGO_NAME} can be activated when there are at least{" "}
-          {MINIMUM_LETTERS_FOR_BINGO} tiles used
+          {MIN_TILES_FOR_BINGO} tiles used
         </p>
       )}
       <p>There cannot be more word + letter bonuses than letters in a word</p>

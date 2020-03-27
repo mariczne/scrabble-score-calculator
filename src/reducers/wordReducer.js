@@ -1,22 +1,20 @@
-import { MINIMUM_LETTERS_FOR_BINGO } from "../modules/calculator/settings";
-
 export default function wordReducer(state, action) {
   switch (action.type) {
-    case "SET_INPUT": {
-      const { input } = action.payload;
+    case "INPUT_CHANGED": {
+      const { input, minTilesForBingo } = action.payload;
+      const { bonuses, isBingoUsed } = state;
       return {
         ...state,
         input,
-        bonuses: state.bonuses.filter(bonus => bonus.index < input.length),
-        isBingoUsed:
-          input.length >= MINIMUM_LETTERS_FOR_BINGO ? state.isBingoUsed : false
+        bonuses: bonuses.filter(bonus => bonus.index < input.length),
+        isBingoUsed: input.length >= minTilesForBingo ? isBingoUsed : false
       };
     }
-    case "CHANGE_LANGUAGE": {
+    case "LANGUAGE_CHANGED": {
       const { language } = action.payload;
       return { ...state, language };
     }
-    case "ADD_TILE_BONUS": {
+    case "TILE_MULTIPLIER_ADDED": {
       const { tileIndex } = action.payload;
       return {
         ...state,
@@ -26,7 +24,7 @@ export default function wordReducer(state, action) {
         ]
       };
     }
-    case "INCREMENT_TILE_MULTIPLIER": {
+    case "TILE_MULTIPLIER_INCREMENTED": {
       const { tileIndex } = action.payload;
       return {
         ...state,
@@ -38,7 +36,7 @@ export default function wordReducer(state, action) {
         })
       };
     }
-    case "ADD_WORD_MULTIPLIER": {
+    case "WORD_MULTIPLIER_ADDED": {
       const { tileIndex } = action.payload;
       return {
         ...state,
@@ -50,7 +48,7 @@ export default function wordReducer(state, action) {
         })
       };
     }
-    case "INCREMENT_WORD_MULTIPLIER": {
+    case "WORD_MULTIPLIER_INCREMENTED": {
       const { tileIndex } = action.payload;
       return {
         ...state,
@@ -62,17 +60,17 @@ export default function wordReducer(state, action) {
         })
       };
     }
-    case "REMOVE_WORD_MULTIPLIER": {
+    case "WORD_MULTIPLIER_REMOVED": {
       const { tileIndex } = action.payload;
       return {
         ...state,
         bonuses: state.bonuses.filter(tile => tile.index !== tileIndex)
       };
     }
-    case "TOGGLE_BINGO": {
+    case "BINGO_TOGGLED": {
       return { ...state, isBingoUsed: !state.isBingoUsed };
     }
-    case "RESET_WORD": {
+    case "WORD_RESET": {
       return {
         ...state,
         input: "",
