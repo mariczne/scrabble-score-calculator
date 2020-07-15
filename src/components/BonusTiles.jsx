@@ -28,9 +28,7 @@ export default function BonusTiles() {
           key={BINGO_NAME}
           bingoName={BINGO_NAME}
           toggleBingo={() => dispatch(toggleBingo(state))}
-          isBingoAllowed={isBingoAllowed(state.input, {
-            languageCode: state.language
-          })}
+          isBingoAllowed={isBingoAllowed(state.input, state.language)}
           isBingoUsed={state.isBingoUsed}
           textWhenBingoUsed="ACTIVE"
         />
