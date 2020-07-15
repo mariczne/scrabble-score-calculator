@@ -1,8 +1,8 @@
-export function sortArrayByLengthDescending(arr) {
+export function sortArrayByLengthDescending(arr: any[]): any[] {
   return [...arr].sort((prev, curr) => curr.length - prev.length);
 }
 
-export function findIndexOfSubarray(arr, subArr) {
+export function findIndexOfSubarray(arr: any[], subArr: any[]): number {
   for (let i = 0; i < 1 + (arr.length - subArr.length); ++i) {
     if (subArr.every((element, j) => element === arr[i + j])) {
       return i;
@@ -11,19 +11,25 @@ export function findIndexOfSubarray(arr, subArr) {
   return -1;
 }
 
-export function joinSubarrayIntoSingleElement(arr, subArr) {
+export function joinSubarrayIntoSingleElement(
+  arr: any[],
+  subArr: any[]
+): any[] {
   const subArrIndexAt = findIndexOfSubarray(arr, subArr);
   if (subArrIndexAt !== -1) {
     return [
       ...arr.slice(0, subArrIndexAt),
       subArr.join(""),
-      ...arr.slice(subArrIndexAt + subArr.length, arr.length)
+      ...arr.slice(subArrIndexAt + subArr.length, arr.length),
     ];
   }
   return [...arr];
 }
 
-export function joinAllSubarraysIntoSingleElements(arr, subArr) {
+export function joinAllSubarraysIntoSingleElements(
+  arr: any[],
+  subArr: any[]
+): any[] {
   const subArrIndexAt = findIndexOfSubarray(arr, subArr);
   if (subArrIndexAt === -1) {
     return [...arr];

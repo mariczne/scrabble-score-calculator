@@ -1,4 +1,6 @@
-const SCORE_TABLE = {
+import { ScoreTable } from "./interfaces";
+
+const SCORE_TABLE: ScoreTable = {
   deu: {
     displayName: "Deutsch",
     0: [" "],
@@ -8,7 +10,7 @@ const SCORE_TABLE = {
     4: ["C", "F", "K", "P"],
     6: ["Ä", "J", "Ü", "V"],
     8: ["Ö", "X"],
-    10: ["Q", "Y"]
+    10: ["Q", "Y"],
   },
   gwi: {
     displayName: "Dinju Zhuh Kʼyuu", // Gwichʼin language
@@ -44,7 +46,7 @@ const SCORE_TABLE = {
       ["D", "R"],
       ["K", "W"],
       ["D", "L"],
-      ["D", "Z"]
+      ["D", "Z"],
     ],
     0: [" "],
     1: ["ʼ", "I", "A", "N", "T", "H", "Ą", "E", "Ę", "Į", "O", "Ǫ", "U", "Ų"],
@@ -56,7 +58,7 @@ const SCORE_TABLE = {
     7: ["DL", "DDH", "KHW", "SHR"],
     8: ["DZ"],
     9: ["ZHR"],
-    10: ["B", "F", "M"]
+    10: ["B", "F", "M"],
   },
   eng: {
     displayName: "English",
@@ -67,14 +69,14 @@ const SCORE_TABLE = {
     4: ["F", "H", "V", "W", "Y"],
     5: ["K"],
     8: ["J", "X"],
-    10: ["Q", "Z"]
+    10: ["Q", "Z"],
   },
   spa: {
     displayName: "español",
     multigraphs: [
       ["C", "H"],
       ["L", "L"],
-      ["R", "R"]
+      ["R", "R"],
     ],
     0: [" "],
     1: ["A", "E", "O", "I", "S", "N", "R", "U", "L", "T"],
@@ -83,7 +85,7 @@ const SCORE_TABLE = {
     4: ["H", "F", "V", "Y"],
     5: ["CH", "Q"],
     8: ["J", "LL", "Ñ", "RR", "X"],
-    10: ["Z"]
+    10: ["Z"],
   },
   fra: {
     displayName: "français",
@@ -93,7 +95,7 @@ const SCORE_TABLE = {
     3: ["B", "C", "P"],
     4: ["F", "H", "V"],
     8: ["J", "Q"],
-    10: ["K", "W", "X", "Y", "Z"]
+    10: ["K", "W", "X", "Y", "Z"],
   },
   ita: {
     displayName: "italiano",
@@ -103,7 +105,7 @@ const SCORE_TABLE = {
     3: ["L", "M", "N", "U"],
     5: ["B", "D", "F", "P", "V"],
     8: ["G", "H", "Z"],
-    10: ["Q"]
+    10: ["Q"],
   },
   hun: {
     displayName: "magyar",
@@ -114,7 +116,7 @@ const SCORE_TABLE = {
       ["C", "S"],
       ["L", "Y"],
       ["Z", "S"],
-      ["T", "Y"]
+      ["T", "Y"],
     ],
     0: [" "],
     1: ["A", "E", "K", "T", "Á", "L", "N", "R", "I", "M", "O", "S"],
@@ -124,7 +126,7 @@ const SCORE_TABLE = {
     5: ["C", "Í", "NY"],
     7: ["CS", "Ő", "Ú", "Ű"],
     8: ["LY", "ZS"],
-    10: ["TY"]
+    10: ["TY"],
   },
   pol: {
     displayName: "polski",
@@ -135,7 +137,7 @@ const SCORE_TABLE = {
     5: ["Ą", "Ę", "F", "Ó", "Ś", "Ż"],
     6: ["Ć"],
     7: ["Ń"],
-    9: ["Ź"]
+    9: ["Ź"],
   },
   por: {
     displayName: "português",
@@ -146,7 +148,7 @@ const SCORE_TABLE = {
     4: ["F", "G", "H", "V"],
     5: ["J"],
     6: ["Q"],
-    8: ["X", "Z"]
+    8: ["X", "Z"],
   },
   rus: {
     displayName: "русский",
@@ -157,7 +159,7 @@ const SCORE_TABLE = {
     4: ["Ы", "Й"],
     5: ["З", "Ж", "Х", "Ц", "Ч"],
     8: ["Ш", "Э", "Ю"],
-    10: ["Ф", "Щ", "Ъ"]
+    10: ["Ф", "Щ", "Ъ"],
   },
   ukr: {
     displayName: "українська",
@@ -170,8 +172,8 @@ const SCORE_TABLE = {
     6: ["Ж", "Ї", "Ц", "Ш"],
     7: ["Ю"],
     8: ["Є", "Ф", "Щ"],
-    10: ["Ґ", "'"]
-  }
+    10: ["Ґ", "'"],
+  },
 };
 
 export default SCORE_TABLE;

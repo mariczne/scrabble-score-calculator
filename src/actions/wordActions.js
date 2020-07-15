@@ -2,13 +2,13 @@ import { SETTINGS, checkIsBingoAllowed } from "../modules/calculator";
 const {
   MAX_TILE_SCORE_MULTIPLIER,
   MAX_WORD_SCORE_MULTIPLIER,
-  MIN_TILES_FOR_BINGO
+  MIN_TILES_FOR_BINGO,
 } = SETTINGS;
 
 export function setInput(input) {
   return {
     type: "INPUT_CHANGED",
-    payload: { input, minTilesForBingo: MIN_TILES_FOR_BINGO }
+    payload: { input, minTilesForBingo: MIN_TILES_FOR_BINGO },
   };
 }
 
@@ -17,7 +17,7 @@ export function changeLanguage(language) {
 }
 
 export function cycleTileBonus(state, tileIndex) {
-  const tileBonus = state.bonuses.find(tile => tile.index === tileIndex);
+  const tileBonus = state.bonuses.find((tile) => tile.index === tileIndex);
   if (tileBonus) {
     if (tileBonus.type === "tile") {
       if (tileBonus.multiplier === MAX_TILE_SCORE_MULTIPLIER) {
@@ -37,7 +37,7 @@ export function cycleTileBonus(state, tileIndex) {
 
 export function toggleBingo(state) {
   try {
-    checkIsBingoAllowed(state.input, { languageCode: state.language });
+    checkIsBingoAllowed(state.input, state.language);
     return { type: "BINGO_TOGGLED" };
   } catch {
     return { type: "ACTION_CANCELLED" };
