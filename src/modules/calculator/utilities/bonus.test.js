@@ -5,14 +5,14 @@ import {
   getWordBonusTypes,
   isBonusDefined,
   isNextBonusAllowed,
-  isBingoAllowed
+  isBingoAllowed,
 } from "./bonus";
 import { getTilesInWord } from "../index";
 let bonuses;
 
 const wordScoreMultipliersMock = [
   { name: "double", multiplier: 2 },
-  { name: "triple", multiplier: 3 }
+  { name: "triple", multiplier: 3 },
 ];
 
 beforeEach(() => {
@@ -20,16 +20,16 @@ beforeEach(() => {
     {
       index: 0,
       type: "tile",
-      multiplier: 2
+      multiplier: 2,
     },
     {
       index: 2,
       type: "word",
-      multiplier: 2
+      multiplier: 2,
     },
     {
-      type: "bingo"
-    }
+      type: "bingo",
+    },
   ];
 });
 
@@ -39,8 +39,8 @@ describe("getTileBonuses", () => {
       {
         index: 0,
         type: "tile",
-        multiplier: 2
-      }
+        multiplier: 2,
+      },
     ];
     expect(getTileBonuses(bonuses)).toEqual(expectedResult);
   });
@@ -52,8 +52,8 @@ describe("getWordBonuses", () => {
       {
         index: 2,
         type: "word",
-        multiplier: 2
-      }
+        multiplier: 2,
+      },
     ];
     expect(getWordBonuses(bonuses)).toEqual(expectedResult);
   });
@@ -63,7 +63,7 @@ describe("getWordMultiplier", () => {
   it("should reduce word bonuses to a single multiplier", () => {
     const wordBonuses = [
       { type: "word", index: 1, multiplier: 2 },
-      { type: "word", index: 5, multiplier: 3 }
+      { type: "word", index: 5, multiplier: 3 },
     ];
 
     expect(getWordMultiplier(wordBonuses)).toEqual(6);
@@ -74,7 +74,7 @@ describe("getWordBonusTypes", () => {
   it("should return an array of allowed bonus types", () => {
     expect(getWordBonusTypes(wordScoreMultipliersMock)).toEqual([
       "double",
-      "triple"
+      "triple",
     ]);
   });
 });
@@ -92,7 +92,7 @@ describe("isBonusDefined", () => {
 describe("isNextBonusAllowed", () => {
   const bonuses = [
     { type: "word", index: 0, multiplier: 2 },
-    { type: "word", index: 1, multiplier: 2 }
+    { type: "word", index: 1, multiplier: 2 },
   ];
 
   it("should return true if there are more tiles than used bonuses", () => {
@@ -114,9 +114,7 @@ describe("isNextBonusAllowed", () => {
 describe("isBingoAllowed", () => {
   it("should return true if there are enough tiles used for a bingo", () => {
     // default is 7 tiles
-    expect(isBingoAllowed("abrakadabra", { languageCode: "eng" })).toEqual(
-      true
-    );
-    expect(isBingoAllowed("zamało", { languageCode: "eng" })).toEqual(false);
+    expect(isBingoAllowed("abrakadabra", "eng")).toEqual(true);
+    expect(isBingoAllowed("zamało", "eng")).toEqual(false);
   });
 });
