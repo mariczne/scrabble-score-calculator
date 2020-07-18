@@ -8,34 +8,44 @@ import {
   isBingoAllowed,
 } from "./bonus";
 import { getTilesInWord } from "../index";
-let bonuses;
+import {
+  Bonus,
+  WordBonus,
+  TileBonus,
+  Multiplier,
+  BingoBonus,
+} from "../interfaces";
 
-const wordScoreMultipliersMock = [
+let bonuses: Bonus[];
+
+const wordScoreMultipliersMock: Multiplier[] = [
   { name: "double", multiplier: 2 },
   { name: "triple", multiplier: 3 },
 ];
 
 beforeEach(() => {
-  bonuses = [
-    {
-      index: 0,
-      type: "tile",
-      multiplier: 2,
-    },
-    {
-      index: 2,
-      type: "word",
-      multiplier: 2,
-    },
-    {
-      type: "bingo",
-    },
-  ];
+  const tileBonus: TileBonus = {
+    index: 0,
+    type: "tile",
+    multiplier: 2,
+  };
+
+  const wordBonus: WordBonus = {
+    index: 2,
+    type: "word",
+    multiplier: 2,
+  };
+
+  const bingoBonus: BingoBonus = {
+    type: "bingo",
+  };
+
+  bonuses = [tileBonus, wordBonus, bingoBonus];
 });
 
 describe("getTileBonuses", () => {
   it("should return an array containing only tile bonuses", () => {
-    const expectedResult = [
+    const expectedResult: TileBonus[] = [
       {
         index: 0,
         type: "tile",
@@ -48,7 +58,7 @@ describe("getTileBonuses", () => {
 
 describe("getWordBonuses", () => {
   it("should return an array containing only word bonuses", () => {
-    const expectedResult = [
+    const expectedResult: WordBonus[] = [
       {
         index: 2,
         type: "word",
@@ -61,7 +71,7 @@ describe("getWordBonuses", () => {
 
 describe("getWordMultiplier", () => {
   it("should reduce word bonuses to a single multiplier", () => {
-    const wordBonuses = [
+    const wordBonuses: WordBonus[] = [
       { type: "word", index: 1, multiplier: 2 },
       { type: "word", index: 5, multiplier: 3 },
     ];
@@ -90,7 +100,7 @@ describe("isBonusDefined", () => {
 });
 
 describe("isNextBonusAllowed", () => {
-  const bonuses = [
+  const bonuses: Bonus[] = [
     { type: "word", index: 0, multiplier: 2 },
     { type: "word", index: 1, multiplier: 2 },
   ];

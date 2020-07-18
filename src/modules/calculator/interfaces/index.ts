@@ -1,7 +1,7 @@
 export interface WordScoreOptions {
   languageCode: string;
   scoreTable?: ScoreTable;
-  bonuses?: [];
+  bonuses?: Bonus[];
   isBingoUsed?: boolean;
 }
 
@@ -16,11 +16,13 @@ export interface TilesInWordOptions {
   scoreTable?: ScoreTable;
 }
 
+export type Multigraph = string[];
+
 export interface ScoreTable {
   [languageCode: string]: {
     displayName: string;
     [pointValue: number]: string[];
-    multigraphs?: string[][];
+    multigraphs?: Multigraph[];
   };
 }
 
@@ -37,6 +39,7 @@ export interface Bonus {
 
 export interface WordBonus {
   type: "word";
+  index: number;
   multiplier: number;
 }
 
@@ -48,4 +51,9 @@ export interface TileBonus {
 
 export interface BingoBonus {
   type: "bingo";
+}
+
+export interface Language {
+  languageCode: string;
+  displayName: string;
 }
