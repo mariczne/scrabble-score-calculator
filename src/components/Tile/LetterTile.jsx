@@ -3,12 +3,12 @@ import PropTypes from "prop-types";
 
 const LETTER_BONUS_STYLES = {
   2: { backgroundColor: "#6cf" },
-  3: { backgroundColor: "#09f" }
+  3: { backgroundColor: "#09f" },
 };
 
 const WORD_BONUS_STYLES = {
   2: { backgroundColor: "#f9f" },
-  3: { backgroundColor: "#f66" }
+  3: { backgroundColor: "#f66" },
 };
 
 export default function LetterTile({
@@ -16,7 +16,7 @@ export default function LetterTile({
   character,
   score,
   bonus,
-  cycleLetterBonus
+  cycleLetterBonus,
 }) {
   const isScoreInvalid = Number.isNaN(score);
 
@@ -62,7 +62,7 @@ export default function LetterTile({
       className="tile"
       style={styleDiv()}
       onClick={() => cycleLetterBonus(index)}
-      onKeyDown={e => (e.key === "Enter" ? cycleLetterBonus(index) : null)}
+      onKeyDown={(e) => (e.key === "Enter" ? cycleLetterBonus(index) : null)}
       tabIndex="0"
     >
       <span className={spanClassName}>{character.toUpperCase()}</span>
@@ -76,7 +76,7 @@ LetterTile.propTypes = {
   character: PropTypes.string,
   score: PropTypes.number,
   scoreMultiplier: PropTypes.number,
-  cycleLetterBonus: PropTypes.func
+  cycleLetterBonus: PropTypes.func,
 };
 
 LetterTile.defaultProps = {
@@ -84,5 +84,5 @@ LetterTile.defaultProps = {
   character: " ",
   score: null,
   scoreMultiplier: 1,
-  cycleLetterBonus: () => {}
+  cycleLetterBonus: () => {},
 };

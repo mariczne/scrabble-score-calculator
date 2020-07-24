@@ -2,7 +2,7 @@ import {
   sortArrayByLengthDescending,
   findIndexOfSubarray,
   joinSubarrayIntoSingleElement,
-  joinAllSubarraysIntoSingleElements
+  joinAllSubarraysIntoSingleElements,
 } from "./array";
 
 describe("sortArrayByLengthDescending", () => {

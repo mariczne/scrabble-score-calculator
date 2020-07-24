@@ -30,11 +30,11 @@ describe("wordReducer", () => {
   it("should handle ADD_TILE_BONUS action", () => {
     const action = {
       type: "TILE_MULTIPLIER_ADDED",
-      payload: { tileIndex: 2 }
+      payload: { tileIndex: 2 },
     };
     const expectedState = {
       ...mockState,
-      bonuses: [{ type: "tile", index: 2, multiplier: 2 }]
+      bonuses: [{ type: "tile", index: 2, multiplier: 2 }],
     };
     expect(wordReducer(mockState, action)).toEqual(expectedState);
   });
@@ -43,11 +43,11 @@ describe("wordReducer", () => {
     mockState.bonuses = [{ type: "tile", index: 2, multiplier: 2 }];
     const action = {
       type: "TILE_MULTIPLIER_INCREMENTED",
-      payload: { tileIndex: 2 }
+      payload: { tileIndex: 2 },
     };
     const expectedState = {
       ...mockState,
-      bonuses: [{ type: "tile", index: 2, multiplier: 3 }]
+      bonuses: [{ type: "tile", index: 2, multiplier: 3 }],
     };
     expect(wordReducer(mockState, action)).toEqual(expectedState);
   });
@@ -56,11 +56,11 @@ describe("wordReducer", () => {
     mockState.bonuses = [{ type: "tile", index: 2, multiplier: 3 }];
     const action = {
       type: "WORD_MULTIPLIER_ADDED",
-      payload: { tileIndex: 2 }
+      payload: { tileIndex: 2 },
     };
     const expectedState = {
       ...mockState,
-      bonuses: [{ type: "word", index: 2, multiplier: 2 }]
+      bonuses: [{ type: "word", index: 2, multiplier: 2 }],
     };
     expect(wordReducer(mockState, action)).toEqual(expectedState);
   });
@@ -69,11 +69,11 @@ describe("wordReducer", () => {
     mockState.bonuses = [{ type: "word", index: 2, multiplier: 2 }];
     const action = {
       type: "WORD_MULTIPLIER_INCREMENTED",
-      payload: { tileIndex: 2 }
+      payload: { tileIndex: 2 },
     };
     const expectedState = {
       ...mockState,
-      bonuses: [{ type: "word", index: 2, multiplier: 3 }]
+      bonuses: [{ type: "word", index: 2, multiplier: 3 }],
     };
     expect(wordReducer(mockState, action)).toEqual(expectedState);
   });
@@ -82,22 +82,22 @@ describe("wordReducer", () => {
     mockState.bonuses = [{ type: "word", index: 2, multiplier: 3 }];
     const action = {
       type: "WORD_MULTIPLIER_REMOVED",
-      payload: { tileIndex: 2 }
+      payload: { tileIndex: 2 },
     };
     const expectedState = {
       ...mockState,
-      bonuses: []
+      bonuses: [],
     };
     expect(wordReducer(mockState, action)).toEqual(expectedState);
   });
 
   it("should handle TOGGLE_BINGO action", () => {
     const action = {
-      type: "BINGO_TOGGLED"
+      type: "BINGO_TOGGLED",
     };
     const expectedState = {
       ...mockState,
-      isBingoUsed: true
+      isBingoUsed: true,
     };
     expect(wordReducer(mockState, action)).toEqual(expectedState);
 
@@ -109,13 +109,13 @@ describe("wordReducer", () => {
 
   it("should handle RESET_WORD action", () => {
     const action = {
-      type: "WORD_RESET"
+      type: "WORD_RESET",
     };
     const expectedState = {
       ...mockState,
       input: "",
       bonuses: [],
-      isBingoUsed: false
+      isBingoUsed: false,
     };
     expect(wordReducer(mockState, action)).toEqual(expectedState);
   });

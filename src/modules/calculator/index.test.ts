@@ -3,10 +3,10 @@ import { getTileScore, getWordScore } from ".";
 describe("getTileScore", () => {
   it("calculates tile score for different supported languages", () => {
     const F_scoreInPolish = getTileScore("F", {
-      languageCode: "pol"
+      languageCode: "pol",
     });
     const F_scoreInEnglish = getTileScore("F", {
-      languageCode: "eng"
+      languageCode: "eng",
     });
 
     expect(F_scoreInPolish).toEqual(5);
@@ -16,7 +16,7 @@ describe("getTileScore", () => {
   it("calculates tile score with a multiplier", () => {
     const F_scoreInPolish = getTileScore("F", {
       languageCode: "pol",
-      multiplier: 3
+      multiplier: 3,
     });
 
     expect(F_scoreInPolish).toEqual(15);
@@ -24,7 +24,7 @@ describe("getTileScore", () => {
 
   it("calculates tile score for a multigraph", () => {
     const SZ_scoreInHungarian = getTileScore("SZ", {
-      languageCode: "hun"
+      languageCode: "hun",
     });
 
     expect(SZ_scoreInHungarian).toEqual(3);
@@ -40,7 +40,7 @@ describe("getWordScore", () => {
 
   it("calculates word score without any bonuses", () => {
     const wordScore = getWordScore("późność", {
-      languageCode: "pol"
+      languageCode: "pol",
     });
 
     expect(wordScore).toEqual(29);
@@ -51,8 +51,8 @@ describe("getWordScore", () => {
       languageCode: "pol",
       bonuses: [
         { type: "tile", index: 1, multiplier: 2 },
-        { type: "tile", index: 5, multiplier: 3 }
-      ]
+        { type: "tile", index: 5, multiplier: 3 },
+      ],
     });
 
     expect(wordScore).toEqual(44);
@@ -63,8 +63,8 @@ describe("getWordScore", () => {
       languageCode: "pol",
       bonuses: [
         { type: "word", index: 1, multiplier: 2 },
-        { type: "word", index: 5, multiplier: 2 }
-      ]
+        { type: "word", index: 5, multiplier: 2 },
+      ],
     });
 
     expect(wordScore).toEqual(116);
@@ -76,8 +76,8 @@ describe("getWordScore", () => {
       bonuses: [
         { type: "word", index: 1, multiplier: 2 },
         { type: "word", index: 5, multiplier: 2 },
-        { type: "tile", index: 2, multiplier: 3 }
-      ]
+        { type: "tile", index: 2, multiplier: 3 },
+      ],
     });
 
     expect(wordScore).toEqual(188);
@@ -86,7 +86,7 @@ describe("getWordScore", () => {
   it("adds points for bingo to the total score", () => {
     const wordScore = getWordScore("późność", {
       languageCode: "pol",
-      isBingoUsed: true
+      isBingoUsed: true,
     });
 
     expect(wordScore).toEqual(79);
@@ -94,7 +94,7 @@ describe("getWordScore", () => {
 
   it("returns NaN for word score when at least one letter is not in the scoretable", () => {
     const wordScore = getWordScore("xero", {
-      languageCode: "pol"
+      languageCode: "pol",
     });
 
     expect(wordScore).toEqual(NaN);
@@ -102,10 +102,10 @@ describe("getWordScore", () => {
 
   it("calculates score for words with digraphs in languages that support them", () => {
     const lamaScore = getWordScore("lama", {
-      languageCode: "spa"
+      languageCode: "spa",
     });
     const llamaScore = getWordScore("llama", {
-      languageCode: "spa"
+      languageCode: "spa",
     });
 
     expect(lamaScore).toEqual(6);

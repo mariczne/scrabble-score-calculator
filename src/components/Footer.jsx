@@ -1,7 +1,7 @@
 import React from "react";
 
 const FOOTER_STYLE = {
-  fontSize: "0.625rem"
+  fontSize: "0.625rem",
 };
 
 export default function Footer() {

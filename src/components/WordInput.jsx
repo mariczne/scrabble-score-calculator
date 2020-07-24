@@ -4,7 +4,7 @@ import { setInput } from "../actions/wordActions";
 
 export default function WordInput() {
   const {
-    wordReducer: [state, dispatch]
+    wordReducer: [state, dispatch],
   } = useContext(WordContext);
 
   return (
@@ -12,7 +12,7 @@ export default function WordInput() {
       <input
         type="text"
         value={state.input}
-        onChange={e => dispatch(setInput(e.target.value))}
+        onChange={(e) => dispatch(setInput(e.target.value))}
         className="word-input"
         data-testid="word-input"
         placeholder="Type a word to start"

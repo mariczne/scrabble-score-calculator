@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 const BINGO_STYLE = {
   allowed: { backgroundColor: "orange" },
-  notAllowed: { backgroundColor: "lightgray", cursor: "default" }
+  notAllowed: { backgroundColor: "lightgray", cursor: "default" },
 };
 
 export default function BingoTile({
@@ -11,7 +11,7 @@ export default function BingoTile({
   toggleBingo,
   isBingoAllowed,
   isBingoUsed,
-  textWhenBingoUsed
+  textWhenBingoUsed,
 }) {
   function styleDiv() {
     const { allowed, notAllowed } = BINGO_STYLE;
@@ -26,7 +26,7 @@ export default function BingoTile({
       className="tile"
       style={styleDiv()}
       onClick={toggleBingo}
-      onKeyDown={e => (e.key === "Enter" ? toggleBingo() : null)}
+      onKeyDown={(e) => (e.key === "Enter" ? toggleBingo() : null)}
       tabIndex="0"
     >
       <span className="tile__bonus-name">{bingoName.toUpperCase()}</span>
@@ -42,7 +42,7 @@ BingoTile.propTypes = {
   toggleBingo: PropTypes.func,
   isBingoAllowed: PropTypes.bool,
   isBingoUsed: PropTypes.bool,
-  textWhenBingoUsed: PropTypes.string
+  textWhenBingoUsed: PropTypes.string,
 };
 
 BingoTile.defaultProps = {
@@ -50,5 +50,5 @@ BingoTile.defaultProps = {
   toggleBingo: () => {},
   isBingoAllowed: false,
   isBingoUsed: false,
-  textWhenBingoUsed: "ACTIVE"
+  textWhenBingoUsed: "ACTIVE",
 };

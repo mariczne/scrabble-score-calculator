@@ -6,13 +6,13 @@ const INVALID_SCORE_TEXT = "At least one tile invalid";
 
 export default function WordScore() {
   const {
-    wordReducer: [state]
+    wordReducer: [state],
   } = useContext(WordContext);
 
   const score = getWordScore(state.input, {
     languageCode: state.language,
     bonuses: state.bonuses,
-    isBingoUsed: state.isBingoUsed
+    isBingoUsed: state.isBingoUsed,
   });
 
   const isScoreInvalid = Number.isNaN(score);
