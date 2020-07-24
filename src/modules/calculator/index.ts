@@ -67,7 +67,7 @@ export function getTileScore(
 
   const score = Number(
     Object.keys(scoreTable[languageCode]).find((key) => {
-      return scoreTable[languageCode][key as unknown as number].includes(
+      return scoreTable[languageCode][(key as unknown) as number].includes(
         input.toUpperCase()
       );
     })

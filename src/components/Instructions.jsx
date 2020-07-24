@@ -5,7 +5,7 @@ import BonusTiles from "./BonusTiles";
 export default function Instructions() {
   const {
     SETTINGS: { POINTS_FOR_BINGO, MIN_TILES_FOR_BINGO },
-    BINGO_NAME
+    BINGO_NAME,
   } = useContext(WordContext);
   const isGameUsingBingo = POINTS_FOR_BINGO > 0;
 

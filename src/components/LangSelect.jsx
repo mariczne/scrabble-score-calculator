@@ -7,7 +7,7 @@ const languages = getSupportedLanguages();
 
 export default function LangSelect() {
   const {
-    wordReducer: [state, dispatch]
+    wordReducer: [state, dispatch],
   } = useContext(WordContext);
 
   return (
@@ -15,7 +15,7 @@ export default function LangSelect() {
       Language:
       <select
         value={state.language}
-        onChange={e => dispatch(changeLanguage(e.target.value))}
+        onChange={(e) => dispatch(changeLanguage(e.target.value))}
         className="lang-select"
         data-testid="lang-select"
       >

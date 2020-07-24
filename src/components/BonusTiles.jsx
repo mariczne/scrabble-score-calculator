@@ -5,18 +5,18 @@ import { toggleBingo } from "../actions/wordActions";
 import { BonusTile, BingoTile } from "./Tile/Tile";
 
 export default function BonusTiles() {
-  const wordBonusTypes = getWordBonusTypes().map(bonus => ({
+  const wordBonusTypes = getWordBonusTypes().map((bonus) => ({
     name: bonus,
-    type: "word"
+    type: "word",
   }));
   const letterBonusTypes = [
     { name: "double", type: "letter" },
-    { name: "triple", type: "letter" }
+    { name: "triple", type: "letter" },
   ];
   const {
     wordReducer: [state, dispatch],
     SETTINGS: { POINTS_FOR_BINGO },
-    BINGO_NAME
+    BINGO_NAME,
   } = useContext(WordContext);
 
   const isGameUsingBingo = POINTS_FOR_BINGO > 0;
@@ -33,14 +33,14 @@ export default function BonusTiles() {
           textWhenBingoUsed="ACTIVE"
         />
       )}
-      {letterBonusTypes.map(bonus => (
+      {letterBonusTypes.map((bonus) => (
         <BonusTile
           key={`letter_${bonus.name}`}
           type={bonus.type}
           name={bonus.name}
         />
       ))}
-      {wordBonusTypes.map(bonus => (
+      {wordBonusTypes.map((bonus) => (
         <BonusTile
           key={`word_${bonus.name}`}
           type={bonus.type}

@@ -2,8 +2,7 @@
 // import { render, fireEvent } from "@testing-library/react";
 // import App from "./App";
 
-
-test.skip('skip', () => {})
+test.skip("skip", () => {});
 // import { unmountComponentAtNode } from "react-dom";
 
 // let container = null;

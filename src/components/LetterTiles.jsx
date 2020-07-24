@@ -6,19 +6,19 @@ import { LetterTile } from "./Tile/Tile";
 
 export default function LetterTiles() {
   const {
-    wordReducer: [state, dispatch]
+    wordReducer: [state, dispatch],
   } = useContext(WordContext);
   const tiles = getTilesInWord(state.input, { languageCode: state.language });
 
   function getTileScoreMultiplier(index) {
     return (
-      state.bonuses.find(tile => tile.index === index && tile.type === "tile")
+      state.bonuses.find((tile) => tile.index === index && tile.type === "tile")
         ?.multiplier ?? 1
     );
   }
 
   function getTileBonus(index) {
-    const bonus = state.bonuses.find(tile => tile.index === index);
+    const bonus = state.bonuses.find((tile) => tile.index === index);
     if (bonus) {
       return { type: bonus.type, multiplier: bonus.multiplier };
     }
@@ -34,7 +34,7 @@ export default function LetterTiles() {
           character={tile}
           score={getTileScore(tile, {
             languageCode: state.language,
-            multiplier: getTileScoreMultiplier(index)
+            multiplier: getTileScoreMultiplier(index),
           })}
           bonus={getTileBonus(index)}
           cycleLetterBonus={() => dispatch(cycleTileBonus(state, index))}
