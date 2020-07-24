@@ -13,7 +13,7 @@ import {
   WordBonus,
   TileBonus,
   Multiplier,
-  BingoBonus,
+  // BingoBonus,
 } from "../interfaces";
 
 let bonuses: Bonus[];
@@ -36,11 +36,11 @@ beforeEach(() => {
     multiplier: 2,
   };
 
-  const bingoBonus: BingoBonus = {
-    type: "bingo",
-  };
+  // const bingoBonus: BingoBonus = {
+  //   type: "bingo",
+  // };
 
-  bonuses = [tileBonus, wordBonus, bingoBonus];
+  bonuses = [tileBonus, wordBonus];
 });
 
 describe("getTileBonuses", () => {

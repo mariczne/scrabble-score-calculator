@@ -33,8 +33,8 @@ export interface Multiplier {
 
 export interface Bonus {
   type: "tile" | "word" | "bingo";
-  index?: number;
-  multiplier?: number;
+  index: number;
+  multiplier: number;
 }
 
 export interface WordBonus {
@@ -49,9 +49,9 @@ export interface TileBonus {
   multiplier: number;
 }
 
-export interface BingoBonus {
-  type: "bingo";
-}
+// export interface BingoBonus {
+//   type: "bingo";
+// }
 
 export interface Language {
   languageCode: string;
