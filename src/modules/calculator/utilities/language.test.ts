@@ -3,9 +3,11 @@ import { isLanguageDefined, getSupportedLanguages } from "./language";
 const mockScoreTable = {
   eng: {
     displayName: "English",
+    scores: { 1: ["A"] },
   },
   pol: {
     displayName: "polski",
+    scores: { 1: ["A"] },
   },
 };
 

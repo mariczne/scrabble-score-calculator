@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { BonusType } from "../../modules/calculator/interfaces";
 
 const LETTER_BONUS_STYLES = {
   2: { backgroundColor: "#6cf" },
@@ -19,11 +20,8 @@ export default function LetterTile({
   cycleLetterBonus,
 }) {
   const isScoreInvalid = Number.isNaN(score);
-
   const isBlankTile = character === " ";
-
   const isDigraph = character.length === 2;
-
   const isTrigraph = character.length === 3;
 
   function styleDiv() {
@@ -31,10 +29,10 @@ export default function LetterTile({
       return { backgroundColor: "lightgray", cursor: "default" };
     }
     switch (bonus.type) {
-      case "tile": {
+      case BonusType.Tile: {
         return LETTER_BONUS_STYLES[bonus.multiplier];
       }
-      case "word": {
+      case BonusType.Word: {
         return WORD_BONUS_STYLES[bonus.multiplier];
       }
       default: {
@@ -53,9 +51,9 @@ export default function LetterTile({
     return score;
   }
 
-  const spanClassName = `tile__letter${
-    isDigraph ? " tile__letter--double" : ""
-  }${isTrigraph ? " tile__letter--triple" : ""}`;
+  const charSpanClassName = `tile__letter
+    ${isDigraph ? " tile__letter--double" : ""}
+    ${isTrigraph ? " tile__letter--triple" : ""}`;
 
   return (
     <div
@@ -65,7 +63,7 @@ export default function LetterTile({
       onKeyDown={(e) => (e.key === "Enter" ? cycleLetterBonus(index) : null)}
       tabIndex="0"
     >
-      <span className={spanClassName}>{character.toUpperCase()}</span>
+      <span className={charSpanClassName}>{character.toUpperCase()}</span>
       <span className="tile__letter-score">{renderScore()}</span>
     </div>
   );

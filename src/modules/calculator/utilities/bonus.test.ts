@@ -10,10 +10,10 @@ import {
 import { getTilesInWord } from "../index";
 import {
   Bonus,
+  BonusType,
   WordBonus,
   TileBonus,
   Multiplier,
-  // BingoBonus,
 } from "../interfaces";
 
 let bonuses: Bonus[];
@@ -26,19 +26,15 @@ const wordScoreMultipliersMock: Multiplier[] = [
 beforeEach(() => {
   const tileBonus: TileBonus = {
     index: 0,
-    type: "tile",
+    type: BonusType.Tile,
     multiplier: 2,
   };
 
   const wordBonus: WordBonus = {
     index: 2,
-    type: "word",
+    type: BonusType.Word,
     multiplier: 2,
   };
-
-  // const bingoBonus: BingoBonus = {
-  //   type: "bingo",
-  // };
 
   bonuses = [tileBonus, wordBonus];
 });
@@ -48,7 +44,7 @@ describe("getTileBonuses", () => {
     const expectedResult: TileBonus[] = [
       {
         index: 0,
-        type: "tile",
+        type: BonusType.Tile,
         multiplier: 2,
       },
     ];
@@ -61,7 +57,7 @@ describe("getWordBonuses", () => {
     const expectedResult: WordBonus[] = [
       {
         index: 2,
-        type: "word",
+        type: BonusType.Word,
         multiplier: 2,
       },
     ];
@@ -72,8 +68,8 @@ describe("getWordBonuses", () => {
 describe("getWordMultiplier", () => {
   it("should reduce word bonuses to a single multiplier", () => {
     const wordBonuses: WordBonus[] = [
-      { type: "word", index: 1, multiplier: 2 },
-      { type: "word", index: 5, multiplier: 3 },
+      { type: BonusType.Word, index: 1, multiplier: 2 },
+      { type: BonusType.Word, index: 5, multiplier: 3 },
     ];
 
     expect(getWordMultiplier(wordBonuses)).toEqual(6);
@@ -101,8 +97,8 @@ describe("isBonusDefined", () => {
 
 describe("isNextBonusAllowed", () => {
   const bonuses: Bonus[] = [
-    { type: "word", index: 0, multiplier: 2 },
-    { type: "word", index: 1, multiplier: 2 },
+    { type: BonusType.Word, index: 0, multiplier: 2 },
+    { type: BonusType.Word, index: 1, multiplier: 2 },
   ];
 
   it("should return true if there are more tiles than used bonuses", () => {

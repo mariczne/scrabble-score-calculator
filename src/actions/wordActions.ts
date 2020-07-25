@@ -1,5 +1,6 @@
 import { Action, State } from "../reducers/wordReducer";
 import { SETTINGS, checkIsBingoAllowed } from "../modules/calculator";
+import { BonusType } from "../modules/calculator/interfaces";
 
 const {
   MAX_TILE_SCORE_MULTIPLIER,
@@ -50,12 +51,12 @@ export function cycleTileBonus(
 ): CycleTileBonusAction | CancelAction {
   const tileBonus = state.bonuses.find((tile) => tile.index === tileIndex);
   if (tileBonus) {
-    if (tileBonus.type === "tile") {
+    if (tileBonus.type === BonusType.Tile) {
       if (tileBonus.multiplier === MAX_TILE_SCORE_MULTIPLIER) {
         return { type: "WORD_MULTIPLIER_ADDED", payload: { tileIndex } };
       }
       return { type: "TILE_MULTIPLIER_INCREMENTED", payload: { tileIndex } };
-    } else if (tileBonus.type === "word") {
+    } else if (tileBonus.type === BonusType.Word) {
       if (tileBonus.multiplier === MAX_WORD_SCORE_MULTIPLIER) {
         return { type: "WORD_MULTIPLIER_REMOVED", payload: { tileIndex } };
       }

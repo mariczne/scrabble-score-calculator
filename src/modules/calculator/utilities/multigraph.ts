@@ -23,7 +23,7 @@ export function getMultigraphsInLanguage(
   return [];
 }
 
-export function processMultigraphs(
+export function joinMultigraphsInTiles(
   letters: string[],
   multigraphs: Multigraph[]
 ): string[] {

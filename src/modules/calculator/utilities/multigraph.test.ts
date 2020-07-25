@@ -1,6 +1,6 @@
 import SCORE_TABLE from "../scoreTable";
 import {
-  processMultigraphs,
+  joinMultigraphsInTiles,
   isLanguageWithMultigraphs,
   getMultigraphsInLanguage,
 } from "./multigraph";
@@ -33,14 +33,16 @@ describe("getMultigraphsInLanguage", () => {
   });
 });
 
-describe("processMultigraphs", () => {
+describe("joinMultigraphsInTiles", () => {
   it("should return a new array", () => {
     const multigraphs = getMultigraphsInLanguage(SCORE_TABLE, "hun");
     const wordBefore = Array.from("nem");
 
-    expect(processMultigraphs(wordBefore, multigraphs)).not.toBe(wordBefore);
+    expect(joinMultigraphsInTiles(wordBefore, multigraphs)).not.toBe(
+      wordBefore
+    );
     // but, in this case, their contents should not differ
-    expect(processMultigraphs(wordBefore, multigraphs)).toEqual(wordBefore);
+    expect(joinMultigraphsInTiles(wordBefore, multigraphs)).toEqual(wordBefore);
   });
 
   it("should return an array where adjacent multigraph elements are joined", () => {
@@ -48,7 +50,7 @@ describe("processMultigraphs", () => {
     const wordBefore = Array.from("szeged".toUpperCase());
     const wordAfter = ["SZ", "E", "G", "E", "D"];
 
-    expect(processMultigraphs(wordBefore, multigraphs)).toEqual(wordAfter);
+    expect(joinMultigraphsInTiles(wordBefore, multigraphs)).toEqual(wordAfter);
   });
 
   it("should return an array where two or more of the same multigraphs are joined", () => {
@@ -56,7 +58,7 @@ describe("processMultigraphs", () => {
     const wordBefore = Array.from("szeszes".toUpperCase());
     const wordAfter = ["SZ", "E", "SZ", "E", "S"];
 
-    expect(processMultigraphs(wordBefore, multigraphs)).toEqual(wordAfter);
+    expect(joinMultigraphsInTiles(wordBefore, multigraphs)).toEqual(wordAfter);
   });
 
   it("should return an array where all (different) multigraph elements are joined", () => {
@@ -64,6 +66,6 @@ describe("processMultigraphs", () => {
     const wordBefore = Array.from("nagyszülőd".toUpperCase());
     const wordAfter = ["N", "A", "GY", "SZ", "Ü", "L", "Ő", "D"];
 
-    expect(processMultigraphs(wordBefore, multigraphs)).toEqual(wordAfter);
+    expect(joinMultigraphsInTiles(wordBefore, multigraphs)).toEqual(wordAfter);
   });
 });
