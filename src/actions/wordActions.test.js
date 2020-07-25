@@ -5,6 +5,7 @@ import {
   toggleBingo,
 } from "./wordActions";
 import { MIN_TILES_FOR_BINGO } from "../modules/calculator/settings";
+import { BonusType } from "../modules/calculator/interfaces";
 
 const mockState = {};
 
@@ -45,7 +46,7 @@ describe("cycleTileBonus", () => {
   });
 
   it("should create an action object of type INCREMENT_TILE_MULTIPLIER", () => {
-    mockState.bonuses = [{ index: 2, multiplier: 2, type: "tile" }];
+    mockState.bonuses = [{ index: 2, multiplier: 2, type: BonusType.Tile }];
     const expectedAction = {
       type: "TILE_MULTIPLIER_INCREMENTED",
       payload: { tileIndex: 2 },
@@ -54,7 +55,7 @@ describe("cycleTileBonus", () => {
   });
 
   it("should create an action object of type ADD_WORD_MULTIPLIER", () => {
-    mockState.bonuses = [{ index: 2, multiplier: 3, type: "tile" }];
+    mockState.bonuses = [{ index: 2, multiplier: 3, type: BonusType.Tile }];
     const expectedAction = {
       type: "WORD_MULTIPLIER_ADDED",
       payload: { tileIndex: 2 },

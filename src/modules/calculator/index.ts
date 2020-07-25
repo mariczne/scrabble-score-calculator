@@ -15,7 +15,7 @@ import {
 import {
   isLanguageWithMultigraphs,
   getMultigraphsInLanguage,
-  processMultigraphs,
+  joinMultigraphsInTiles,
 } from "./utilities/multigraph";
 import {
   checkIsLanguageDefined,
@@ -32,31 +32,25 @@ export function getWordScore(
     isBingoUsed = false,
   }: WordScoreOptions
 ): number {
-  if (!input) {
-    return 0;
-  }
-  if (isBingoUsed) {
-    checkIsBingoAllowed(input, languageCode);
-  }
+  if (isBingoUsed) checkIsBingoAllowed(input, languageCode);
   checkIsLanguageDefined(scoreTable, languageCode);
   checkAreAllBonusesAllowed(input, languageCode, bonuses);
 
   const tileBonuses: TileBonus[] = getTileBonuses(bonuses);
   const wordBonuses: WordBonus[] = getWordBonuses(bonuses);
+  const pointsForBingo = isBingoUsed ? POINTS_FOR_BINGO : 0;
 
-  return (
-    getTilesInWord(input, { scoreTable, languageCode })
-      .map((tile, index) =>
-        getTileScore(tile, {
-          languageCode,
-          multiplier:
-            tileBonuses.find((tile) => tile.index === index)?.multiplier ?? 1,
-        })
+  function getTileMultiplier(index: number): number {
+    return tileBonuses.find((tile) => tile.index === index)?.multiplier || 1;
+  }
+
+  // Prettier can't handle it
+  // prettier-ignore
+  return getTilesInWord(input, { scoreTable, languageCode })
+      .map((tile, index) => 
+        getTileScore(tile, { languageCode, multiplier: getTileMultiplier(index)})
       )
-      .reduce((acc, curr) => (acc += curr)) *
-      getWordMultiplier(wordBonuses) +
-    (isBingoUsed ? POINTS_FOR_BINGO : 0)
-  );
+      .reduce((acc, curr) => acc + curr, 0) * getWordMultiplier(wordBonuses) + pointsForBingo;
 }
 
 export function getTileScore(
@@ -66,30 +60,31 @@ export function getTileScore(
   checkIsLanguageDefined(scoreTable, languageCode);
 
   const score = Number(
-    Object.keys(scoreTable[languageCode]).find((key) => {
-      return scoreTable[languageCode][(key as unknown) as number].includes(
-        input.toUpperCase()
-      );
-    })
+    Object.keys(scoreTable[languageCode].scores).find((key) =>
+      scoreTable[languageCode].scores[key].includes(input.toUpperCase())
+    )
   );
+
   return score * multiplier;
 }
 
-export const getTilesInWord = (
+export function getTilesInWord(
   input: string,
   { languageCode, scoreTable = SCORE_TABLE }: TilesInWordOptions
-): string[] => {
+): string[] {
   checkIsLanguageDefined(scoreTable, languageCode);
 
-  const tiles = Array.from(input.toUpperCase());
+  const letters = Array.from(input.toUpperCase());
+
   if (isLanguageWithMultigraphs(scoreTable, languageCode)) {
-    return processMultigraphs(
-      tiles,
+    return joinMultigraphsInTiles(
+      letters,
       getMultigraphsInLanguage(scoreTable, languageCode)
     );
   }
-  return tiles;
-};
+
+  return letters;
+}
 
 export { default as SETTINGS } from "./settings";
 export { default as SCORE_TABLE } from "./scoreTable";

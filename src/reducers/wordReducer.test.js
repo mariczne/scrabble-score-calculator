@@ -1,4 +1,5 @@
 import wordReducer from "./wordReducer";
+import { BonusType } from "../modules/calculator/interfaces";
 
 const mockState = {};
 beforeEach(() => {
@@ -34,39 +35,39 @@ describe("wordReducer", () => {
     };
     const expectedState = {
       ...mockState,
-      bonuses: [{ type: "tile", index: 2, multiplier: 2 }],
+      bonuses: [{ type: BonusType.Tile, index: 2, multiplier: 2 }],
     };
     expect(wordReducer(mockState, action)).toEqual(expectedState);
   });
 
   it("should handle INCREMENT_TILE_MULTIPLIER action", () => {
-    mockState.bonuses = [{ type: "tile", index: 2, multiplier: 2 }];
+    mockState.bonuses = [{ type: BonusType.Tile, index: 2, multiplier: 2 }];
     const action = {
       type: "TILE_MULTIPLIER_INCREMENTED",
       payload: { tileIndex: 2 },
     };
     const expectedState = {
       ...mockState,
-      bonuses: [{ type: "tile", index: 2, multiplier: 3 }],
+      bonuses: [{ type: BonusType.Tile, index: 2, multiplier: 3 }],
     };
     expect(wordReducer(mockState, action)).toEqual(expectedState);
   });
 
   it("should handle ADD_WORD_MULTIPLIER action", () => {
-    mockState.bonuses = [{ type: "tile", index: 2, multiplier: 3 }];
+    mockState.bonuses = [{ type: BonusType.Tile, index: 2, multiplier: 3 }];
     const action = {
       type: "WORD_MULTIPLIER_ADDED",
       payload: { tileIndex: 2 },
     };
     const expectedState = {
       ...mockState,
-      bonuses: [{ type: "word", index: 2, multiplier: 2 }],
+      bonuses: [{ type: BonusType.Word, index: 2, multiplier: 2 }],
     };
     expect(wordReducer(mockState, action)).toEqual(expectedState);
   });
 
   it("should handle INCREMENT_WORD_MULTIPLIER action", () => {
-    mockState.bonuses = [{ type: "word", index: 2, multiplier: 2 }];
+    mockState.bonuses = [{ type: BonusType.Word, index: 2, multiplier: 2 }];
     const action = {
       type: "WORD_MULTIPLIER_INCREMENTED",
       payload: { tileIndex: 2 },
@@ -79,7 +80,7 @@ describe("wordReducer", () => {
   });
 
   it("should handle REMOVE_WORD_MULTIPLIER action", () => {
-    mockState.bonuses = [{ type: "word", index: 2, multiplier: 3 }];
+    mockState.bonuses = [{ type: BonusType.Word, index: 2, multiplier: 3 }];
     const action = {
       type: "WORD_MULTIPLIER_REMOVED",
       payload: { tileIndex: 2 },

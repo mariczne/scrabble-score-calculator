@@ -21,7 +21,9 @@ export type Multigraph = string[];
 export interface ScoreTable {
   [languageCode: string]: {
     displayName: string;
-    [pointValue: number]: string[];
+    scores: {
+      [pointValue: string]: string[];
+    };
     multigraphs?: Multigraph[];
   };
 }
@@ -31,27 +33,28 @@ export interface Multiplier {
   multiplier: number;
 }
 
+export enum BonusType {
+  Tile = "tile",
+  Word = "word",
+}
+
 export interface Bonus {
-  type: "tile" | "word" | "bingo";
+  type: BonusType;
   index: number;
   multiplier: number;
 }
 
 export interface WordBonus {
-  type: "word";
+  type: BonusType.Word;
   index: number;
   multiplier: number;
 }
 
 export interface TileBonus {
-  type: "tile";
+  type: BonusType.Tile;
   index: number;
   multiplier: number;
 }
-
-// export interface BingoBonus {
-//   type: "bingo";
-// }
 
 export interface Language {
   languageCode: string;

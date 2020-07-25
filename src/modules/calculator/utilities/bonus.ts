@@ -1,14 +1,24 @@
 import { WORD_SCORE_MULTIPLIERS, MIN_TILES_FOR_BINGO } from "../settings";
 import { getTilesInWord } from "../index";
 import { checkIsBonusDefined } from "./error";
-import { Bonus, WordBonus, TileBonus, Multiplier } from "../interfaces";
+import {
+  Bonus,
+  BonusType,
+  WordBonus,
+  TileBonus,
+  Multiplier,
+} from "../interfaces";
 
 export function getTileBonuses(bonuses: Bonus[]): TileBonus[] {
-  return bonuses.filter((bonus) => bonus.type === "tile") as TileBonus[];
+  return bonuses.filter(
+    (bonus) => bonus.type === BonusType.Tile
+  ) as TileBonus[];
 }
 
 export function getWordBonuses(bonuses: Bonus[]): WordBonus[] {
-  return bonuses.filter((bonus) => bonus.type === "word") as WordBonus[];
+  return bonuses.filter(
+    (bonus) => bonus.type === BonusType.Word
+  ) as WordBonus[];
 }
 
 export function getWordMultiplier(wordBonuses: WordBonus[] = []): number {

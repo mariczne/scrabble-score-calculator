@@ -1,4 +1,4 @@
-import { Bonus } from "../modules/calculator/interfaces";
+import { Bonus, BonusType } from "../modules/calculator/interfaces";
 import {
   SetInputAction,
   ChangeLanguageAction,
@@ -7,7 +7,7 @@ import {
 
 export interface Action {
   type: string;
-  payload?: any;
+  payload?: {};
 }
 
 export interface State {
@@ -49,7 +49,7 @@ export default function wordReducer(state: State, action: Action): State {
         ...state,
         bonuses: [
           ...state.bonuses,
-          { type: "tile", index: tileIndex, multiplier: 2 },
+          { type: BonusType.Tile, index: tileIndex, multiplier: 2 },
         ],
       };
     }
@@ -77,7 +77,7 @@ export default function wordReducer(state: State, action: Action): State {
         ...state,
         bonuses: state.bonuses.map((tile) => {
           if (tile.index === tileIndex) {
-            return { ...tile, type: "word", multiplier: 2 };
+            return { ...tile, type: BonusType.Word, multiplier: 2 };
           }
           return tile;
         }),

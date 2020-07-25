@@ -3,6 +3,7 @@ import { WordContext } from "../context/wordContext";
 import { getTileScore, getTilesInWord } from "../modules/calculator";
 import { cycleTileBonus } from "../actions/wordActions";
 import { LetterTile } from "./Tile/Tile";
+import { BonusType } from "../modules/calculator/interfaces";
 
 export default function LetterTiles() {
   const {
@@ -12,8 +13,9 @@ export default function LetterTiles() {
 
   function getTileScoreMultiplier(index) {
     return (
-      state.bonuses.find((tile) => tile.index === index && tile.type === "tile")
-        ?.multiplier ?? 1
+      state.bonuses.find(
+        (bonus) => bonus.index === index && bonus.type === BonusType.Tile
+      )?.multiplier ?? 1
     );
   }
 
