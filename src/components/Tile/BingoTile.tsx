@@ -1,10 +1,18 @@
 import React from "react";
-import PropTypes from "prop-types";
 
-const BINGO_STYLE = {
+const BINGO_STYLE: any = {
+  // TODO
   allowed: { backgroundColor: "orange" },
   notAllowed: { backgroundColor: "lightgray", cursor: "default" },
 };
+
+interface BingoTileProps {
+  bingoName: string;
+  toggleBingo: () => void;
+  isBingoAllowed: boolean;
+  isBingoUsed: boolean;
+  textWhenBingoUsed: string;
+}
 
 export default function BingoTile({
   bingoName,
@@ -12,13 +20,9 @@ export default function BingoTile({
   isBingoAllowed,
   isBingoUsed,
   textWhenBingoUsed,
-}) {
+}: BingoTileProps) {
   function styleDiv() {
-    const { allowed, notAllowed } = BINGO_STYLE;
-    if (isBingoAllowed) {
-      return allowed;
-    }
-    return notAllowed;
+    return isBingoAllowed ? BINGO_STYLE.allowed : BINGO_STYLE.notAllowed;
   }
 
   return (
@@ -27,7 +31,7 @@ export default function BingoTile({
       style={styleDiv()}
       onClick={toggleBingo}
       onKeyDown={(e) => (e.key === "Enter" ? toggleBingo() : null)}
-      tabIndex="0"
+      tabIndex={0}
     >
       <span className="tile__bonus-name">{bingoName.toUpperCase()}</span>
       {isBingoUsed && (
@@ -36,14 +40,6 @@ export default function BingoTile({
     </div>
   );
 }
-
-BingoTile.propTypes = {
-  bingoName: PropTypes.string,
-  toggleBingo: PropTypes.func,
-  isBingoAllowed: PropTypes.bool,
-  isBingoUsed: PropTypes.bool,
-  textWhenBingoUsed: PropTypes.string,
-};
 
 BingoTile.defaultProps = {
   bingoName: "Bingo",

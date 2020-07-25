@@ -1,7 +1,7 @@
 import React from "react";
-import PropTypes from "prop-types";
 
-const BONUS_STYLE = {
+const BONUS_STYLE: any = {
+  // TODO
   letter: {
     double: {
       backgroundColor: "#6cf",
@@ -20,7 +20,12 @@ const BONUS_STYLE = {
   },
 };
 
-export default function BonusTile({ type, name }) {
+interface BonusTileProps {
+  type: string;
+  name: string;
+}
+
+export default function BonusTile({ type, name }: BonusTileProps) {
   return (
     <>
       <div className="tile tile--bonus" style={BONUS_STYLE[type][name]}>
@@ -31,11 +36,6 @@ export default function BonusTile({ type, name }) {
     </>
   );
 }
-
-BonusTile.propTypes = {
-  type: PropTypes.string,
-  name: PropTypes.string,
-};
 
 BonusTile.defaultProps = {
   type: "letter",
