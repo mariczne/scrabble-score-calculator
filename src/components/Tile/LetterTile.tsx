@@ -1,17 +1,51 @@
 import React from "react";
 import { BonusType, Bonus } from "../../modules/calculator/interfaces";
+import Tile from "./Tile";
+import styled, { css } from "styled-components";
 
-const LETTER_BONUS_STYLES: any = {
-  // TODO
-  2: { backgroundColor: "#6cf" },
-  3: { backgroundColor: "#09f" },
-};
+interface IStyledLetterTile {
+  isScoreInvalid: boolean;
+  bonusType: BonusType;
+  multiplier: number;
+}
 
-const WORD_BONUS_STYLES: any = {
-  // TODO
-  2: { backgroundColor: "#f9f" },
-  3: { backgroundColor: "#f66" },
-};
+const StyledLetterTile = styled(Tile)<IStyledLetterTile>`
+  background-color: antiquewhite;
+  color: green;
+
+  ${(props) =>
+    props.isScoreInvalid &&
+    css`
+      background-color: lightgray;
+      cursor: default;
+    `}
+
+  ${(props) => {
+    if (props.bonusType === BonusType.Tile) {
+      if (props.multiplier === 2) {
+        return css`
+          background-color: #6cf;
+        `;
+      } else if (props.multiplier === 3) {
+        return css`
+          background-color: #09f;
+        `;
+      }
+    }
+
+    if (props.bonusType === BonusType.Word) {
+      if (props.multiplier === 2) {
+        return css`
+          background-color: #f9f;
+        `;
+      } else if (props.multiplier === 3) {
+        return css`
+          background-color: #f66;
+        `;
+      }
+    }
+  }}
+`;
 
 interface LetterTileProps {
   index: number;
@@ -21,6 +55,39 @@ interface LetterTileProps {
   cycleLetterBonus: Function;
 }
 
+interface CharacterProps {
+  multigraph: number | false;
+}
+
+const Character = styled.span<CharacterProps>`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-60%, -55%);
+  line-height: 1;
+
+  ${(props) => {
+    if (props.multigraph === 2) {
+      return css`
+        transform: translate(-60%, -55%) scaleX(0.65);
+      `;
+    }
+
+    if (props.multigraph === 3) {
+      return css`
+        transform: translate(-60%, -55%) scaleX(0.4);
+      `;
+    }
+  }}
+`;
+
+const Score = styled.span`
+  position: relative;
+  left: 0.925rem;
+  top: -0.25rem;
+  font-size: 1.25rem;
+`;
+
 export default function LetterTile({
   index = 0,
   character = " ",
@@ -28,52 +95,28 @@ export default function LetterTile({
   bonus,
   cycleLetterBonus,
 }: LetterTileProps) {
-  const isScoreInvalid = Number.isNaN(score);
   const isBlankTile = character === " ";
-  const isDigraph = character.length === 2;
-  const isTrigraph = character.length === 3;
-
-  function styleDiv() {
-    if (isScoreInvalid) {
-      return { backgroundColor: "lightgray", cursor: "default" };
-    }
-    switch (bonus.type) {
-      case BonusType.Tile: {
-        return LETTER_BONUS_STYLES[bonus.multiplier];
-      }
-      case BonusType.Word: {
-        return WORD_BONUS_STYLES[bonus.multiplier];
-      }
-      default: {
-        return { backgroundColor: "antiquewhite", color: "green" };
-      }
-    }
-  }
+  const isScoreInvalid = Number.isNaN(score);
 
   function renderScore() {
-    if (isBlankTile) {
-      return null;
-    }
-    if (isScoreInvalid) {
-      return "?";
-    }
+    if (isBlankTile) return null;
+    if (isScoreInvalid) return "?";
     return score;
   }
 
-  const charSpanClassName = `tile__letter
-    ${isDigraph ? " tile__letter--double" : ""}
-    ${isTrigraph ? " tile__letter--triple" : ""}`;
-
   return (
-    <div
-      className="tile"
-      style={styleDiv()}
+    <StyledLetterTile
+      isScoreInvalid={isScoreInvalid}
+      bonusType={bonus.type}
+      multiplier={bonus.multiplier}
       onClick={() => cycleLetterBonus(index)}
       onKeyDown={(e) => (e.key === "Enter" ? cycleLetterBonus(index) : null)}
       tabIndex={0}
     >
-      <span className={charSpanClassName}>{character.toUpperCase()}</span>
-      <span className="tile__letter-score">{renderScore()}</span>
-    </div>
+      <Character multigraph={character.length > 1 && character.length}>
+        {character.toUpperCase()}
+      </Character>
+      <Score>{renderScore()}</Score>
+    </StyledLetterTile>
   );
 }

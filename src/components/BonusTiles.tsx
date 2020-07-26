@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { WordContext } from "../context/wordContext";
 import { isBingoAllowed, getWordBonusTypes } from "../modules/calculator";
 import { toggleBingo } from "../actions/wordActions";
-import { BonusTile, BingoTile } from "./Tile/Tile";
+import { BonusTile, BingoTile } from "./Tile";
 
 export default function BonusTiles() {
   const wordBonusTypes = getWordBonusTypes().map((bonus) => ({

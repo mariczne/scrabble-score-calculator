@@ -2,8 +2,23 @@ import React, { useContext } from "react";
 import { WordContext } from "../context/wordContext";
 import { getSupportedLanguages } from "../modules/calculator";
 import { changeLanguage } from "../actions/wordActions";
+import styled from "styled-components";
 
 const languages = getSupportedLanguages();
+
+const Select = styled.select`
+  font-size: 1rem;
+  padding: 0.25rem;
+  margin-left: 0.5rem;
+  border: 1px solid black;
+  border-radius: 0.25em;
+  background-color: white;
+
+  &:focus {
+    outline: none;
+    border: 2px solid blue;
+  }
+`;
 
 export default function LangSelect() {
   const {
@@ -13,10 +28,9 @@ export default function LangSelect() {
   return (
     <>
       Language:
-      <select
+      <Select
         value={state.language}
         onChange={(e) => dispatch(changeLanguage(e.target.value))}
-        className="lang-select"
         data-testid="lang-select"
       >
         {languages.map(({ languageCode, displayName }) => (
@@ -24,7 +38,7 @@ export default function LangSelect() {
             {displayName}
           </option>
         ))}
-      </select>
+      </Select>
     </>
   );
 }

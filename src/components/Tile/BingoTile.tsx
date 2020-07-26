@@ -1,10 +1,15 @@
 import React from "react";
+import Tile from "./Tile";
+import styled from "styled-components";
 
-const BINGO_STYLE: any = {
-  // TODO
-  allowed: { backgroundColor: "orange" },
-  notAllowed: { backgroundColor: "lightgray", cursor: "default" },
-};
+interface IStyledBingoTile {
+  allowed: boolean;
+}
+
+const StyledBingoTile = styled(Tile)<IStyledBingoTile>`
+  background-color: ${(props) => (props.allowed ? "orange" : "lightgray")};
+  cursor: ${(props) => (props.allowed ? "pointer" : "default")};
+`;
 
 interface BingoTileProps {
   bingoName: string;
@@ -14,37 +19,41 @@ interface BingoTileProps {
   textWhenBingoUsed: string;
 }
 
-export default function BingoTile({
-  bingoName,
-  toggleBingo,
-  isBingoAllowed,
-  isBingoUsed,
-  textWhenBingoUsed,
-}: BingoTileProps) {
-  function styleDiv() {
-    return isBingoAllowed ? BINGO_STYLE.allowed : BINGO_STYLE.notAllowed;
-  }
+const BingoName = styled.span`
+  text-transform: uppercase;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.5rem;
+  color: black;
+`;
 
+const TextWhenUsed = styled.span`
+  text-transform: uppercase;
+  position: absolute;
+  right: 0.25rem;
+  top: 2.5rem;
+  font-size: 0.825rem;
+  color: black;
+`;
+
+export default function BingoTile({
+  bingoName = "Bingo",
+  isBingoAllowed = false,
+  isBingoUsed = false,
+  textWhenBingoUsed = "active",
+  toggleBingo,
+}: BingoTileProps) {
   return (
-    <div
-      className="tile"
-      style={styleDiv()}
+    <StyledBingoTile
+      allowed={isBingoAllowed}
       onClick={toggleBingo}
       onKeyDown={(e) => (e.key === "Enter" ? toggleBingo() : null)}
       tabIndex={0}
     >
-      <span className="tile__bonus-name">{bingoName.toUpperCase()}</span>
-      {isBingoUsed && (
-        <span className="tile__bonus-state">{textWhenBingoUsed}</span>
-      )}
-    </div>
+      <BingoName>{bingoName}</BingoName>
+      {isBingoUsed && <TextWhenUsed>{textWhenBingoUsed}</TextWhenUsed>}
+    </StyledBingoTile>
   );
 }
-
-BingoTile.defaultProps = {
-  bingoName: "Bingo",
-  toggleBingo: () => {},
-  isBingoAllowed: false,
-  isBingoUsed: false,
-  textWhenBingoUsed: "ACTIVE",
-};
