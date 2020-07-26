@@ -5,13 +5,34 @@ import LetterTiles from "./LetterTiles";
 import WordScore from "./WordScore";
 import Instructions from "./Instructions";
 import Footer from "./Footer";
-import "./App.css";
+import styled from "styled-components";
 
 import { WordContextProvider } from "../context/wordContext";
 
+const StyledApp = styled.div`
+  text-align: center;
+  max-width: 800px;
+  padding: 2rem;
+  margin: 2rem auto;
+  border: 4px solid white;
+  border-radius: 5px;
+  background-color: #3cb371;
+
+  @media (max-width: 480px) {
+    .App {
+      border: none;
+      margin: 0 auto;
+    }
+
+    html {
+      background-color: #3cb371;
+    }
+  }
+`;
+
 export default function App() {
   return (
-    <div className="App">
+    <StyledApp>
       <WordContextProvider>
         <LangSelect />
         <WordInput />
@@ -20,6 +41,6 @@ export default function App() {
         <Instructions />
         <Footer />
       </WordContextProvider>
-    </div>
+    </StyledApp>
   );
 }

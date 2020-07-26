@@ -1,43 +1,61 @@
 import React from "react";
+import Tile from "./Tile";
+import styled, { css } from "styled-components";
 
-const BONUS_STYLE: any = {
-  // TODO
-  letter: {
-    double: {
-      backgroundColor: "#6cf",
-    },
-    triple: {
-      backgroundColor: "#09f",
-    },
-  },
-  word: {
-    double: {
-      backgroundColor: "#f9f",
-    },
-    triple: {
-      backgroundColor: "#f66",
-    },
-  },
-};
+interface IStyledBonusTile {
+  type: string; // "letter" | "word";
+  name: string; // "double" | "triple";
+}
+
+const StyledBonusTile = styled(Tile)<IStyledBonusTile>`
+  cursor: default;
+
+  ${(props) => {
+    if (props.type === "letter") {
+      if (props.name === "double") {
+        return css`
+          background-color: #6cf;
+        `;
+      } else if (props.name === "triple") {
+        return css`
+          background-color: #09f;
+        `;
+      }
+    }
+
+    if (props.type === "word") {
+      if (props.name === "double") {
+        return css`
+          background-color: #f9f;
+        `;
+      } else if (props.name === "triple") {
+        return css`
+          background-color: #f66;
+        `;
+      }
+    }
+  }}
+`;
 
 interface BonusTileProps {
   type: string;
   name: string;
 }
 
+const BonusName = styled.span`
+  text-transform: uppercase;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.5rem;
+  color: black;
+`;
+
 export default function BonusTile({ type, name }: BonusTileProps) {
   return (
-    <>
-      <div className="tile tile--bonus" style={BONUS_STYLE[type][name]}>
-        <span className="tile__bonus-name">
-          {`${name.toUpperCase()} ${type.toUpperCase()} SCORE`}
-        </span>
-      </div>
-    </>
+    <StyledBonusTile type={type} name={name}>
+      <BonusName>{`${name} ${type} SCORE`}</BonusName>
+    </StyledBonusTile>
   );
 }
-
-BonusTile.defaultProps = {
-  type: "letter",
-  name: "double",
-};
