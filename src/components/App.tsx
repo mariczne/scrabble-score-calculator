@@ -9,6 +9,21 @@ import styled from "styled-components";
 
 import { WordContextProvider } from "../context/wordContext";
 
+export default function App() {
+  return (
+    <StyledApp>
+      <WordContextProvider>
+        <LangSelect />
+        <WordInput />
+        <LetterTiles />
+        <WordScore />
+        <Instructions />
+        <Footer />
+      </WordContextProvider>
+    </StyledApp>
+  );
+}
+
 const StyledApp = styled.div`
   text-align: center;
   max-width: 800px;
@@ -29,18 +44,3 @@ const StyledApp = styled.div`
     }
   }
 `;
-
-export default function App() {
-  return (
-    <StyledApp>
-      <WordContextProvider>
-        <LangSelect />
-        <WordInput />
-        <LetterTiles />
-        <WordScore />
-        <Instructions />
-        <Footer />
-      </WordContextProvider>
-    </StyledApp>
-  );
-}

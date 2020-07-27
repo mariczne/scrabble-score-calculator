@@ -2,6 +2,14 @@ import React from "react";
 import Tile from "./Tile";
 import styled, { css } from "styled-components";
 
+export default function BonusTile({ type, name }: BonusTileProps) {
+  return (
+    <StyledBonusTile type={type} name={name}>
+      <BonusName>{`${name} ${type} SCORE`}</BonusName>
+    </StyledBonusTile>
+  );
+}
+
 interface IStyledBonusTile {
   type: string; // "letter" | "word";
   name: string; // "double" | "triple";
@@ -51,11 +59,3 @@ const BonusName = styled.span`
   font-size: 0.5rem;
   color: black;
 `;
-
-export default function BonusTile({ type, name }: BonusTileProps) {
-  return (
-    <StyledBonusTile type={type} name={name}>
-      <BonusName>{`${name} ${type} SCORE`}</BonusName>
-    </StyledBonusTile>
-  );
-}

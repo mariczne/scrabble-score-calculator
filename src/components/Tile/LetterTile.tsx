@@ -3,6 +3,39 @@ import { BonusType, Bonus } from "../../modules/calculator/interfaces";
 import Tile from "./Tile";
 import styled, { css } from "styled-components";
 
+export default function LetterTile({
+  index = 0,
+  character = " ",
+  score = 0,
+  bonus,
+  cycleLetterBonus,
+}: LetterTileProps) {
+  const isBlankTile = character === " ";
+  const isScoreInvalid = Number.isNaN(score);
+
+  function renderScore() {
+    if (isBlankTile) return null;
+    if (isScoreInvalid) return "?";
+    return score;
+  }
+
+  return (
+    <StyledLetterTile
+      isScoreInvalid={isScoreInvalid}
+      bonusType={bonus.type}
+      multiplier={bonus.multiplier}
+      onClick={() => cycleLetterBonus(index)}
+      onKeyDown={(e) => (e.key === "Enter" ? cycleLetterBonus(index) : null)}
+      tabIndex={0}
+    >
+      <Character multigraph={character.length > 1 && character.length}>
+        {character.toUpperCase()}
+      </Character>
+      <Score>{renderScore()}</Score>
+    </StyledLetterTile>
+  );
+}
+
 interface IStyledLetterTile {
   isScoreInvalid: boolean;
   bonusType: BonusType;
@@ -87,36 +120,3 @@ const Score = styled.span`
   top: -0.25rem;
   font-size: 1.25rem;
 `;
-
-export default function LetterTile({
-  index = 0,
-  character = " ",
-  score = 0,
-  bonus,
-  cycleLetterBonus,
-}: LetterTileProps) {
-  const isBlankTile = character === " ";
-  const isScoreInvalid = Number.isNaN(score);
-
-  function renderScore() {
-    if (isBlankTile) return null;
-    if (isScoreInvalid) return "?";
-    return score;
-  }
-
-  return (
-    <StyledLetterTile
-      isScoreInvalid={isScoreInvalid}
-      bonusType={bonus.type}
-      multiplier={bonus.multiplier}
-      onClick={() => cycleLetterBonus(index)}
-      onKeyDown={(e) => (e.key === "Enter" ? cycleLetterBonus(index) : null)}
-      tabIndex={0}
-    >
-      <Character multigraph={character.length > 1 && character.length}>
-        {character.toUpperCase()}
-      </Character>
-      <Score>{renderScore()}</Score>
-    </StyledLetterTile>
-  );
-}

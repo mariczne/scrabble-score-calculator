@@ -3,6 +3,29 @@ import { WordContext } from "../context/wordContext";
 import { setInput } from "../actions/wordActions";
 import styled from "styled-components";
 
+export default function WordInput() {
+  const {
+    wordReducer: [state, dispatch],
+  } = useContext(WordContext);
+
+  return (
+    <>
+      <Input
+        type="text"
+        value={state.input}
+        onChange={(e) => dispatch(setInput(e.target.value))}
+        data-testid="word-input"
+        placeholder="Type a word to start"
+      />
+      {state.input && (
+        <WordReset onClick={() => dispatch({ type: "WORD_RESET" })}>
+          Reset
+        </WordReset>
+      )}
+    </>
+  );
+}
+
 const Input = styled.input`
   display: block;
   font-size: 1.2rem;
@@ -33,26 +56,3 @@ const WordReset = styled.button`
     border: 2px solid blue;
   }
 `;
-
-export default function WordInput() {
-  const {
-    wordReducer: [state, dispatch],
-  } = useContext(WordContext);
-
-  return (
-    <>
-      <Input
-        type="text"
-        value={state.input}
-        onChange={(e) => dispatch(setInput(e.target.value))}
-        data-testid="word-input"
-        placeholder="Type a word to start"
-      />
-      {state.input && (
-        <WordReset onClick={() => dispatch({ type: "WORD_RESET" })}>
-          Reset
-        </WordReset>
-      )}
-    </>
-  );
-}
