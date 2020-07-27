@@ -6,20 +6,6 @@ import styled from "styled-components";
 
 const languages = getSupportedLanguages();
 
-const Select = styled.select`
-  font-size: 1rem;
-  padding: 0.25rem;
-  margin-left: 0.5rem;
-  border: 1px solid black;
-  border-radius: 0.25em;
-  background-color: white;
-
-  &:focus {
-    outline: none;
-    border: 2px solid blue;
-  }
-`;
-
 export default function LangSelect() {
   const {
     wordReducer: [state, dispatch],
@@ -42,3 +28,17 @@ export default function LangSelect() {
     </>
   );
 }
+
+const Select = styled.select`
+  font-size: 1rem;
+  padding: 0.25rem;
+  margin-left: 0.5rem;
+  border: 1px solid black;
+  border-radius: 0.25em;
+  background-color: white;
+
+  &:focus {
+    outline: none;
+    border: 2px solid blue;
+  }
+`;

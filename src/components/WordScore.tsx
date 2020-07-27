@@ -5,10 +5,6 @@ import styled from "styled-components";
 
 const INVALID_SCORE_TEXT = "At least one tile invalid";
 
-const StyledWordScore = styled.span`
-  font-size: 1.5rem;
-`;
-
 export default function WordScore() {
   const {
     wordReducer: [state],
@@ -33,3 +29,7 @@ export default function WordScore() {
     </StyledWordScore>
   );
 }
+
+const StyledWordScore = styled.span`
+  font-size: 1.5rem;
+`;

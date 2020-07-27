@@ -2,6 +2,26 @@ import React from "react";
 import Tile from "./Tile";
 import styled from "styled-components";
 
+export default function BingoTile({
+  bingoName = "Bingo",
+  isBingoAllowed = false,
+  isBingoUsed = false,
+  textWhenBingoUsed = "active",
+  toggleBingo,
+}: BingoTileProps) {
+  return (
+    <StyledBingoTile
+      allowed={isBingoAllowed}
+      onClick={toggleBingo}
+      onKeyDown={(e) => (e.key === "Enter" ? toggleBingo() : null)}
+      tabIndex={0}
+    >
+      <BingoName>{bingoName}</BingoName>
+      {isBingoUsed && <TextWhenUsed>{textWhenBingoUsed}</TextWhenUsed>}
+    </StyledBingoTile>
+  );
+}
+
 interface IStyledBingoTile {
   allowed: boolean;
 }
@@ -37,23 +57,3 @@ const TextWhenUsed = styled.span`
   font-size: 0.825rem;
   color: black;
 `;
-
-export default function BingoTile({
-  bingoName = "Bingo",
-  isBingoAllowed = false,
-  isBingoUsed = false,
-  textWhenBingoUsed = "active",
-  toggleBingo,
-}: BingoTileProps) {
-  return (
-    <StyledBingoTile
-      allowed={isBingoAllowed}
-      onClick={toggleBingo}
-      onKeyDown={(e) => (e.key === "Enter" ? toggleBingo() : null)}
-      tabIndex={0}
-    >
-      <BingoName>{bingoName}</BingoName>
-      {isBingoUsed && <TextWhenUsed>{textWhenBingoUsed}</TextWhenUsed>}
-    </StyledBingoTile>
-  );
-}

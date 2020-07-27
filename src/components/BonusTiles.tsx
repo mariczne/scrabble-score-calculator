@@ -9,10 +9,12 @@ export default function BonusTiles() {
     name: bonus,
     type: "word",
   }));
+
   const letterBonusTypes = [
     { name: "double", type: "letter" },
     { name: "triple", type: "letter" },
   ];
+
   const {
     wordReducer: [state, dispatch],
     SETTINGS: { POINTS_FOR_BINGO },
