@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/scrabble-score-calculator/precache-manifest.1c59a14e8b40c13dbbf4b6f5520ca715.js"
+  "/scrabble-score-calculator/precache-manifest.6a3fd56f8fc67809ac950f45026cea8b.js"
 );
 
 self.addEventListener('message', (event) => {

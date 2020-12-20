@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/scrabble-score-calculator/static/css/main.3881608e.chunk.css",
-    "main.js": "/scrabble-score-calculator/static/js/main.d91d312b.chunk.js",
-    "main.js.map": "/scrabble-score-calculator/static/js/main.d91d312b.chunk.js.map",
-    "runtime-main.js": "/scrabble-score-calculator/static/js/runtime-main.ad2c6d58.js",
-    "runtime-main.js.map": "/scrabble-score-calculator/static/js/runtime-main.ad2c6d58.js.map",
-    "static/js/2.217c5a0f.chunk.js": "/scrabble-score-calculator/static/js/2.217c5a0f.chunk.js",
-    "static/js/2.217c5a0f.chunk.js.map": "/scrabble-score-calculator/static/js/2.217c5a0f.chunk.js.map",
+    "main.css": "/scrabble-score-calculator/static/css/main.9e4dcb83.chunk.css",
+    "main.js": "/scrabble-score-calculator/static/js/main.f3bbc846.chunk.js",
+    "main.js.map": "/scrabble-score-calculator/static/js/main.f3bbc846.chunk.js.map",
+    "runtime-main.js": "/scrabble-score-calculator/static/js/runtime-main.28d9d990.js",
+    "runtime-main.js.map": "/scrabble-score-calculator/static/js/runtime-main.28d9d990.js.map",
+    "static/js/2.bcb29815.chunk.js": "/scrabble-score-calculator/static/js/2.bcb29815.chunk.js",
+    "static/js/2.bcb29815.chunk.js.map": "/scrabble-score-calculator/static/js/2.bcb29815.chunk.js.map",
     "index.html": "/scrabble-score-calculator/index.html",
-    "precache-manifest.1c59a14e8b40c13dbbf4b6f5520ca715.js": "/scrabble-score-calculator/precache-manifest.1c59a14e8b40c13dbbf4b6f5520ca715.js",
+    "precache-manifest.6a3fd56f8fc67809ac950f45026cea8b.js": "/scrabble-score-calculator/precache-manifest.6a3fd56f8fc67809ac950f45026cea8b.js",
     "service-worker.js": "/scrabble-score-calculator/service-worker.js",
-    "static/css/main.3881608e.chunk.css.map": "/scrabble-score-calculator/static/css/main.3881608e.chunk.css.map",
-    "static/js/2.217c5a0f.chunk.js.LICENSE.txt": "/scrabble-score-calculator/static/js/2.217c5a0f.chunk.js.LICENSE.txt"
+    "static/css/main.9e4dcb83.chunk.css.map": "/scrabble-score-calculator/static/css/main.9e4dcb83.chunk.css.map",
+    "static/js/2.bcb29815.chunk.js.LICENSE.txt": "/scrabble-score-calculator/static/js/2.bcb29815.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.ad2c6d58.js",
-    "static/js/2.217c5a0f.chunk.js",
-    "static/css/main.3881608e.chunk.css",
-    "static/js/main.d91d312b.chunk.js"
+    "static/js/runtime-main.28d9d990.js",
+    "static/js/2.bcb29815.chunk.js",
+    "static/css/main.9e4dcb83.chunk.css",
+    "static/js/main.f3bbc846.chunk.js"
   ]
 }
