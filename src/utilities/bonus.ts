@@ -1,24 +1,12 @@
-import { WORD_SCORE_MULTIPLIERS, MIN_TILES_FOR_BINGO } from "../settings";
-import { getTilesInWord } from "../index";
-import { checkIsBonusDefined } from "./error";
-import {
-  Bonus,
-  BonusType,
-  WordBonus,
-  TileBonus,
-  Multiplier,
-} from "../interfaces";
+import { WORD_SCORE_MULTIPLIERS } from "../settings";
+import { Bonus, WordBonus, TileBonus, Multiplier } from "../types";
 
 export function getTileBonuses(bonuses: Bonus[]): TileBonus[] {
-  return bonuses.filter(
-    (bonus) => bonus.type === BonusType.Tile
-  ) as TileBonus[];
+  return bonuses.filter((bonus) => bonus.type === "tile") as TileBonus[];
 }
 
 export function getWordBonuses(bonuses: Bonus[]): WordBonus[] {
-  return bonuses.filter(
-    (bonus) => bonus.type === BonusType.Word
-  ) as WordBonus[];
+  return bonuses.filter((bonus) => bonus.type === "word") as WordBonus[];
 }
 
 export function getWordMultiplier(wordBonuses: WordBonus[] = []): number {
@@ -48,10 +36,17 @@ export const isNextBonusAllowed = (
   return tiles.length > bonuses.length;
 };
 
-export const isBingoAllowed = (
-  input: string,
-  languageCode: string,
-  minTilesForBingo: number = MIN_TILES_FOR_BINGO
-): boolean => {
-  return getTilesInWord(input, { languageCode }).length >= minTilesForBingo;
-};
+export function checkIsBonusDefined(multiplier: number): void {
+  if (!isBonusDefined(multiplier)) {
+    throw new RangeError(`No ${multiplier}x word bonus in the settings`);
+  }
+}
+
+export function checkIsNextBonusAllowed(
+  tilesInWord: string[],
+  bonuses: Bonus[]
+): void {
+  if (!isNextBonusAllowed(tilesInWord, bonuses)) {
+    throw new Error();
+  }
+}

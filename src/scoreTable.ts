@@ -1,4 +1,4 @@
-import { ScoreTable } from "./interfaces";
+import { ScoreTable } from "./types";
 
 const SCORE_TABLE: ScoreTable = {
   deu: {
@@ -16,40 +16,6 @@ const SCORE_TABLE: ScoreTable = {
   },
   gwi: {
     displayName: "Dinju Zhuh Kʼyuu", // Gwichʼin language
-    multigraphs: [
-      ["A", "I", "I"],
-      ["A", "Į", "Į"],
-      ["T", "T", "H"],
-      ["D", "D", "H"],
-      ["K", "H", "W"],
-      ["S", "H", "R"],
-      ["Z", "H", "R"],
-      ["A", "A"],
-      ["C", "H"],
-      ["E", "E"],
-      ["Ą", "Ą"],
-      ["I", "I"],
-      ["Ę", "Ę"],
-      ["Į", "Į"],
-      ["O", "O"],
-      ["Ǫ", "Ǫ"],
-      ["T", "H"],
-      ["U", "U"],
-      ["Ų", "Ų"],
-      ["T", "S"],
-      ["T", "R"],
-      ["D", "H"],
-      ["G", "H"],
-      ["K", "H"],
-      ["S", "H"],
-      ["T", "Ł"],
-      ["G", "W"],
-      ["Z", "H"],
-      ["D", "R"],
-      ["K", "W"],
-      ["D", "L"],
-      ["D", "Z"],
-    ],
     scores: {
       0: [" "],
       1: ["ʼ", "I", "A", "N", "T", "H", "Ą", "E", "Ę", "Į", "O", "Ǫ", "U", "Ų"],
@@ -92,11 +58,6 @@ const SCORE_TABLE: ScoreTable = {
   },
   spa: {
     displayName: "español",
-    multigraphs: [
-      ["C", "H"],
-      ["L", "L"],
-      ["R", "R"],
-    ],
     scores: {
       0: [" "],
       1: ["A", "E", "O", "I", "S", "N", "R", "U", "L", "T"],
@@ -134,15 +95,6 @@ const SCORE_TABLE: ScoreTable = {
   },
   hun: {
     displayName: "magyar",
-    multigraphs: [
-      ["S", "Z"],
-      ["G", "Y"],
-      ["N", "Y"],
-      ["C", "S"],
-      ["L", "Y"],
-      ["Z", "S"],
-      ["T", "Y"],
-    ],
     scores: {
       0: [" "],
       1: ["A", "E", "K", "T", "Á", "L", "N", "R", "I", "M", "O", "S"],
@@ -166,6 +118,16 @@ const SCORE_TABLE: ScoreTable = {
       6: ["Ć"],
       7: ["Ń"],
       9: ["Ź"],
+    },
+  },
+  pollit: {
+    displayName: "polski - literaki",
+    scores: {
+      0: [" "],
+      1: ["A", "E", "I", "N", "O", "R", "S", "W", "Z"],
+      2: ["C", "D", "K", "L", "M", "P", "T", "Y"],
+      3: ["B", "G", "H", "J", "Ł", "U"],
+      5: ["Ą", "Ć", "Ę", "F", "Ń", "Ó", "Ś", "Ź", "Ż"],
     },
   },
   por: {

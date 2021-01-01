@@ -1,5 +1,5 @@
 import SCORE_TABLE from "../scoreTable";
-import { ScoreTable, Language } from "../interfaces";
+import { ScoreTable, Language } from "../types";
 
 export function isLanguageDefined(
   scoreTable: ScoreTable = SCORE_TABLE,

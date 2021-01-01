@@ -1,22 +1,22 @@
 export interface WordScoreOptions {
-  languageCode: string;
+  languageCode: Language["languageCode"];
   scoreTable?: ScoreTable;
   bonuses?: Bonus[];
   isBingoUsed?: boolean;
 }
 
 export interface TileScoreOptions {
-  languageCode: string;
+  languageCode: Language["languageCode"];
   scoreTable?: ScoreTable;
   multiplier?: number;
 }
 
 export interface TilesInWordOptions {
-  languageCode: string;
+  languageCode: Language["languageCode"];
   scoreTable?: ScoreTable;
 }
 
-export type Multigraph = string[];
+export type Multigraph = string;
 
 export interface ScoreTable {
   [languageCode: string]: {
@@ -24,7 +24,6 @@ export interface ScoreTable {
     scores: {
       [pointValue: string]: string[];
     };
-    multigraphs?: Multigraph[];
   };
 }
 
@@ -33,27 +32,18 @@ export interface Multiplier {
   multiplier: number;
 }
 
-export enum BonusType {
-  Tile = "tile",
-  Word = "word",
-}
-
 export interface Bonus {
-  type: BonusType;
+  type: "word" | "tile";
   index: number;
   multiplier: number;
 }
 
-export interface WordBonus {
-  type: BonusType.Word;
-  index: number;
-  multiplier: number;
+export interface WordBonus extends Bonus {
+  type: "word";
 }
 
-export interface TileBonus {
-  type: BonusType.Tile;
-  index: number;
-  multiplier: number;
+export interface TileBonus extends Bonus {
+  type: "tile";
 }
 
 export interface Language {

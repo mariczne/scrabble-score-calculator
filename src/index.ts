@@ -1,13 +1,4 @@
 import {
-  WordScoreOptions,
-  TileScoreOptions,
-  TilesInWordOptions,
-  WordBonus,
-  TileBonus,
-} from "./interfaces";
-import { POINTS_FOR_BINGO } from "./settings";
-import SCORE_TABLE from "./scoreTable";
-import {
   getTileBonuses,
   getWordBonuses,
   getWordMultiplier,
@@ -22,6 +13,56 @@ import {
   checkAreAllBonusesAllowed,
   checkIsBingoAllowed,
 } from "./utilities/error";
+import { POINTS_FOR_BINGO } from "./settings";
+import SCORE_TABLE from "./scoreTable";
+import {
+  WordScoreOptions,
+  TileScoreOptions,
+  TilesInWordOptions,
+  WordBonus,
+  TileBonus,
+  Language,
+  ScoreTable,
+} from "./types";
+
+export class Calculator {
+  languageCode: Language["languageCode"];
+  scoreTable: ScoreTable;
+
+  constructor(languageCode: Language["languageCode"], scoreTable?: ScoreTable) {
+    this.languageCode = languageCode;
+    this.scoreTable = scoreTable || SCORE_TABLE;
+  }
+
+  getWordScore(
+    input: string,
+    options?: Omit<WordScoreOptions, "languageCode" | "scoreTable">
+  ) {
+    return getWordScore(input, {
+      languageCode: this.languageCode,
+      scoreTable: this.scoreTable,
+      ...options,
+    });
+  }
+
+  getTileScore(
+    input: string,
+    options?: Omit<TileScoreOptions, "languageCode" | "scoreTable">
+  ) {
+    return getTileScore(input, {
+      languageCode: this.languageCode,
+      scoreTable: this.scoreTable,
+      ...options,
+    });
+  }
+
+  getTilesInWord(input: string) {
+    return getTilesInWord(input, {
+      languageCode: this.languageCode,
+      scoreTable: this.scoreTable,
+    });
+  }
+}
 
 export function getWordScore(
   input: string,
@@ -32,9 +73,9 @@ export function getWordScore(
     isBingoUsed = false,
   }: WordScoreOptions
 ): number {
-  if (isBingoUsed) checkIsBingoAllowed(input, languageCode);
+  if (isBingoUsed) checkIsBingoAllowed(getTilesInWord(input, { languageCode }));
   checkIsLanguageDefined(scoreTable, languageCode);
-  checkAreAllBonusesAllowed(input, languageCode, bonuses);
+  checkAreAllBonusesAllowed(getTilesInWord(input, { languageCode }), bonuses);
 
   const tileBonuses: TileBonus[] = getTileBonuses(bonuses);
   const wordBonuses: WordBonus[] = getWordBonuses(bonuses);
@@ -46,11 +87,11 @@ export function getWordScore(
 
   // Prettier can't handle it
   // prettier-ignore
-  return getTilesInWord(input, { scoreTable, languageCode })
-      .map((tile, index) => 
-        getTileScore(tile, { languageCode, multiplier: getTileMultiplier(index)})
-      )
-      .reduce((acc, curr) => acc + curr, 0) * getWordMultiplier(wordBonuses) + pointsForBingo;
+  return (
+    getTilesInWord(input, { scoreTable, languageCode })
+      .map((tile, index) => getTileScore(tile, { languageCode, multiplier: getTileMultiplier(index) }))
+      .reduce((acc, curr) => acc + curr, 0) * getWordMultiplier(wordBonuses) + pointsForBingo
+  );
 }
 
 export function getTileScore(
@@ -88,16 +129,6 @@ export function getTilesInWord(
 
 export { default as SETTINGS } from "./settings";
 export { default as SCORE_TABLE } from "./scoreTable";
-export { getSupportedLanguages } from "./utilities/language";
 export * from "./utilities/error";
-export {
-  getWordBonusTypes,
-  isNextBonusAllowed,
-  isBingoAllowed,
-} from "./utilities/bonus";
-
-export default {
-  getWordScore,
-  getTileScore,
-  getTilesInWord,
-};
+export { getSupportedLanguages } from "./utilities/language";
+export { getWordBonusTypes, isNextBonusAllowed } from "./utilities/bonus";

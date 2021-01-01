@@ -21,11 +21,7 @@ describe("getMultigraphsInLanguage", () => {
   });
 
   it("should return an array of multigraphs if language has multigraphs", () => {
-    const spanishMultigraphs = [
-      ["C", "H"],
-      ["L", "L"],
-      ["R", "R"],
-    ];
+    const spanishMultigraphs = ["CH", "LL", "RR"];
 
     expect(getMultigraphsInLanguage(SCORE_TABLE, "spa")).toEqual(
       spanishMultigraphs

@@ -1,4 +1,4 @@
-import { Multiplier } from "./interfaces";
+import { Multiplier } from "./types";
 
 interface Settings {
   MAX_TILE_SCORE_MULTIPLIER: number;
@@ -19,7 +19,7 @@ export const WORD_SCORE_MULTIPLIERS = [
 export const MAX_WORD_SCORE_MULTIPLIER = WORD_SCORE_MULTIPLIERS.reduce(
   (max, current) => {
     if (current.multiplier > max) {
-      return (max = current.multiplier);
+      return current.multiplier;
     }
     return max;
   },

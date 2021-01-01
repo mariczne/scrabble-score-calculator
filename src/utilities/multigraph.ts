@@ -1,16 +1,18 @@
-import { ScoreTable, Multigraph } from "../interfaces";
 import {
   sortArrayByLengthDescending,
   joinAllSubarraysIntoSingleElements,
 } from "./array";
 import { checkIsLanguageDefined } from "./error";
+import { ScoreTable, Multigraph } from "../types";
 
 export function isLanguageWithMultigraphs(
   scoreTable: ScoreTable,
   languageCode: string
 ): boolean {
   checkIsLanguageDefined(scoreTable, languageCode);
-  return scoreTable[languageCode].hasOwnProperty("multigraphs");
+  return Object.values(scoreTable[languageCode].scores).some((score) =>
+    score.some((char) => char.length > 1)
+  );
 }
 
 export function getMultigraphsInLanguage(
@@ -18,7 +20,11 @@ export function getMultigraphsInLanguage(
   languageCode: string
 ): Multigraph[] {
   if (isLanguageWithMultigraphs(scoreTable, languageCode)) {
-    return sortArrayByLengthDescending(scoreTable[languageCode].multigraphs!);
+    const multigraphs = Object.values(scoreTable[languageCode].scores)
+      .flat()
+      .filter((char) => char.length > 1);
+
+    return sortArrayByLengthDescending(multigraphs);
   }
   return [];
 }
@@ -29,7 +35,10 @@ export function joinMultigraphsInTiles(
 ): string[] {
   return multigraphs.reduce(
     (letters, multigraph) =>
-      (letters = joinAllSubarraysIntoSingleElements(letters, multigraph)),
+      (letters = joinAllSubarraysIntoSingleElements(
+        letters,
+        multigraph.split("")
+      )),
     letters
   );
 }

@@ -1,4 +1,5 @@
-import { checkIsBonusDefined, checkIsLanguageDefined } from "./error";
+import { checkIsLanguageDefined } from "./error";
+import { checkIsBonusDefined } from "./bonus";
 import SCORE_TABLE from "../scoreTable";
 
 describe("checkIsBonusDefined", () => {

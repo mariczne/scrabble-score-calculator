@@ -1,5 +1,17 @@
-import { getTileScore, getWordScore } from ".";
-import { BonusType } from "./interfaces";
+import { Calculator, getTileScore, getWordScore } from ".";
+
+describe("Calculator class", () => {
+  it("can get instantiated and remembers its settings", () => {
+    const calculator = new Calculator("pol");
+
+    const F_scoreInPolish = calculator.getTileScore("F");
+    expect(F_scoreInPolish).toEqual(5);
+
+    calculator.languageCode = "eng";
+    const F_scoreInEnglish = calculator.getTileScore("F");
+    expect(F_scoreInEnglish).toEqual(4);
+  });
+});
 
 describe("getTileScore", () => {
   it("calculates tile score for different supported languages", () => {
@@ -51,8 +63,8 @@ describe("getWordScore", () => {
     const wordScore = getWordScore("późność", {
       languageCode: "pol",
       bonuses: [
-        { type: BonusType.Tile, index: 1, multiplier: 2 },
-        { type: BonusType.Tile, index: 5, multiplier: 3 },
+        { type: "tile", index: 1, multiplier: 2 },
+        { type: "tile", index: 5, multiplier: 3 },
       ],
     });
 
@@ -63,8 +75,8 @@ describe("getWordScore", () => {
     const wordScore = getWordScore("późność", {
       languageCode: "pol",
       bonuses: [
-        { type: BonusType.Word, index: 1, multiplier: 2 },
-        { type: BonusType.Word, index: 5, multiplier: 2 },
+        { type: "word", index: 1, multiplier: 2 },
+        { type: "word", index: 5, multiplier: 2 },
       ],
     });
 
@@ -75,9 +87,9 @@ describe("getWordScore", () => {
     const wordScore = getWordScore("późność", {
       languageCode: "pol",
       bonuses: [
-        { type: BonusType.Word, index: 1, multiplier: 2 },
-        { type: BonusType.Word, index: 5, multiplier: 2 },
-        { type: BonusType.Tile, index: 2, multiplier: 3 },
+        { type: "word", index: 1, multiplier: 2 },
+        { type: "word", index: 5, multiplier: 2 },
+        { type: "tile", index: 2, multiplier: 3 },
       ],
     });
 
